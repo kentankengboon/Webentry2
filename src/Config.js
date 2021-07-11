@@ -1,5 +1,5 @@
 //import* as firebase from 'firebase'
-import firebase from 'firebase'
+import firebase from '../node_modules/firebase'
 //import 'firebase/firestore';
 //import 'firebase/storage';
 const settings = {timestampsInSnapshots: true}
