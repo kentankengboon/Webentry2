@@ -8,7 +8,7 @@ import AddProduct from './Components/AddProduct';
 import EditProduct from './Components/EditProducts';
 import ShowProduct from './Components/ShowProducts';
 import {BrowserRouter, Route} from 'react-router-dom';
-import './node_modules/bootstrap/dist/css/bootstrap.min.css'
+import bootstrap from 'bootstrap'
 
 //ReactDOM.render(<React.StrictMode><App /></React.StrictMode>,document.getElementById('root'));
 ReactDOM.render(<BrowserRouter>
