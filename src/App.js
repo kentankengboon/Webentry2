@@ -4,24 +4,14 @@ import firebase from './Config';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-const auth = firebase.auth();
 
 class App extends React.Component {
 	constructor(props){
 		super(props);
-    //this.ref = firebase.firestore().collection("req@gmail.com");
-    //this.unsubscribe = null;
-    //this.state ={products:[]};
-    console.log("here1");
-    //var user = firebase.auth().currentUser;
-    //if(user) {console.log("yes logged in")}
-    //else {
-      console.log("no not logged in");
-      window.location.replace("/login")
-      //}
+    this.ref = firebase.firestore().collection("req@gmail.com");
+    this.unsubscribe = null;
+    this.state ={products:[]};
   }
-
-
 
   componentDidMount(){
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
@@ -34,14 +24,7 @@ class App extends React.Component {
         key: doc.Id, doc, whatPN, remark, image
       });
     });
-    
     this.setState({products});
-  }
-
-  signOut(){
-    auth.signOut();
-    alert("Signed Out");
-    window.location.replace("/login")
   }
 
   render () {
@@ -69,18 +52,13 @@ class App extends React.Component {
               <button class ="Add-Button" >Add an item</button>
             </Link>
           </div>
-          <div className="button>">
-                    &nbsp;&nbsp;&nbsp;
-                    <button class="Submit-Button" onClick={this.signOut}>Sign Out</button>
-                </div>
-
-          {/* 
+          
           <div class="container">
             <div class="panel panel-heading">
               <h3 class="panel heading">Item info</h3>
             </div>
           </div>
-          */}
+
           <div class="panel-body">
             <table class="table table-stripe">
               <thead>
