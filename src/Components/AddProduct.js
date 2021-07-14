@@ -71,12 +71,12 @@ class AddProduct extends React.Component{
                     rating: 2,
                 });
                 thisId = docRef.id;
-                this.props.history.push("/");
+                this.props.history.push("/list");
 
                 firebase.firestore().collection("req@gmail.com").doc(thisId).collection("pictures").add({
                     image: this.state.url}). then((docRef2)=>{
                    this.setState({image: this.state.url });
-                    this.props.history.push("/")
+                    this.props.history.push("/list")
                 })
             })
 
@@ -105,7 +105,7 @@ class AddProduct extends React.Component{
             <div>
                 <card style ={cardStyles}>
                     <div className = "Button">
-                        <Link to ="/"> 
+                        <Link to ="/list"> 
                         <button class ="Edit-Button" >Show items</button>
                         </Link>
                     </div>

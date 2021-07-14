@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title> Form </title>
+        <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-auth.js"></script>
+        <script src="Login.js"></script>
+    </head>
+    <body>
+        <h1> Form </h1>
+        <div id="formContainer">
+            <div id="header"></div>
+            <input type="email" placeholder="email" id="email"/>
+            <input type="password" placeholder="password" id="password"/>
+
+            <button onclick="signUp()" id="signUp"> Sign up </button>
+            <button onclick="signIn()" id="signIn"> Sign in </button>
+            <button onclick="signOut()" id="signOut"> Sign out </button>
+        </div>
+
+    </body>
+
+
+</html>

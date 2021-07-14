@@ -1,24 +1,24 @@
 import React from 'react';
-import './App.css';
-import firebase from './Config';
+import '../App.css';
+import firebase from '../Config';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 const auth = firebase.auth();
 
-class App extends React.Component {
+class ListProducts extends React.Component {
 	constructor(props){
 		super(props);
     this.ref = firebase.firestore().collection("req@gmail.com");
     this.unsubscribe = null;
     this.state ={products:[]};
-    console.log("here1");
-    var user = firebase.auth().currentUser;
-    if(user) {console.log("yes logged in")}
-    else {
-      console.log("no not logged in");
-      window.location.replace("/login")
-      }
+    //console.log("here1");
+    //var user = firebase.auth().currentUser;
+    //if(user) {console.log("yes logged in")}
+    //else {
+    //  console.log("no not logged in");
+    //  window.location.replace("/login")
+    //  }
   }
 
 
@@ -67,12 +67,11 @@ class App extends React.Component {
           <div className = "Button">
             <Link to ="/create"> 
               <button class ="Add-Button" >Add an item</button>
+
             </Link>
-          </div>
-          <div className="button>">
-                    &nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;
                     <button class="Submit-Button" onClick={this.signOut}>Sign Out</button>
-                </div>
+          </div>
 
           {/* 
           <div class="container">
@@ -85,7 +84,7 @@ class App extends React.Component {
             <table class="table table-stripe">
               <thead>
                 <tr>
-                  <th>PartNo</th>
+                  <th>Part No listing</th>
                   <th>Remark</th>
                   <th>Image</th>
                 </tr>
@@ -115,4 +114,4 @@ class App extends React.Component {
     )
   }
 }
-export default App;
+export default ListProducts;
