@@ -9,16 +9,15 @@ const auth = firebase.auth();
 class ListProducts extends React.Component {
 	constructor(props){
 		super(props);
+
+    var user = firebase.auth().currentUser;
+    if(user) {console.log("yes logged in")}
+        else {window.location.replace("/login")}
+
     this.ref = firebase.firestore().collection("req@gmail.com");
     this.unsubscribe = null;
     this.state ={products:[]};
-    //console.log("here1");
-    //var user = firebase.auth().currentUser;
-    //if(user) {console.log("yes logged in")}
-    //else {
-    //  console.log("no not logged in");
-    //  window.location.replace("/login")
-    //  }
+
   }
 
 

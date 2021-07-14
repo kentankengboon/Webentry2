@@ -8,6 +8,11 @@ import {Link} from 'react-router-dom';
 class AddProduct extends React.Component{
     constructor(props){
         super(props);
+
+        var user = firebase.auth().currentUser;
+        if(user) {console.log("yes logged in")}
+            else {window.location.replace("/login")}
+
         this.ref = firebase.firestore().collection("req@gmail.com");
         this.state = {
             whoupload: '',
