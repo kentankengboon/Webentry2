@@ -9,17 +9,23 @@ const auth = firebase.auth();
 class ListProducts extends React.Component {
 	constructor(props){
 		super(props);
-
-    var user = firebase.auth().currentUser;
-    if(user) {console.log("yes logged in")}
-        else {window.location.replace("/login")}
+    
+    this.checkUser();
 
     this.ref = firebase.firestore().collection("req@gmail.com");
     this.unsubscribe = null;
     this.state ={products:[]};
-
   }
 
+  checkUser () {
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {console.log("yes logged in : " + user.email )}
+        else {
+          //console.log("not logged in")
+          window.location.replace("/login")
+        }
+    });
+  }
 
 
   componentDidMount(){
@@ -39,7 +45,7 @@ class ListProducts extends React.Component {
 
   signOut(){
     auth.signOut();
-    alert("Signed Out");
+    //alert("Signed Out");
     window.location.replace("/login")
   }
 

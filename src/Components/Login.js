@@ -38,14 +38,14 @@ class Login extends React.Component{
         const promise = auth.signInWithEmailAndPassword(email, password.value);
         await promise.catch(e => {alert(e.message);gotError=1});
         if (gotError==0) {
-            alert("You are signed in")
+            //alert("You are signed in")
             window.location.replace("/list")
         }
     }
     
     signOut(){
         auth.signOut();
-        alert("Signed Out");
+        //alert("Signed Out");
     }
 
     render () {

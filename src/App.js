@@ -8,17 +8,24 @@ import {Link} from 'react-router-dom';
 class App extends React.Component {
 	constructor(props){
 		super(props);
+    this.checkUser();
+
     this.ref = firebase.firestore().collection("req@gmail.com");
     this.unsubscribe = null;
     this.state ={products:[]};
-    //console.log("here1");
-    //const auth = firebase.auth();
-    var user = firebase.auth().currentUser;
-    if(user) {console.log("yes logged in")}
-    else {
-      //console.log("no not logged in");
-      window.location.replace("/login")
+  }
+
+  checkUser () {
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        console.log("yes logged in : " + user.email )
+        window.location.replace("/list")
       }
+        else {
+          //console.log("not logged in")
+          window.location.replace("/login")
+        }
+    });
   }
 
   componentDidMount(){
