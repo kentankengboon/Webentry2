@@ -42,11 +42,6 @@ class Login extends React.Component{
             window.location.replace("/list")
         }
     }
-    
-    signOut(){
-        auth.signOut();
-        //alert("Signed Out");
-    }
 
     render () {
         const {email, password} = this.state;
@@ -59,11 +54,9 @@ class Login extends React.Component{
                 <div>&nbsp;&nbsp;</div>
                 <div className="button>">
                     &nbsp;&nbsp;&nbsp;
-                    <button class="Submit-Button" onClick={this.signUp}>Sign Up</button>
+                    <button class="Submit-Button" onClick={this.signUp}>Create Acc</button>
                     &nbsp;&nbsp;&nbsp;
                     <button class="Submit-Button" onClick={this.signIn}>Sign In</button>
-                    &nbsp;&nbsp;&nbsp;
-                    <button class="Submit-Button" onClick={this.signOut}>Sign Out</button>
                 </div>
             </div>
             

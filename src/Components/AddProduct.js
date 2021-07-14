@@ -125,32 +125,32 @@ class AddProduct extends React.Component{
                     &nbsp;
                     <div>
                         <div class="form-group"></div>
-                        <label for="whoupload">Requestor</label>
+                        <label for="whoupload">Enter part info below:</label>
                         <textArea class="form-control" name="whoupload" onChange={this.onChange} placeholder="Requestor" cols="80" rows="1">{whoupload}</textArea>
-                    </div>
+                    </div>                    
                     <div>
                         <div class="form-group"></div>
-                        <label for="whatUse">Ship to</label>
-                        <textArea class="form-control" name="whatUse" onChange={this.onChange} placeholder="Where" cols="80" rows="1">{whatUse}</textArea>
-                    </div>
-                    <div>
-                        <div class="form-group"></div>
-                        <label for="whatModel">Model</label>
+                        <label for="whatModel"></label>
                         <textArea class="form-control" name="whatModel" onChange={this.onChange} placeholder="Model No" cols="80" rows="1">{whatModel}</textArea>
                     </div>
                     <div>
                         <div class="form-group"></div>
-                        <label for="whatPN">Part</label>
+                        <label for="whatPN"></label>
                         <textArea class="form-control" name="whatPN" onChange={this.onChange} placeholder="Part No" cols="80" rows="1">{whatPN}</textArea>
                     </div>
                     <div>
                         <div class="form-group"></div>
-                        <label for="whatQty">Quantity</label>
+                        <label for="whatQty"></label>
                         <textArea class="form-control" name="whatQty" onChange={this.onChange} placeholder="Quantity" cols="80" rows="1">{whatQty}</textArea>
                     </div>
                     <div>
                         <div class="form-group"></div>
-                        <label for="remark">Description</label>
+                        <label for="whatUse"></label>
+                        <textArea class="form-control" name="whatUse" onChange={this.onChange} placeholder="Ship to" cols="80" rows="1">{whatUse}</textArea>
+                    </div>
+                    <div>
+                        <div class="form-group"></div>
+                        <label for="remark"></label>
                         <textArea class="form-control" name="remark" onChange={this.onChange} placeholder="Desciption" cols="80" rows="3">{remark}</textArea>
                     </div>
                     <div className="upload-data">

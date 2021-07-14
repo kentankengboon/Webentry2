@@ -89,7 +89,7 @@ class ListProducts extends React.Component {
             <table class="table table-stripe">
               <thead>
                 <tr>
-                  <th>Part No listing</th>
+                  <th>Part No</th>
                   <th>Remark</th>
                   <th>Image</th>
                 </tr>
