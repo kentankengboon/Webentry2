@@ -11,6 +11,14 @@ class App extends React.Component {
     this.ref = firebase.firestore().collection("req@gmail.com");
     this.unsubscribe = null;
     this.state ={products:[]};
+    //console.log("here1");
+    //const auth = firebase.auth();
+    var user = firebase.auth().currentUser;
+    if(user) {console.log("yes logged in")}
+    else {
+      console.log("no not logged in");
+      window.location.replace("/login")
+      }
   }
 
   componentDidMount(){
