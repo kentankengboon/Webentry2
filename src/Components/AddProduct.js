@@ -70,9 +70,9 @@ class AddProduct extends React.Component{
         
         e.preventDefault();
         const {whoupload, whatUse, whatModel, whatPN, whatQty, remark} = this.state;
-        this.ref.add({whoupload, whatUse, whatModel, whatPN, whatQty, whatQty, whenAsk:today, remark, since:today, image: this.state.url, rating: 2})
+        this.ref.add({whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk:today, remark, since:today, image: this.state.url, rating: 2})
             .then((docRef) =>{
-                this.setState({
+                this.setState({ //below doesnt seems to matter
                     whoupload: '',
                     whatUse: '',
                     whatModel: '',

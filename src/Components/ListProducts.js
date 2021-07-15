@@ -36,7 +36,7 @@ class ListProducts extends React.Component {
     querySnapshot.forEach((doc) => {
       const {whatPN, remark, image} = doc.data();
       products.push({
-        key: doc.Id, doc, whatPN, remark, image
+        key: doc.id, doc, whatPN, remark, image
       });
     });
     
@@ -57,7 +57,7 @@ class ListProducts extends React.Component {
     margin: 'auto',
     display: 'block',
     marginTop: '60px',
-    opacity: 0.8,
+    opacity: 1,
     paddingTop: '10px',
     paddingLeft: '20px',
     paddingRight: '20px',

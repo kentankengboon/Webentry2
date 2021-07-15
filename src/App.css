@@ -2,6 +2,10 @@
 
 input {border: none;}
 
-label {font-size: 20px;}
+label {font-size: 20px; font-weight: bold;}
 
+::placeholder {font-size: 20px;}
 
+dt {font-size: 15px;}
+
+dd {font-size: 15px;}
