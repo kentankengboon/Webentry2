@@ -119,7 +119,7 @@ class AddProduct extends React.Component{
                 <card style ={cardStyles}>
                     <div className = "Button">
                         <Link to ="/list"> 
-                        <button class ="Edit-Button" >Show items</button>
+                        <button class ="Edit-Button" >List items</button>
                         </Link>
                     </div>
                     &nbsp;

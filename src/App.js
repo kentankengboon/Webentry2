@@ -28,6 +28,8 @@ class App extends React.Component {
     });
   }
 
+
+  // below here like all no use liao. Because above will either direct user to list or to login. this page become dummy liao
   componentDidMount(){
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
