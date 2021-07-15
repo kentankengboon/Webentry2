@@ -30,7 +30,7 @@ class EditProduct extends React.Component{
                     whenAsk: document.whenAsk,
                     remark: document.remark,
                     since: document.since,
-                    image: document.image,
+                    imageOld: document.image,
                     rating: document.rating,
                     key: doc.id,
                     isLoading: false
@@ -45,12 +45,42 @@ class EditProduct extends React.Component{
         this.setState(state);
     }
 
+    handleChange = (e) => {
+        if(e.target.files[0]) {
+            this.setState({image: e.target.files[0]})
+        }
+        console.log(e.target.files[0]);
+        
+        //handleUpload();
+        //const {image} = this.state;
+        //const uploadTask = firebase.storage().ref(image.name).put(this.state.image)
+        //uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot')},
+        //(error) =>{console.log(error);},
+        //()=>{firebase.storage().ref().child(image.name).getDownloadURL().then(url=>{this.setState({url})})})
+    }
+    
+    handleUpload = () => {
+        const {image} = this.state;
+        
+        const uploadTask = firebase.storage().ref(image.name).put(this.state.image)
+        uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot')},
+        (error) =>{console.log(error);},
+        ()=>{firebase.storage().ref().child(image.name).getDownloadURL().then(url=>{this.setState({url})})})
+    
+        
+    
+    
+    }
+
+
+
+
     onSubmit = (e) => {
         //var thisId = "";
         e.preventDefault();
         const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk, remark, since, image, rating} = this.state;
         const updateRef = firebase.firestore().collection('req@gmail.com').doc(this.state.key);
-        updateRef.set({whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk, remark, since, image, rating})
+        updateRef.set({whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk, remark, since, image: this.state.url, rating})
             .then((docRef) =>{
                 this.setState({ //below doesnt seems to matter
                     key: '',
@@ -63,13 +93,22 @@ class EditProduct extends React.Component{
                     //whenAsk: today,
                     remark: '',
                     //since: today,
-                    //image: this.state.url,
+                    image: this.state.url,
                     //rating: 2,
                 });
                 //thisId = docRef.id;
                 this.props.history.push("/show/" + this.props.match.params.id);
             })
-            .catch ((error) => {console.error("Error editing document: ", error);})    
+            .catch ((error) => {console.error("Error editing document: ", error);})
+            
+            const {imageOld} = this.state;
+            var desertRef = firebase.storage().refFromURL(imageOld)
+            desertRef.delete().then(function(){
+                //alert("Item deleted")
+                console.log("File deleted")
+            }).catch(function(error){
+                console.log("error hile deleting file")
+            });
     }
 
     render (){
@@ -138,7 +177,20 @@ class EditProduct extends React.Component{
                     </div>
                     &nbsp;
 
-                  
+
+
+
+                    <div className="upload-data">
+                        <input type="file" onChange={this.handleChange}/>
+                        <img src={this.state.url} height="150" width="150"/>
+                    </div>
+                    <div className="button>">
+                        <button class="Submit-Button" onClick={this.handleUpload}>1. Upload Image</button>
+                    </div>
+                    &nbsp;
+
+
+
                 </card>
             </div>
         )
