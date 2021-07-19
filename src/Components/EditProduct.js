@@ -38,11 +38,13 @@ class EditProduct extends React.Component{
                     imageOld: document.image,
                     rating: document.rating,
                     stallId: document.stallId,
+                    tgtPrice: document.tgtPrice,
                     key: doc.id,
                     isLoading: false
                 })
             }else{console.log("No such document")}
         });
+        
     }
 
     onChange = (e) => { 
@@ -57,11 +59,11 @@ class EditProduct extends React.Component{
             
             this.setState({image: e.target.files[0]})
             // I think here must know how to put the image into sub folder email/stallId. this.state.product.stallId?
-            console.log("stallId....." + this.state.product.stallId);
-            const uploadTask = firebase.storage().ref(`${this.state.product.whouploadId}/${this.state.product.stallId}/${e.target.files[0].name}`).put(e.target.files[0])
+            //console.log("stallId....." + this.state.product.stallId);
+            const uploadTask = firebase.storage().ref(`${this.state.product.whouploadId}/${this.state.product.stallId}/${e.target.files[0].name}_0`).put(e.target.files[0])
             uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot')},
             (error) =>{console.log(error);},
-            ()=>{firebase.storage().ref(`${this.state.product.whouploadId}/${this.state.product.stallId}`).child(e.target.files[0].name).getDownloadURL().then(url=>{
+            ()=>{firebase.storage().ref(`${this.state.product.whouploadId}/${this.state.product.stallId}`).child(`${e.target.files[0].name}_0`).getDownloadURL().then(url=>{
                 this.setState({url}); 
         
                 console.log("Url: " + url); 
@@ -93,10 +95,11 @@ class EditProduct extends React.Component{
 
     onSubmit = (e) => {
         //var thisId = "";
+        if (this.state.url == null) {this.state.url = this.state.product.image;}
         e.preventDefault();
-        const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk, remark, since, image, rating, customer, stallId} = this.state;
+        const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk, remark, since, image, rating, customer, stallId, tgtPrice} = this.state;
         const updateRef = firebase.firestore().collection('req@gmail.com').doc(this.state.key);
-        updateRef.set({whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk, remark, since, image: this.state.url, rating, customer, stallId})
+        updateRef.set({whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk, remark, since, image: this.state.url, rating, customer, stallId, tgtPrice})
             .then((docRef) =>{
                 this.setState({ //below doesnt seems to matter
                     key: '',
@@ -128,7 +131,7 @@ class EditProduct extends React.Component{
     }
 
     render (){
-        const {whoupload, whatUse, whatModel, whatPN, whatQty, remark, since, whenAsk, customer, stallId} = this.state;
+        const {whoupload, whatUse, whatModel, whatPN, whatQty, remark, since, whenAsk, customer, stallId, tgtPrice} = this.state;
         const cardStyles = {
             width: '40rem',
             height: 'auto',
@@ -164,29 +167,40 @@ class EditProduct extends React.Component{
 
 
                     <div>
-                        <div class="form-group"></div>
-                        <label for="customer">Edit part info below:</label>
+                        <div class="form-group">
+                        <label for="customer">Customer</label>
                         <textArea class="form-control" name="customer" onChange={this.onChange} placeholder={this.state.product.customer} cols="80" rows="1">{customer}</textArea>
+                        </div>
                     </div>                    
                     <div>
-                        <div class="form-group"></div>
-                        <label for="whatModel"></label>
+                        <div class="form-group">
+                        <label for="whatModel">Model No</label>
                         <textArea class="form-control" name="whatModel" onChange={this.onChange} placeholder={this.state.product.whatModel} cols="80" rows="1">{whatModel}</textArea>
+                        </div>
                     </div>
                     <div>
-                        <div class="form-group"></div>
-                        <label for="whatQty"></label>
+                        <div class="form-group">
+                        <label for="whatQty">Qty</label>
                         <textArea class="form-control" name="whatQty" onChange={this.onChange} placeholder={this.state.product.whatQty} cols="80" rows="1">{whatQty}</textArea>
+                        </div>
                     </div>
                     <div>
-                        <div class="form-group"></div>
-                        <label for="whatUse"></label>
+                        <div class="form-group">
+                        <label for="tgtPrice">Tgt Price</label>
+                        <textArea class="form-control" name="tgtPrice" onChange={this.onChange} placeholder={this.state.product.tgtPrice} cols="80" rows="1">{tgtPrice}</textArea>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                        <label for="whatUse">Ship to</label>
                         <textArea class="form-control" name="whatUse" onChange={this.onChange} placeholder={this.state.product.whatUse} cols="80" rows="1">{whatUse}</textArea>
+                        </div>
                     </div>
                     <div>
-                        <div class="form-group"></div>
-                        <label for="remark"></label>
+                        <div class="form-group">
+                        <label for="remark">Descriptions</label>
                         <textArea class="form-control" name="remark" onChange={this.onChange} placeholder={this.state.product.remark} cols="80" rows="3">{remark}</textArea>
+                        </div>
                     </div>
                     <br></br>
                     

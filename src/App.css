@@ -2,7 +2,11 @@
 
 input {border: none;}
 
-label {font-size: 20px; font-weight: bold;}
+/* label {font-size: 20px; font-weight: bold;} */
+
+.form-group label {font-size: 15px; font-weight: bold;}
+
+.form-group textarea {color:blue; font-size: 18px;}
 
 ::placeholder {font-size: 20px;}
 

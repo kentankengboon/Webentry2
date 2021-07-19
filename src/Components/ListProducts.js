@@ -34,9 +34,9 @@ class ListProducts extends React.Component {
   onCollectionUpdate = (querySnapshot) => {
     const products = [];
     querySnapshot.forEach((doc) => {
-      const {whatPN, remark, image} = doc.data();
+      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image} = doc.data();
       products.push({
-        key: doc.id, doc, whatPN, remark, image
+        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image
       });
     });
     
@@ -89,8 +89,12 @@ class ListProducts extends React.Component {
             <table class="table table-stripe">
               <thead>
                 <tr>
-                  <th>Part No.</th>
-                  <th>Remark</th>
+                  <th>PartNo.</th>
+                  <th>Model</th>
+                  <th>Qty</th>
+                  <th>Requestor</th>
+                  <th>For</th>
+                  <th>Description</th>
                   <th>Image</th>
                 </tr>
               </thead>
@@ -101,6 +105,10 @@ class ListProducts extends React.Component {
                     <td>
                       <Link to = {`/show/${product.key}`}>{product.whatPN}</Link>
                     </td>
+                    <td>{product.whatModel}</td>
+                    <td>{product.whatQty}</td>
+                    <td>{product.whoupload}</td>
+                    <td>{product.customer}</td>
                     <td>{product.remark}</td>
                     <td><img src={product.image}width="100px" height="100" alt=""></img></td>
                   </tr>
