@@ -25,20 +25,38 @@ class ShowProduct extends React.Component{
             }else{console.log("No such document")}
         });
     }
-    delete(id){
-        var desertRef = firebase.storage().refFromURL(this.state.product.image)
+    delete(id){ // can we delete the whole folder iunder email+since folder?
+
         firebase.firestore().collection("req@gmail.com").doc(id).delete().then(()=>{
             console.log("Document deleted")
             this.props.history.push("/list")
         }).catch((error) =>{
             console.error(error);
         });
-        desertRef.delete().then(function(){
-            alert("Item deleted")
-            console.log("File deleted")
-        }).catch(function(error){
-            console.log("error hile deleting file")
+
+
+        //console.log(this.state.product.whoupload);
+        //console.log(this.state.product.since);
+        console.log(this.state.product.image);
+        
+        //delete all storage image file under the folder
+        var storageRef = firebase.storage().ref(`${this.state.product.whouploadId}/${this.state.product.stallId}`); /// todo: must delete under stallId NOT since
+        storageRef.listAll().then((listResults) => {
+           const promises = listResults.items.map((item) => {
+                return item.delete();
+            })
         });
+
+        //var desertRef = firebase.storage().refFromURL(this.state.product.image)
+        //desertRef.delete().then(function(){
+            //alert("Item deleted")
+            //console.log("File deleted")
+        //}).catch(function(error){
+            //console.log("error hile deleting file")
+        //});
+
+
+
     }
     render (){
         const cardStyles = {
@@ -89,11 +107,19 @@ class ShowProduct extends React.Component{
                             <dd>{this.state.product.whoupload}</dd>
                         </dl>
                         <dl>
+                            <dt>Customer</dt>
+                            <dd>{this.state.product.customer}</dd>
+                        </dl>
+                        <dl>
+                            <dt>Tgt price</dt>
+                            <dd>{this.state.product.tgtPrice}</dd>
+                        </dl>
+                        <dl>
                             <dt>Description</dt>
                             <dd>{this.state.product.remark}</dd>
                         </dl>
                         <Link to = {`/edit/${this.state.key}`} class = "btn btn-success">Edit</Link>
-                        &nbsp;&nbsp;&nbsp;<button onClick={this.delete.bind(this, this.state.key )} class="btn btn-danger">Delete</button>
+                        &nbsp;&nbsp;&nbsp;<button onClick={this.delete.bind(this, this.state.key,this.state.whouploadId, this.state.stallId )} class="btn btn-danger">Delete</button>
                         <dl></dl>
                     </div>
                 </card>

@@ -9,3 +9,8 @@ label {font-size: 20px; font-weight: bold;}
 dt {font-size: 15px;}
 
 dd {font-size: 20px;}
+
+#customerPicked{
+    width: 300px;
+    height: 40px;
+}
