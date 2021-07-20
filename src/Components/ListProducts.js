@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 const auth = firebase.auth();
+let customerSelected = "";
 
 class ListProducts extends React.Component {
 	constructor(props){
@@ -15,6 +16,8 @@ class ListProducts extends React.Component {
     this.ref = firebase.firestore().collection("req@gmail.com");
     this.unsubscribe = null;
     this.state ={products:[]};
+    //this.customerSelected = "";
+    this.onChange = this.onChange.bind(this);
   }
 
   checkUser () {
@@ -30,6 +33,10 @@ class ListProducts extends React.Component {
 
   componentDidMount(){
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    //customerSelected = "Harvey Norman"
+    //if (customerSelected != ""){ 
+    //  this.unsubscribe = this.ref.where('customer', '==', customerSelected).onSnapshot(this.onCollectionUpdate);
+    //} else {this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);}
   }
   onCollectionUpdate = (querySnapshot) => {
     const products = [];
@@ -39,9 +46,35 @@ class ListProducts extends React.Component {
         key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image
       });
     });
-    
+    //console.log(products);
     this.setState({products});
   }
+
+
+
+  async onChange(){
+    console.log("hereeeeeee");
+    var customerSelect = document.getElementById("customerPicked");
+    customerSelected = customerSelect.options[customerSelect.selectedIndex].text;
+    console.log("customer selected:  " + customerSelected);
+
+    //this.setState({customerSelected});
+    
+    const products=[];
+    const snapshot = await firebase.firestore().collection("req@gmail.com").where('customer', '==', customerSelected).get();
+    //if (snapshot.empty){console.log("can't find doc. Doc empty")}else{console.log(snapshot)}
+    snapshot.forEach(doc => {
+      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image} = doc.data();
+      products.push({
+        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image
+      });
+    });
+    console.log(products);
+    this.setState({products});
+    
+  }
+
+
 
   signOut(){
     auth.signOut();
@@ -72,10 +105,21 @@ class ListProducts extends React.Component {
           <div className = "Button">
             <Link to ="/create"> 
               <button class ="Add-Button" >Add an item</button>
-
             </Link>
+
             &nbsp;&nbsp;&nbsp;
-                    <button class="Submit-Button" onClick={this.signOut}>Sign Out</button>
+            <button class="Submit-Button" onClick={this.signOut}>Sign Out</button>
+              
+            &nbsp;&nbsp;&nbsp;
+            <select name="customerOption" id="customerPicked" onChange={this.onChange}>
+              <option value="1">Filter by customer</option>
+              <option value="2">Courts</option>
+              <option value="3">Harvey Norman</option>
+              <option value="4">Asus</option>
+              <option value="5">B2C</option>
+              <option value="6">Archived</option>
+            </select>
+
           </div>
 
           {/* 

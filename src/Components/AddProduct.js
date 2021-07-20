@@ -168,9 +168,10 @@ class AddProduct extends React.Component{
 
                     <select name="customerOption" id="customerPicked">
                         <option value="1">Select customer</option>
-                        <option value="2">Harvey Norman</option>
-                        <option value="3">Courts</option>
-                        <option value="4">Others</option>
+                        <option value="2">Courts</option>
+                        <option value="3">Harvey Norman</option>
+                        <option value="4">Asus</option>
+                        <option value="4">B2C</option>
                     </select>
 
                     <div>
