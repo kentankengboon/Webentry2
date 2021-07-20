@@ -50,18 +50,21 @@ class ListProducts extends React.Component {
     this.setState({products});
   }
 
-
-
   async onChange(){
-    console.log("hereeeeeee");
+    //console.log("hereeeeeee");
     var customerSelect = document.getElementById("customerPicked");
     customerSelected = customerSelect.options[customerSelect.selectedIndex].text;
-    console.log("customer selected:  " + customerSelected);
+    //console.log("customer selected:  " + customerSelected);
 
     //this.setState({customerSelected});
     
     const products=[];
-    const snapshot = await firebase.firestore().collection("req@gmail.com").where('customer', '==', customerSelected).get();
+    var snapshot="";
+    if (customerSelected == "All"){
+      snapshot = await firebase.firestore().collection("req@gmail.com").get();
+    }else{
+      snapshot = await firebase.firestore().collection("req@gmail.com").where('customer', '==', customerSelected).get();
+    }
     //if (snapshot.empty){console.log("can't find doc. Doc empty")}else{console.log(snapshot)}
     snapshot.forEach(doc => {
       const {whatPN, whatModel, whatQty, whoupload, customer, remark, image} = doc.data();
@@ -69,7 +72,7 @@ class ListProducts extends React.Component {
         key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image
       });
     });
-    console.log(products);
+    //console.log(products);
     this.setState({products});
     
   }
@@ -112,7 +115,7 @@ class ListProducts extends React.Component {
               
             &nbsp;&nbsp;&nbsp;
             <select name="customerOption" id="customerPicked" onChange={this.onChange}>
-              <option value="1">Filter by customer</option>
+              <option value="1">All</option>
               <option value="2">Courts</option>
               <option value="3">Harvey Norman</option>
               <option value="4">Asus</option>
