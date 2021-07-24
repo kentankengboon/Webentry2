@@ -10,10 +10,11 @@ class ShowProduct extends React.Component{
         super(props);
         this.state = {
             product: [],
+            pictures: [],
             key: ''
         }
     }
-    componentDidMount(){
+    async componentDidMount(){
         const ref = firebase.firestore().collection("req@gmail.com").doc(this.props.match.params.id);
         ref.get().then((doc)=>{
             if (doc.exists){
@@ -24,6 +25,19 @@ class ShowProduct extends React.Component{
                 })
             }else{console.log("No such document")}
         });
+
+        const pictures=[];
+        var snapshotPic = await firebase.firestore().collection("req@gmail.com").doc(this.props.match.params.id).collection("pictures").get();
+        snapshotPic.forEach(docPic => {
+            const {image} = docPic.data();
+            pictures.push({
+              key: docPic.id, docPic, image
+            });
+          });
+          this.setState({pictures});
+          console.log("pictuer map?:   " + pictures);
+          this.state.pictures.map (picture => console.log(picture.image))
+
     }
     delete(id){ // can we delete the whole folder iunder email+since folder?
 
@@ -40,7 +54,7 @@ class ShowProduct extends React.Component{
         console.log(this.state.product.image);
         
         //delete all storage image file under the folder
-        var storageRef = firebase.storage().ref(`${this.state.product.whouploadId}/${this.state.product.stallId}`); /// todo: must delete under stallId NOT since
+        var storageRef = firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}`); /// todo: must delete under stallId NOT since
         storageRef.listAll().then((listResults) => {
            const promises = listResults.items.map((item) => {
                 return item.delete();
@@ -63,21 +77,25 @@ class ShowProduct extends React.Component{
             width: '40rem',
             height: 'auto',
             backgroundColor: 'white',
-            margin: 'auto',
+            margin: '0px',
             display: 'block',
-            marginTop: '60px',
+            marginTop: '10px',
+            marginRight: '0',
             opacity: 1,
             paddingTop: '10px',
-            paddingLeft: '20px',
-            paddingRight: '20px',
+            paddingLeft: '0px',
+            paddingRight: '0px',
             borderStyle: 'outset',
             borderLeft: '20px solid green',
+    
             //borderRadius: '20px'
             }
-        
         return(
             <div>
-                <card style ={cardStyles}>
+                
+  <div class="column">
+    <div class="card">
+        <card style ={cardStyles}>
                     <div className = "Button">
                         <Link to ="/list"> 
                         <button class ="Edit-Button" >List items</button>
@@ -122,8 +140,34 @@ class ShowProduct extends React.Component{
                         &nbsp;&nbsp;&nbsp;<button onClick={this.delete.bind(this, this.state.key,this.state.whouploadId, this.state.stallId )} class="btn btn-danger">Delete</button>
                         <dl></dl>
                     </div>
-                </card>
-            </div>
+        </card>
+    </div>
+  </div>
+  
+  <div class="column">
+    
+        <card style ={cardStyles}>
+    
+            
+              
+
+                {this.state.pictures.map (picture =>
+              
+                    <td><img src={picture.image}width="180px" height="180" alt=""></img></td>
+             
+                  )}
+
+
+        
+
+
+        </card>
+    
+  </div>
+  
+</div>
+
+          
         )}
     }
     export default ShowProduct

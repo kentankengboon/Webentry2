@@ -59,30 +59,41 @@ class AddProduct extends React.Component{
         state[e.target.name] = e.target.value;
         this.setState(state);
     }
-    handleChange = (e) => {
-        if(e.target.files[0]){
-            this.setState({
-                image: e.target.files[0]
-            })
-        }
+    handleChange = async (e) => {
+        if(await e.target.files[0]){this.setState({image: e.target.files[0]})}
+        const uploadTask = firebase.storage().ref(`${stallIdNo}/${emailUser}/${stallIdNo}_0`).put(this.state.image)
+        uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot ok')},
+        (error) =>{console.log(error);},
+        ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_0").getDownloadURL().then(url=>{this.setState({url})
+            //this.setState({url}); 
+            console.log("Url: " + url);
+        })})
+        const uploadTask1 = firebase.storage().ref(`${stallIdNo}/${emailUser}/${stallIdNo}_1`).put(this.state.image)
+        uploadTask1.on('state_changed', (snapshot)=>{console.log('snapshot_1 ok')},
+        (error) =>{console.log(error);},
+        //()=>{firebase.storage().ref().child(image.name + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})
+        ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})  
+ 
         console.log(e.target.files[0]);
     }
+
+    // no need this function. can delete
     handleUpload = () => { //used whouploadid (email) + since date as storage folder name
         const {image} = this.state;
         //const uploadTask = firebase.storage().ref(image.name + "_0").put(this.state.image)
-        const uploadTask = firebase.storage().ref(`${emailUser}/${stallIdNo}/${stallIdNo}_0`).put(this.state.image)
+        const uploadTask = firebase.storage().ref(`${stallIdNo}/${emailUser}/${stallIdNo}_0`).put(this.state.image)
         uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot')},
         (error) =>{console.log(error);},
         //()=>{firebase.storage().ref().child(image.name + "_0").getDownloadURL().then(url=>{this.setState({url})})})
-        ()=>{firebase.storage().ref(`${emailUser}/${stallIdNo}`).child(stallIdNo + "_0").getDownloadURL().then(url=>{this.setState({url})})})
+        ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_0").getDownloadURL().then(url=>{this.setState({url})})})
         
         // here add another pic here to Storage collection with a diff name adding a _1 behind
         //const uploadTask1 = firebase.storage().ref(image.name + "_1").put(this.state.image)
-        const uploadTask1 = firebase.storage().ref(`${emailUser}/${stallIdNo}/${stallIdNo}_1`).put(this.state.image)
+        const uploadTask1 = firebase.storage().ref(`${stallIdNo}/${emailUser}/${stallIdNo}_1`).put(this.state.image)
         uploadTask1.on('state_changed', (snapshot)=>{console.log('snapshot_1')},
         (error) =>{console.log(error);},
         //()=>{firebase.storage().ref().child(image.name + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})
-        ()=>{firebase.storage().ref(`${emailUser}/${stallIdNo}`).child(stallIdNo + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})  
+        ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})  
     }
 
     onSubmit = (e) => {
@@ -210,8 +221,6 @@ class AddProduct extends React.Component{
                         <img src={this.state.url} height="200" width="200"/>
                     </div>
                     <div className="button>">
-                        <button class="Submit-Button" onClick={this.handleUpload}>1. Upload Image</button>
-                        &nbsp;&nbsp;&nbsp;
                         <button class="Submit-Button" onClick={this.onSubmit}>2. Save All</button>
                     </div>
                     &nbsp;

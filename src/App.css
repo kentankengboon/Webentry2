@@ -14,7 +14,42 @@ dt {font-size: 15px;}
 
 dd {font-size: 20px;}
 
+td img {
+  margin:10px;
+
+}
+
 #customerPicked{
     width: 300px;
     height: 40px;
 }
+
+
+/* Float four columns side by side */
+.column {
+    float: left;
+    width: 50%;
+    padding: 0 0px;
+  }
+  
+ 
+  
+  /* Style the counter cards */
+  .card {
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0); /* this adds the "card" effect */
+    padding: 0px;
+    float: center;
+    align-items: center;
+    text-align: center;
+    background-color: #f1f1f1;
+  }
+  
+  /* Responsive columns - one column layout (vertical) on small screens */
+  @media screen and (max-width: 2000px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  

@@ -54,16 +54,16 @@ class EditProduct extends React.Component{
     }
     //ref(`${emailUser}/${stallIdNo}/${stallIdNo}_0`).put(this.state.image)
     //()=>{firebase.storage().ref(`${emailUser}/${stallIdNo}`).child(stallIdNo + "_0").getDownloadURL().then(url=>{this.setState({url})})})
-    handleChange = (e) => { 
-        if(e.target.files[0]) {
+    handleChange = async (e) => { 
+        if(await e.target.files[0]) {
             
             this.setState({image: e.target.files[0]})
             // I think here must know how to put the image into sub folder email/stallId. this.state.product.stallId?
             //console.log("stallId....." + this.state.product.stallId);
-            const uploadTask = firebase.storage().ref(`${this.state.product.whouploadId}/${this.state.product.stallId}/${e.target.files[0].name}_0`).put(e.target.files[0])
+            const uploadTask = firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}/${e.target.files[0].name}_0`).put(e.target.files[0])
             uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot')},
             (error) =>{console.log(error);},
-            ()=>{firebase.storage().ref(`${this.state.product.whouploadId}/${this.state.product.stallId}`).child(`${e.target.files[0].name}_0`).getDownloadURL().then(url=>{
+            ()=>{firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}`).child(`${e.target.files[0].name}_0`).getDownloadURL().then(url=>{
                 this.setState({url}); 
         
                 console.log("Url: " + url); 
@@ -83,7 +83,7 @@ class EditProduct extends React.Component{
         console.log(e.target.files[0].name);
     }
     
-    // no need this function. can delete
+    // no need this function. can delete and migth not work liao
     handleUpload = () => {
         const {image} = this.state;
         
