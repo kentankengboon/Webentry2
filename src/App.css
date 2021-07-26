@@ -16,8 +16,12 @@ dd {font-size: 20px;}
 
 td img {
   margin:10px;
-
 }
+
+#just-line-break {
+  white-space: pre-line;
+}
+
 
 #customerPicked{
     width: 300px;
@@ -32,6 +36,9 @@ td img {
     padding: 0 0px;
   }
   
+.msg {
+    margin: 20px;
+}
  
   
   /* Style the counter cards */

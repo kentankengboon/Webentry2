@@ -4,7 +4,7 @@ import firebase from '../Config';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-let todayStamp = new Date();
+//let todayStamp = new Date();
 
 class ShowProduct extends React.Component{
     constructor(props){
@@ -12,6 +12,7 @@ class ShowProduct extends React.Component{
         this.state = {
             product: [],
             pictures: [],
+            message: [],
             key: ''
         }
     }
@@ -38,6 +39,19 @@ class ShowProduct extends React.Component{
           this.setState({pictures});
           //console.log("pictuer map?:   " + pictures);
           //this.state.pictures.map (picture => console.log(picture.image))
+
+        
+        const refMsg = firebase.firestore().collection("req@gmail.com").doc(this.props.match.params.id).collection("messages").doc("messages");
+        refMsg.get().then((docMsg) => {
+            if (docMsg.exists){
+                this.setState({
+                    message: docMsg.data(),
+                    key: docMsg.id,
+                    isLoading: false
+                })
+            }else{console.log("No such message")}
+          });
+          
 
     }
     delete(id){ // can we delete the whole folder iunder email+since folder?
@@ -72,9 +86,12 @@ class ShowProduct extends React.Component{
 
     }
 
-    handleChange = async (e) => {
+    handleChanges = async (e) => {
         
         if(await e.target.files[0]){this.setState({image: e.target.files[0]})}
+        var todayStamp = new Date();
+        console.log("herrrr at today")
+        console.log("new time :   " + todayStamp)
         const uploadTask = firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}/${this.state.product.stallId + todayStamp}`).put(this.state.image)
         uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot ok')},
         (error) =>{console.log(error);},
@@ -198,14 +215,18 @@ class ShowProduct extends React.Component{
 
             <div className="upload-data">
                 &nbsp;&nbsp;
-                <input type="file" onChange={this.handleChange}/>   
-            </div>          
+                <input type="file" onChange={this.handleChanges}/>    
+            </div>
+            
+            
+            <div class = "msg">
+                <dt>Messages</dt>
+                <div id="just-line-break">{this.state.message.messages}</div>
+            </div>
   </div>
-
-
 </div>
 
           
         )}
-    }
+}
     export default ShowProduct
