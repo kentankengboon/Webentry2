@@ -4,6 +4,7 @@ import firebase from '../Config';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+let todayStamp = new Date();
 
 class ShowProduct extends React.Component{
     constructor(props){
@@ -35,8 +36,8 @@ class ShowProduct extends React.Component{
             });
           });
           this.setState({pictures});
-          console.log("pictuer map?:   " + pictures);
-          this.state.pictures.map (picture => console.log(picture.image))
+          //console.log("pictuer map?:   " + pictures);
+          //this.state.pictures.map (picture => console.log(picture.image))
 
     }
     delete(id){ // can we delete the whole folder iunder email+since folder?
@@ -69,9 +70,55 @@ class ShowProduct extends React.Component{
             //console.log("error hile deleting file")
         //});
 
+    }
 
+    handleChange = async (e) => {
+        
+        if(await e.target.files[0]){this.setState({image: e.target.files[0]})}
+        const uploadTask = firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}/${this.state.product.stallId + todayStamp}`).put(this.state.image)
+        uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot ok')},
+        (error) =>{console.log(error);},
+        async ()=>{await firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}`).child(this.state.product.stallId + todayStamp).getDownloadURL().then(url=>{
+            
+            this.setState({url});
+            //console.log("here first:   " + url);
+        
+        /////////// todo: to continue to update firebase data. see if below works
+        //    console.log("Url: " + url);
+        })
+    
+        //console.log("key:   " + this.state.key)
+        //console.log("url:  " + this.state.url)
+        firebase.firestore().collection("req@gmail.com").doc(this.state.key).collection("pictures").add({
+           image: this.state.url}). then((docRef2)=>{
+           this.setState({image: this.state.url});          
+           //this.props.history.push("/list")
+        })
+
+        const pictures=[];
+        var snapshotPic = await firebase.firestore().collection("req@gmail.com").doc(this.state.key).collection("pictures").get();
+        snapshotPic.forEach(docPic => {
+            const {image} = docPic.data();
+            pictures.push({
+              key: docPic.id, docPic, image
+            });
+          });
+          this.setState({pictures});
+
+    })
+        //const uploadTask1 = firebase.storage().ref(`${stallIdNo}/${emailUser}/${stallIdNo}_1`).put(this.state.image)
+        //uploadTask1.on('state_changed', (snapshot)=>{console.log('snapshot_1 ok')},
+        //(error) =>{console.log(error);},
+    
+        //()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})  
+ 
+        //console.log(e.target.files[0]);
+        
+       
+        
 
     }
+
     render (){
         const cardStyles = {
             width: '40rem',
@@ -145,26 +192,17 @@ class ShowProduct extends React.Component{
   </div>
   
   <div class="column">
-    
-        <card style ={cardStyles}>
-    
-            
-              
+            {this.state.pictures.map (picture =>
+                <td><img src={picture.image}width="180px" height="180" alt=""></img></td>
+            )}
 
-                {this.state.pictures.map (picture =>
-              
-                    <td><img src={picture.image}width="180px" height="180" alt=""></img></td>
-             
-                  )}
-
-
-        
-
-
-        </card>
-    
+            <div className="upload-data">
+                &nbsp;&nbsp;
+                <input type="file" onChange={this.handleChange}/>   
+            </div>          
   </div>
-  
+
+
 </div>
 
           
