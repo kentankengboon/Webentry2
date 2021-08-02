@@ -28,6 +28,10 @@ td img {
     height: 40px;
 }
 
+#scrollId{
+  height: 400px;
+  overflow: scroll;
+}
 
 /* Float four columns side by side */
 .column {
@@ -59,4 +63,4 @@ td img {
       margin-bottom: 20px;
     }
   }
-  
+
