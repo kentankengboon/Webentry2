@@ -230,6 +230,7 @@ class ShowProduct extends React.Component{
                 </div>
   
                 <div class="column">
+                    <dt>&nbsp;&nbsp;&nbsp;Add more pictures here</dt>
                     {this.state.pictures.map (picture =>
                         <td><img src={picture.image}width="180px" height="180" alt=""></img></td>
                     )}

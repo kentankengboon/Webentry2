@@ -205,6 +205,7 @@ class EditProduct extends React.Component{
                     <br></br>
                     
                     <div className="upload-data">
+                        <dt>Replace picture</dt>
                         <input type="file" onChange={this.handleChange}/>
                         <img src={this.state.url} height="100" width="100"/>
                     </div>
@@ -213,16 +214,10 @@ class EditProduct extends React.Component{
                         <button class="Submit-Button" onClick={this.onSubmit}>Save All</button>
                     </div>
                     &nbsp;
-
-
                 </card>
             </div>
         )
     }
 }
-
-
-
-
 
 export default EditProduct

@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 let emailUser = "";
 let today = "";
 let stallIdNo = "";
-let todayStamp = new Date();
+let todayStamp = "";
 let customerSelected = "";
 
 class AddProduct extends React.Component{
@@ -32,7 +32,7 @@ class AddProduct extends React.Component{
             image: null,
         }
 
-        
+        todayStamp = new Date();
         var dd = String(todayStamp.getDate()).padStart(2, '0');
         var mm = String(todayStamp.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = todayStamp.getFullYear();
@@ -43,7 +43,7 @@ class AddProduct extends React.Component{
     checkUser () {
         firebase.auth().onAuthStateChanged(user => {
           if(user) {
-              console.log("yes logged in : " + user.email + "  " + user.name);
+              //console.log("yes logged in : " + user.email + "  "); // + user.name);
               emailUser = user.email;
               stallIdNo = user.email+todayStamp
             }else {
@@ -96,7 +96,16 @@ class AddProduct extends React.Component{
         ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})  
     }
 
-    onSubmit = (e) => {
+    onSubmit = async(e) => {
+
+        if (this.state.url == null){
+            //console.log ("Url = null.  set Url")
+            var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
+            //this.setState({url})
+            this.state.url = url;
+            
+        }
+        
         var thisId = "";
 
         //var today = new Date();
@@ -110,6 +119,8 @@ class AddProduct extends React.Component{
         customerSelected = customerSelect.options[customerSelect.selectedIndex].text;
 
         e.preventDefault();
+        //console.log("url here: " + url)
+        //console.log("this state Url: " + url)
         const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId} = this.state;
         this.ref.add({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:today, remark, since:today, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo})
             .then((docRef) =>{
