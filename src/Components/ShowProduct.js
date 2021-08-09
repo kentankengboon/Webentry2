@@ -105,6 +105,8 @@ class ShowProduct extends React.Component{
     handleChanges = async (e) => {
         if(await e.target.files[0]){this.setState({image: e.target.files[0]})}
         var todayStamp = new Date();
+        console.log("today stamp:   " + todayStamp)
+        console.log("StallId: " + this.state.product.stallId)
         const uploadTask = firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}/${this.state.product.stallId + todayStamp}`).put(this.state.image)
         uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot ok')},
         (error) =>{console.log(error);},
@@ -134,7 +136,7 @@ class ShowProduct extends React.Component{
     }
 
     uploadPO = async (e) => {
-        if(await e.target.files[0]){this.setState({filePO: e.target.files[0]})}
+        if(await e.target.files[0]){this.setState({filePO: e.target.files[0]})
         //const uploadTask2 = firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}/PO`).put(this.state.filePO)
         const uploadTask2 = firebase.storage().ref(`${this.state.product.stallId}/PO.pdf`).put(this.state.filePO)
         uploadTask2.on('state_changed', (snapshot)=>{console.log('snapshot ok')},
@@ -151,9 +153,12 @@ class ShowProduct extends React.Component{
             firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({
             poUploaded: this.state.urlPO}) 
 
+            //once PO re uploaded, it doesnt care if previuosly approved or what stage, it will re-state PO pending approval and just write/re-write stage to 3
+            firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({poStatus: "pending approval"})
+            firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({stage: 3})
         })
 
-        
+        }
 
     }
 

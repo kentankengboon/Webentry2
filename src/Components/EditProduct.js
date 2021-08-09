@@ -39,6 +39,9 @@ class EditProduct extends React.Component{
                     rating: document.rating,
                     stallId: document.stallId,
                     tgtPrice: document.tgtPrice,
+                    quotes: document.quotes,
+                    poUploaded: document.poUploaded,
+                    poStatus: document.poStatus,
                     key: doc.id,
                     isLoading: false
                 })
@@ -97,9 +100,9 @@ class EditProduct extends React.Component{
         //var thisId = "";
         if (this.state.url == null) {this.state.url = this.state.product.image;}
         e.preventDefault();
-        const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk, remark, since, image, rating, customer, stallId, tgtPrice} = this.state;
+        const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk, remark, since, image, rating, customer, stallId, tgtPrice, quotes, poUploaded, poStatus} = this.state;
         const updateRef = firebase.firestore().collection('req@gmail.com').doc(this.state.key);
-        updateRef.set({whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk, remark, since, image: this.state.url, rating, customer, stallId, tgtPrice})
+        updateRef.set({whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, whenAsk, remark, since, image: this.state.url, rating, customer, stallId, tgtPrice, quotes, poUploaded, poStatus})
             .then((docRef) =>{
                 this.setState({ //below doesnt seems to matter
                     key: '',

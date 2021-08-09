@@ -29,6 +29,9 @@ class AddProduct extends React.Component{
             tgtPrice: '',
             customer: '',
             stallId: '',
+            quotes: '',
+            poUploaded: '',
+            poStatus: '',
             image: null,
         }
 
@@ -121,8 +124,8 @@ class AddProduct extends React.Component{
         e.preventDefault();
         //console.log("url here: " + url)
         //console.log("this state Url: " + url)
-        const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId} = this.state;
-        this.ref.add({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:today, remark, since:today, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo})
+        const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
+        this.ref.add({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:today, remark, since:today, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1})
             .then((docRef) =>{
                 this.setState({ //below doesnt seems to matter
                     whouploadId: emailUser,
@@ -137,7 +140,12 @@ class AddProduct extends React.Component{
                     rating: 2,
                     customer: customerSelected,
                     tgtPrice: tgtPrice,
-                    stallId: stallIdNo
+                    stallId: stallIdNo,
+                    quotes: '',
+                    poUploaded: '',
+                    poStatus: '',
+                    stage: 1
+
                 });
                 thisId = docRef.id;
                 this.props.history.push("/list");
