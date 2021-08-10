@@ -261,7 +261,7 @@ class ShowProduct extends React.Component{
                         &nbsp;&nbsp;
                         <input type="file" onChange={this.uploadPO}/>
                         <div>
-                            <embed src={this.state.urlPO} width="200" height="100" type="application/pdf"></embed>
+                            <embed src={this.state.urlPO} width="800" height="500" type="application/pdf"></embed>
                         </div>
                     </div>
                 </div>
