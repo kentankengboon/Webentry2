@@ -8,6 +8,7 @@ let emailUser = "";
 let today = "";
 let stallIdNo = "";
 let todayStamp = "";
+let todayId = "";
 let customerSelected = "";
 
 class AddProduct extends React.Component{
@@ -15,7 +16,7 @@ class AddProduct extends React.Component{
         super(props);
         this.checkUser();
 
-        this.ref = firebase.firestore().collection("req@gmail.com");
+        this.ref = firebase.firestore().collection("req@gmail.com"); // todo: see if can add doc(stallIdNo) here to force a fixed docId
         this.state = {
             whouploadId: '',
             whoupload: '',
@@ -39,8 +40,13 @@ class AddProduct extends React.Component{
         var dd = String(todayStamp.getDate()).padStart(2, '0');
         var mm = String(todayStamp.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = todayStamp.getFullYear();
-        var tttt = todayStamp.getHours() + ":" + todayStamp.getMinutes() + ":" + todayStamp.getSeconds();
-        today = yyyy + '-' + mm + '-' + dd + " " + tttt;
+        //var tttt = todayStamp.getHours() + ":" + todayStamp.getMinutes() + ":" + todayStamp.getSeconds();
+        //today = yyyy + '-' + mm + '-' + dd + " " + tttt;
+        var hh = "" + todayStamp.getHours(); if (hh.length == 1){hh="0" + todayStamp.getHours();}
+        var mn = "" + todayStamp.getMinutes(); if (mn.length == 1){mn="0" + todayStamp.getMinutes();}
+        var ss = "" + todayStamp.getSeconds(); if (ss.length == 1){ss="0" + todayStamp.getSeconds();}
+        var tttttt = "" + hh + mn + ss;
+        todayId = yyyy + mm + dd + tttttt;
     }
 
     checkUser () {
@@ -48,7 +54,8 @@ class AddProduct extends React.Component{
           if(user) {
               //console.log("yes logged in : " + user.email + "  "); // + user.name);
               emailUser = user.email;
-              stallIdNo = user.email+todayStamp
+              //stallIdNo = user.email+todayStamp
+              stallIdNo = todayId+user.email
             }else {
               //console.log("not logged in")
               window.location.replace("/login")
@@ -100,13 +107,12 @@ class AddProduct extends React.Component{
     }
 
     onSubmit = async(e) => {
-
+// to notify, must write to firebase notification and also must set to gotmail for all member = 1 to turn the PN red at food
         if (this.state.url == null){
-            //console.log ("Url = null.  set Url")
+            //the default dummy icon picture
             var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
             //this.setState({url})
             this.state.url = url;
-            
         }
         
         var thisId = "";
@@ -125,17 +131,17 @@ class AddProduct extends React.Component{
         //console.log("url here: " + url)
         //console.log("this state Url: " + url)
         const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
-        this.ref.add({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:today, remark, since:today, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1})
+        this.ref.add({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:todayStamp, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1})
             .then((docRef) =>{
-                this.setState({ //below doesnt seems to matter
+                this.setState({ //below is just to setState after added data
                     whouploadId: emailUser,
                     whoupload: emailUser,
                     whatUse: '',
                     whatModel: '',
                     whatQty: '',
-                    whenAsk: today,
+                    whenAsk: todayStamp,
                     remark: '',
-                    since: today,
+                    since: todayStamp,
                     image: this.state.url,
                     rating: 2,
                     customer: customerSelected,
@@ -156,10 +162,31 @@ class AddProduct extends React.Component{
                    this.setState({image: this.state.url1 });
                     this.props.history.push("/list")
                 })
+
                 
             })
+            .catch ((error) => {console.error("Error adding document: ", error);}) 
+            
+            //////////////// or do like above ref.add thing? However below actually did write ok to NotificationTrigger
+                firebase.firestore().collection("NotificationTrigger").add({
+                    food: whatPN,
+                    groupId:  "req@gmail.com",
+                    image: this.state.url,
+                    index: -2,
+                    place: whatUse,
+                    qty: whatQty,
+                    remark: remark,
+                    stall: whatModel,
+                    stallId: stallIdNo
+                })
+                    
+                    //.then((docRef3)=>{this.setState({image: this.state.url1 });
+                    //this.props.history.push("/list")
+                    //})
 
-            .catch ((error) => {console.error("Error adding document: ", error);})    
+
+                ///////////////
+            
     }
 
     render (){
@@ -249,3 +276,9 @@ class AddProduct extends React.Component{
     }
 }
 export default AddProduct
+
+
+
+
+
+

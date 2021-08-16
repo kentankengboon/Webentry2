@@ -70,6 +70,7 @@ class ShowProduct extends React.Component{
           console.log("when start: " + poExisted);
           this.setState({poExisted});
     }
+    
     delete(id){ // can we delete the whole folder iunder email+since folder?
 
         firebase.firestore().collection("req@gmail.com").doc(id).delete().then(()=>{
@@ -86,6 +87,13 @@ class ShowProduct extends React.Component{
         
         //delete all storage image file under the folder
         var storageRef = firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}`); /// todo: must delete under stallId NOT since
+        storageRef.listAll().then((listResults) => {
+           const promises = listResults.items.map((item) => {
+                return item.delete();
+            })
+        });
+
+        var storageRef = firebase.storage().ref(`${this.state.product.stallId}`); /// todo: must delete under stallId NOT since
         storageRef.listAll().then((listResults) => {
            const promises = listResults.items.map((item) => {
                 return item.delete();
