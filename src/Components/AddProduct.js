@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 let emailUser = "";
-let today = "";
+let todayFormatted = "";
 let stallIdNo = "";
 let todayStamp = "";
 let todayId = "";
@@ -47,6 +47,8 @@ class AddProduct extends React.Component{
         var ss = "" + todayStamp.getSeconds(); if (ss.length == 1){ss="0" + todayStamp.getSeconds();}
         var tttttt = "" + hh + mn + ss;
         todayId = yyyy + mm + dd + tttttt;
+        todayFormatted = yyyy + "-" + mm + "-" + dd + "-" + hh + ":" + mn + ":" + ss
+        
     }
 
     checkUser () {
@@ -131,15 +133,16 @@ class AddProduct extends React.Component{
         //console.log("url here: " + url)
         //console.log("this state Url: " + url)
         const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
-        this.ref.add({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:todayStamp, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1})
-            .then((docRef) =>{
+        firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1});
+        /*   
+        .then((docRef) =>{
                 this.setState({ //below is just to setState after added data
                     whouploadId: emailUser,
                     whoupload: emailUser,
                     whatUse: '',
                     whatModel: '',
                     whatQty: '',
-                    whenAsk: todayStamp,
+                    whenAsk: todayFormatted,
                     remark: '',
                     since: todayStamp,
                     image: this.state.url,
@@ -166,7 +169,16 @@ class AddProduct extends React.Component{
                 
             })
             .catch ((error) => {console.error("Error adding document: ", error);}) 
-            
+            */
+
+            this.props.history.push("/list");
+            // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                image: this.state.url1}). then((docRef2)=>{
+            this.setState({image: this.state.url1 });
+                this.props.history.push("/list")
+            })
+
             //////////////// or do like above ref.add thing? However below actually did write ok to NotificationTrigger
                 firebase.firestore().collection("NotificationTrigger").add({
                     food: whatPN,
