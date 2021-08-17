@@ -47,8 +47,8 @@ class AddProduct extends React.Component{
         var ss = "" + todayStamp.getSeconds(); if (ss.length == 1){ss="0" + todayStamp.getSeconds();}
         var tttttt = "" + hh + mn + ss;
         todayId = yyyy + mm + dd + tttttt;
-        todayFormatted = yyyy + "-" + mm + "-" + dd + "-" + hh + ":" + mn + ":" + ss
-        
+        //todayFormatted = yyyy + "-" + mm + "-" + dd + " " + hh + ":" + mn + ":" + ss // no need the ss for display purpose
+        todayFormatted = yyyy + "-" + mm + "-" + dd + " " + hh + ":" + mn
     }
 
     checkUser () {
