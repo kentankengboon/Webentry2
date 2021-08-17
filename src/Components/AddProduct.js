@@ -133,7 +133,7 @@ class AddProduct extends React.Component{
         //console.log("url here: " + url)
         //console.log("this state Url: " + url)
         const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
-        firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1});
+        firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1});
         /*   
         .then((docRef) =>{
                 this.setState({ //below is just to setState after added data
@@ -144,7 +144,7 @@ class AddProduct extends React.Component{
                     whatQty: '',
                     whenAsk: todayFormatted,
                     remark: '',
-                    since: todayStamp,
+                    since: todayFormatted,
                     image: this.state.url,
                     rating: 2,
                     customer: customerSelected,
@@ -172,13 +172,15 @@ class AddProduct extends React.Component{
             */
 
             this.props.history.push("/list");
-            // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
-                image: this.state.url1}). then((docRef2)=>{
-            this.setState({image: this.state.url1 });
-                this.props.history.push("/list")
-            })
 
+            if (this.state.url2 != null){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").set({
+                    image: this.state.url1}). then((docRef2)=>{
+                this.setState({image: this.state.url1 });
+                    this.props.history.push("/list")
+                })
+            }
             //////////////// or do like above ref.add thing? However below actually did write ok to NotificationTrigger
                 firebase.firestore().collection("NotificationTrigger").add({
                     food: whatPN,
