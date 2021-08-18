@@ -10,6 +10,13 @@ let stallIdNo = "";
 let todayStamp = "";
 let todayId = "";
 let customerSelected = "";
+let m = 0;
+let memberId1 = "";
+let memberId2 = "";
+let memberId3 = "";
+let memberId4 = "";
+let memberId5 = "";
+//let memberCount =0;
 
 class AddProduct extends React.Component{
     constructor(props){
@@ -18,6 +25,8 @@ class AddProduct extends React.Component{
 
         this.ref = firebase.firestore().collection("req@gmail.com"); // todo: see if can add doc(stallIdNo) here to force a fixed docId
         this.state = {
+            product: [],
+            //memberCount: 0,
             whouploadId: '',
             whoupload: '',
             whatUse: '',
@@ -36,6 +45,8 @@ class AddProduct extends React.Component{
             image: null,
         }
 
+
+
         todayStamp = new Date();
         var dd = String(todayStamp.getDate()).padStart(2, '0');
         var mm = String(todayStamp.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -49,6 +60,36 @@ class AddProduct extends React.Component{
         todayId = yyyy + mm + dd + tttttt;
         //todayFormatted = yyyy + "-" + mm + "-" + dd + " " + hh + ":" + mn + ":" + ss // no need the ss for display purpose
         todayFormatted = yyyy + "-" + mm + "-" + dd + " " + hh + ":" + mn
+
+        this.checkMember();
+        
+    }
+
+    async checkMember ()  {
+        const refMember = firebase.firestore().collection("groups").doc("req@gmail.com");
+        await refMember.get().then((doc)=>{
+            if (doc.exists){
+                const document = doc.data();
+                this.setState({
+                    product: doc.data(),
+                    //memberCount: document.memberCount,
+                    //whouploadId: document.whouploadId,
+                    //key: doc.id,
+                    //isLoading: false
+                })
+            }else{console.log("No such document")}
+        });
+        for(m=1; m < this.state.product.memberCount + 1; m++){
+            console.log ("memberCount: " + this.state.product.memberCount)
+            if (m==1) {memberId1 = this.state.product.member1; console.log("member1 " + memberId1)}
+            if (m==2) {memberId2 = this.state.product.member2; console.log("member2 " + memberId2)}
+            if (m==3) {memberId3 = this.state.product.member3; console.log("member3 " + memberId3)}
+            if (m==4) {memberId4 = this.state.product.member4; console.log("member4 " + memberId4)}
+            if (m==5) {memberId5 = this.state.product.member5; console.log("member5 " + memberId5)}
+            //whichMember = "member" + String(m);  
+            //console.log("member " + m + " =" + this.state.product.$whichMember)
+        }
+        //this.setState({});
     }
 
     checkUser () {
@@ -200,7 +241,14 @@ class AddProduct extends React.Component{
 
 
                 ///////////////
-            
+
+                //const {gotMail} = this.state;
+                if (memberId1 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId1).set({gotMail: 1});
+                if (memberId2 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId2).set({gotMail: 1});
+                if (memberId3 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId3).set({gotMail: 1});
+                if (memberId4 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId4).set({gotMail: 1});
+                if (memberId5 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId5).set({gotMail: 1});
+
     }
 
     render (){
@@ -290,9 +338,3 @@ class AddProduct extends React.Component{
     }
 }
 export default AddProduct
-
-
-
-
-
-
