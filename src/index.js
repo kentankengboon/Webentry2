@@ -8,6 +8,8 @@ import AddProduct from './Components/AddProduct';
 import EditProduct from './Components/EditProduct';
 import ShowProduct from './Components/ShowProduct';
 import ListProducts from './Components/ListProducts';
+import AddMoreParts from './Components/AddMoreParts';
+import AddMoreParts2 from './Components/AddMoreParts2';
 import {BrowserRouter, Route} from 'react-router-dom';
 import './node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Login from './Components/Login';
@@ -21,6 +23,8 @@ ReactDOM.render(<BrowserRouter>
   <Route path="/edit/:id" component = {EditProduct}></Route>
   <Route path="/login" component = {Login}></Route>
   <Route path="/list" component = {ListProducts}></Route>
+  <Route path="/moreparts" component = {AddMoreParts}></Route>
+  <Route path="/moreparts2" component = {AddMoreParts2}></Route>
   </BrowserRouter>, document.getElementById('root'));
   
 // If you want to start measuring performance in your app, pass a function

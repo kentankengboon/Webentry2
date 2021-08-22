@@ -67,54 +67,74 @@ class ShowProduct extends React.Component{
           });
 
           if (this.state.urlPO != null){poExisted = "PO existed. Click Open to view"}else{poExisted ="Pending PO upload"}
-          console.log("when start: " + poExisted);
+          //console.log("when start: " + poExisted);
           this.setState({poExisted});
     }
     
-    delete(id){ // can we delete the whole folder iunder email+since folder?
+    async delete(id){ // can we delete the whole folder iunder email+since folder?
 
         firebase.firestore().collection("req@gmail.com").doc(id).delete().then(()=>{
-            console.log("Document deleted")
+            //console.log("Document deleted")
             this.props.history.push("/list")
         }).catch((error) =>{
             console.error(error);
         });
 
+        const refDelete1 = firebase.firestore().collection("req@gmail.com").doc(id).collection("moreParts");
+        var snapshotMore1 = await firebase.firestore().collection("req@gmail.com").doc(id).collection("moreParts").get();
+        snapshotMore1.forEach(docMore => {
+            refDelete1.doc(docMore.id).delete();
+        });
 
-        //console.log(this.state.product.whoupload);
-        //console.log(this.state.product.since);
-        console.log(this.state.product.image);
+        const refDelete2 = firebase.firestore().collection("req@gmail.com").doc(id).collection("mailBox");
+        var snapshotMore2 = await firebase.firestore().collection("req@gmail.com").doc(id).collection("mailBox").get();
+        snapshotMore2.forEach(docMore => {
+            refDelete2.doc(docMore.id).delete();
+        });
         
-        //delete all storage image file under the folder
-        var storageRef = firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}`); /// todo: must delete under stallId NOT since
-        storageRef.listAll().then((listResults) => {
+        const refDelete3 = firebase.firestore().collection("req@gmail.com").doc(id).collection("pictures");
+        var snapshotMore3 = await firebase.firestore().collection("req@gmail.com").doc(id).collection("pictures").get();
+        snapshotMore3.forEach(docMore => {
+            refDelete3.doc(docMore.id).delete();
+        });
+
+        const refDelete4 = firebase.firestore().collection("req@gmail.com").doc(id).collection("messages");
+        var snapshotMore4 = await firebase.firestore().collection("req@gmail.com").doc(id).collection("messages").get();
+        snapshotMore4.forEach(docMore => {
+            refDelete4.doc(docMore.id).delete();
+        });
+
+        const refDelete5 = firebase.firestore().collection("req@gmail.com").doc(id).collection("morePictures");
+        var snapshotMore5 = await firebase.firestore().collection("req@gmail.com").doc(id).collection("morePictures").get();
+        snapshotMore5.forEach(docMore => {
+            //console.log("delete here:   " + docMore.id)
+            refDelete5.doc(docMore.id).delete();
+        });
+
+        //todo:
+        //must delete all storage image file under the folder first.
+        //but will have problem here
+        //how to delete all pictures under all other member email ID folder?
+        var storageRef1 = firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}`); /// todo: must delete under stallId NOT since
+        storageRef1.listAll().then((listResults) => {
            const promises = listResults.items.map((item) => {
                 return item.delete();
             })
         });
 
-        var storageRef = firebase.storage().ref(`${this.state.product.stallId}`); /// todo: must delete under stallId NOT since
-        storageRef.listAll().then((listResults) => {
+        var storageRef2 = firebase.storage().ref(`${this.state.product.stallId}`); /// todo: must delete under stallId NOT since
+        storageRef2.listAll().then((listResults) => {
            const promises = listResults.items.map((item) => {
                 return item.delete();
             })
         });
-
-        //var desertRef = firebase.storage().refFromURL(this.state.product.image)
-        //desertRef.delete().then(function(){
-            //alert("Item deleted")
-            //console.log("File deleted")
-        //}).catch(function(error){
-            //console.log("error hile deleting file")
-        //});
-
     }
 
     handleChanges = async (e) => {
         if(await e.target.files[0]){this.setState({image: e.target.files[0]})}
         var todayStamp = new Date();
-        console.log("today stamp:   " + todayStamp)
-        console.log("StallId: " + this.state.product.stallId)
+        //console.log("today stamp:   " + todayStamp)
+        //console.log("StallId: " + this.state.product.stallId)
         const uploadTask = firebase.storage().ref(`${this.state.product.stallId}/${this.state.product.whouploadId}/${this.state.product.stallId + todayStamp}`).put(this.state.image)
         uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot ok')},
         (error) =>{console.log(error);},
@@ -127,7 +147,7 @@ class ShowProduct extends React.Component{
             //console.log("key:   " + this.state.key)
             //console.log("url:  " + this.state.url)
             firebase.firestore().collection("req@gmail.com").doc(this.state.key).collection("pictures").add({
-            image: this.state.url}). then((docRef2)=>{
+            image: this.state.url}).then((docRef2)=>{
             this.setState({image: this.state.url});
             })
 
@@ -152,7 +172,7 @@ class ShowProduct extends React.Component{
         async ()=>{ await firebase.storage().ref(`${this.state.product.stallId}`).child("PO.pdf")
             .getDownloadURL().then(urlPO=>{
                 this.setState({urlPO});
-                console.log("URL PO:   " + urlPO);
+                //console.log("URL PO:   " + urlPO);
                 poExisted = "PO existed. Click Open to view"
                 this.setState({poExisted});
             })
@@ -167,10 +187,20 @@ class ShowProduct extends React.Component{
         })
 
         }
-
+        
+        // added 18 Aug 21 1513 for notification of PO uploaded
+        firebase.firestore().collection("NotificationTrigger").add({
+            food: this.state.product.whatPN,
+            groupId:  "req@gmail.com",
+            image: this.state.product.image,
+            index: -3,
+            place: this.state.product.whatUse,
+            qty: this.state.product.whatQty,
+            remark: this.state.product.remark,
+            stall: this.state.product.whatModel,
+            stallId: this.state.product.stallId
+        })
     }
-
-
     render (){
         const cardStyles = {
             width: '40rem',
