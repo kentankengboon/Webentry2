@@ -18,6 +18,7 @@ let memberId3 = "";
 let memberId4 = "";
 let memberId5 = "";
 //let memberCount =0;
+let mounted=0;
 
 class AddProduct extends React.Component{
     constructor(props){
@@ -65,6 +66,10 @@ class AddProduct extends React.Component{
         this.checkMember();
         
     }
+
+    componentDidMount() {
+   mounted =1
+  };
 
     async checkMember ()  {
         const refMember = firebase.firestore().collection("groups").doc("req@gmail.com");
@@ -153,6 +158,7 @@ class AddProduct extends React.Component{
     }
 
     onSubmit = async(e) => {
+        if (mounted=1){
         // to notify, must write to firebase notification and also must set to gotmail for all member = 1 to turn the PN red at food
         if (this.state.url == null){
             //the default dummy icon picture
@@ -248,7 +254,7 @@ class AddProduct extends React.Component{
             })
         }
 
-
+    }
     }
 
     
@@ -318,18 +324,18 @@ class AddProduct extends React.Component{
         return(
             <div>
 
-                <card style ={cardStyles}>
+                <Card style ={cardStyles}>
                     <div className = "Button">
                         <Link to ="/list"> 
-                        <button class ="Edit-Button" >Back</button>
+                        <button className ="Edit-Button" >Back</button>
                         </Link>
                     </div>
                     &nbsp;
 
 
                     <div>
-                        <div class="form-group"></div>
-                        <label for="customer">Enter part info below:</label>
+                        <div className="form-group"></div>
+                        <label>Enter part info below:</label>
                     </div>
 
                     <select name="customerOption" id="customerPicked">
@@ -341,47 +347,47 @@ class AddProduct extends React.Component{
                     </select>
 
                     <div>
-                        <div class="form-group"></div>
-                        <label for="whatModel"></label>
-                        <textarea class="form-control" name="whatModel" value={whatModel} onChange={this.onChange} placeholder="Model No" cols="80" rows="1">{whatModel}</textarea>
+                        <div className="form-group"></div>
+                        <label></label>
+                        <textarea className="form-control" name="whatModel" value={whatModel} onChange={this.onChange} placeholder="Model No" cols="80" rows="1">{whatModel}</textarea>
                     </div>
                     <div>
-                        <div class="form-group"></div>
-                        <label for="whatPN"></label>
-                        <textarea class="form-control" name="whatPN" value={whatPN} onChange={this.onChange} placeholder="Part No" cols="80" rows="1">{whatPN}</textarea>
+                        <div className="form-group"></div>
+                        <label></label>
+                        <textarea className="form-control" name="whatPN" value={whatPN} onChange={this.onChange} placeholder="Part No" cols="80" rows="1">{whatPN}</textarea>
                     </div>
                     <div>
-                        <div class="form-group"></div>
-                        <label for="whatQty"></label>
-                        <textarea class="form-control" name="whatQty" value={whatQty} onChange={this.onChange} placeholder="Quantity" cols="80" rows="1">{whatQty}</textarea>
+                        <div className="form-group"></div>
+                        <label></label>
+                        <textarea className="form-control" name="whatQty" value={whatQty} onChange={this.onChange} placeholder="Quantity" cols="80" rows="1">{whatQty}</textarea>
                     </div>
                     <div>
-                        <div class="form-group"></div>
-                        <label for="whatUse"></label>
-                        <textarea class="form-control" name="whatUse" value={whatUse} onChange={this.onChange} placeholder="Ship to" cols="80" rows="1">{whatUse}</textarea>
+                        <div className="form-group"></div>
+                        <label></label>
+                        <textarea className="form-control" name="whatUse" value={whatUse} onChange={this.onChange} placeholder="Ship to" cols="80" rows="1">{whatUse}</textarea>
                     </div>
                     <div>
-                        <div class="form-group"></div>
-                        <label for="tgtPrice"></label>
-                        <textarea class="form-control" name="tgtPrice" value={tgtPrice} onChange={this.onChange} placeholder="Tgt Price" cols="80" rows="1">{tgtPrice}</textarea>
+                        <div className="form-group"></div>
+                        <label></label>
+                        <textarea className="form-control" name="tgtPrice" value={tgtPrice} onChange={this.onChange} placeholder="Tgt Price" cols="80" rows="1">{tgtPrice}</textarea>
                     </div>
 
                     <div>
-                        <div class="form-group"></div>
-                        <label for="remark"></label>
-                        <textarea class="form-control" name="remark" value={remark} onChange={this.onChange} placeholder="Desciption" cols="80" rows="3">{remark}</textarea>
+                        <div className="form-group"></div>
+                        <label></label>
+                        <textarea className="form-control" name="remark" value={remark} onChange={this.onChange} placeholder="Desciption" cols="80" rows="3">{remark}</textarea>
                     </div>
                     <div className="upload-data">
                         <input type="file" onChange={this.handleChange}/>
                         <img src={this.state.url} height="200" width="200"/>
                     </div>
                     <div className="button>">
-                        <button class="Submit-Button" onClick={this.onSubmit}>Done</button> &nbsp;&nbsp;&nbsp;
-                        <button class="Submit-Button" onClick={this.submitSomeMore}>Somemore parts</button> &nbsp;&nbsp;&nbsp;
+                        <button className="Submit-Button" onClick={this.onSubmit}>Done</button> &nbsp;&nbsp;&nbsp;
+                        <button className="Submit-Button" onClick={this.submitSomeMore}>Somemore parts</button> &nbsp;&nbsp;&nbsp;
                         
                     </div>
                     &nbsp;
-                </card>
+                </Card>
             </div>
         )
     }

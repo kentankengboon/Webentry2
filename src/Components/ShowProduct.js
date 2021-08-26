@@ -30,7 +30,7 @@ class ShowProduct extends React.Component{
                 })
             }else{console.log("No such document")}
         });
-
+        
         const pictures=[];
         var snapshotPic = await firebase.firestore().collection("req@gmail.com").doc(this.props.match.params.id).collection("pictures").get();
         snapshotPic.forEach(docPic => {
@@ -42,7 +42,7 @@ class ShowProduct extends React.Component{
           this.setState({pictures});
           //console.log("pictuer map?:   " + pictures);
           //this.state.pictures.map (picture => console.log(picture.image))
-
+        
         
         const refMsg = firebase.firestore().collection("req@gmail.com").doc(this.props.match.params.id).collection("messages").doc("messages");
         refMsg.get().then((docMsg) => {
@@ -52,23 +52,57 @@ class ShowProduct extends React.Component{
                     //keyMsg: docMsg.id,
                     isLoading: false
                 })
-            }else{console.log("No such message")}
+            }else{
+                //console.log("No such message")
+            }
           });
           
 
-          await firebase.storage().ref(`${this.state.product.stallId}`).child("PO.pdf")
-          .getDownloadURL().then(urlPO=>{
-            if (urlPO != null){this.setState({urlPO})}
-              console.log("URL-PO existed:   " + urlPO);
+        /*
+          firebase.storage().ref(`${this.state.product.stallId}`).child("PO.pdf").getMetadata()
+          .then((metadata) => {
+              console.log ("metadata yes");
+            // Metadata now contains the metadata for 'images/forest.jpg'
           })
-          .catch((err) => {
-            // show Default userPic    
-            console.log("err >> ", err);
+          .catch((error) => {
+            console.log ("metadata No");
+            // Uh-oh, an error occurred!
           });
+          //console.log(Len)
+          *?
 
-          if (this.state.urlPO != null){poExisted = "PO existed. Click Open to view"}else{poExisted ="Pending PO upload"}
-          //console.log("when start: " + poExisted);
-          this.setState({poExisted});
+          /*
+          //const storageFile = bucket.file('path/to/file.txt');
+          firebase.storage().ref(`${this.state.product.stallId}`).child("PO.pdf")
+            .exists()
+            .then((exists) => {
+                  if (exists[0]) {
+                    console.log("File exists");
+                  } else {
+                    console.log("File does not exist");
+                  }
+               })
+            */
+
+          //var Len = firebase.storage().ref(`${this.state.product.stallId}`).child("PO.pdf").name;
+          //console.log("length: " + Len);
+
+
+        if (this.state.product.stage >= 3){
+            await firebase.storage().ref(`${this.state.product.stallId}`).child("PO.pdf")
+            .getDownloadURL().then(urlPO=>{
+                if (urlPO != null){this.setState({urlPO})}
+                //console.log("URL-PO existed:   " + urlPO);
+            })
+            .catch((err) => {
+                // show Default userPic    
+                console.log("err >> ", err);
+            });
+        }
+
+        if (this.state.urlPO != null){poExisted = "PO existed. Click Open to view"}else{poExisted ="Pending PO upload"}
+        //console.log("when start: " + poExisted);
+        this.setState({poExisted});
     }
     
     async delete(id){ // can we delete the whole folder iunder email+since folder?
@@ -212,7 +246,7 @@ class ShowProduct extends React.Component{
             marginRight: '0',
             opacity: 1,
             paddingTop: '10px',
-            paddingLeft: '0px',
+            paddingLeft: '20px',
             paddingRight: '0px',
             borderStyle: 'outset',
             borderLeft: '20px solid green',
@@ -221,22 +255,22 @@ class ShowProduct extends React.Component{
 
         return(
             <div>
-                <div class="column">
-                    <div class="card">
-                        <card style ={cardStyles}>
+                <div className="column">
+                    <div className="card">
+                        <Card style ={cardStyles}>
                             <div className = "Button">
                                 <Link to ="/list"> 
-                                <button class ="Edit-Button" >List items</button>
+                                <button className ="Edit-Button" >List items</button>
                                 </Link>
                             </div>
                             &nbsp;
                             <div>
                                 <img src = {this.state.product.image} height = "200" width = "200"/>
                             </div>
-                            <div class= "panel panel-default">
-                                <h3 class="panel-title">{this.state.product.whatPN}</h3>
+                            <div className= "panel panel-default">
+                                <h3 className="panel-title">{this.state.product.whatPN}</h3>
                             </div>
-                            <div class = "panel-body">
+                            <div className = "panel-body">
                                 <dl>
                                     <dd>Qty:  {this.state.product.whatQty}</dd>
                                 </dl>
@@ -264,18 +298,19 @@ class ShowProduct extends React.Component{
                                     <dt>Description</dt>
                                     <dd>{this.state.product.remark}</dd>
                                 </dl>
-                                <Link to = {`/edit/${this.state.key}`} class = "btn btn-success">Edit</Link>
-                                &nbsp;&nbsp;&nbsp;<button onClick={this.delete.bind(this, this.state.key,this.state.whouploadId, this.state.stallId )} class="btn btn-danger">Delete</button>
+                                <Link to = {`/edit/${this.state.key}`} className = "btn btn-success">Edit</Link>
+                                &nbsp;&nbsp;&nbsp;<button onClick={this.delete.bind(this, this.state.key,this.state.whouploadId, this.state.stallId )} className="btn btn-danger">Delete</button>
                                 <dl></dl>
                             </div>
-                        </card>
+                        </Card>
                     </div>
                 </div>
   
-                <div class="column">
+                <div className="column">
                     <dt>&nbsp;&nbsp;&nbsp;Add more pictures here</dt>
+                    
                     {this.state.pictures.map (picture =>
-                        <td><img src={picture.image}width="180px" height="180" alt=""></img></td>
+                        <img key={picture.key} src={picture.image}width="180px" height="180" alt=""></img>
                     )}
 
                     <div className="upload-data">
@@ -287,7 +322,7 @@ class ShowProduct extends React.Component{
                         <dt>&nbsp;&nbsp;&nbsp;Messages</dt>
                         
                         <div id="scrollId">
-                        <div class = "msg">
+                        <div className = "msg">
                         <div id="just-line-break">{this.state.message.messages}</div>
                         </div>
                         </div>

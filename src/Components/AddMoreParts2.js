@@ -2,7 +2,7 @@ import React from 'react';
 import '../App.css';
 import firebase from '../Config';
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import {Card} from 'react-bootstrap';
+import {Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 //import AddProduct from './AddProduct';
 let emailUser = "";
@@ -223,54 +223,54 @@ class AddMoreParts2 extends React.Component{
         
         return(
             <div>
-                <card style ={cardStyles}>
+                <Card style ={cardStyles}>
                     <div className = "Button">
                         <Link to ="/create"> 
-                        <button class ="Edit-Button" >Back</button>
+                        <button className ="Edit-Button" >Back</button>
                         </Link>
                     </div>
                     &nbsp;
 
 
                     <div>
-                        <div class="form-group"></div>
-                        <label for="customer">Enter part info below 2:</label>
+                        <div className="form-group"></div>
+                        <label>Enter part info below:</label>
                     </div>
 
                    
                     
                     <div>
-                        <div class="form-group"></div>
-                        <label for="whatPN"></label>
-                        <textarea class="form-control" name="whatPN" value={whatPN} onChange={this.onChange} placeholder="Part No" cols="80" rows="1">{whatPN}</textarea>
+                        <div className="form-group"></div>
+                        <label></label>
+                        <textarea className="form-control" name="whatPN" value={whatPN} onChange={this.onChange} placeholder="Part No" cols="80" rows="1">{whatPN}</textarea>
                     </div>
                     <div>
-                        <div class="form-group"></div>
-                        <label for="whatQty"></label>
-                        <textarea class="form-control" name="whatQty" value={whatQty} onChange={this.onChange} placeholder="Quantity" cols="80" rows="1">{whatQty}</textarea>
+                        <div className="form-group"></div>
+                        <label></label>
+                        <textarea className="form-control" name="whatQty" value={whatQty} onChange={this.onChange} placeholder="Quantity" cols="80" rows="1">{whatQty}</textarea>
                     </div>
                     
                     <div>
-                        <div class="form-group"></div>
-                        <label for="tgtPrice"></label>
-                        <textarea class="form-control" name="tgtPrice" value={tgtPrice} onChange={this.onChange} placeholder="Tgt Price" cols="80" rows="1">{tgtPrice}</textarea>
+                        <div className="form-group"></div>
+                        <label></label>
+                        <textarea className="form-control" name="tgtPrice" value={tgtPrice} onChange={this.onChange} placeholder="Tgt Price" cols="80" rows="1">{tgtPrice}</textarea>
                     </div>
 
                     <div>
-                        <div class="form-group"></div>
-                        <label for="remark"></label>
-                        <textarea class="form-control" name="remark" value={remark} onChange={this.onChange} placeholder="Desciption" cols="80" rows="3">{remark}</textarea>
+                        <div className="form-group"></div>
+                        <label></label>
+                        <textarea className="form-control" name="remark" value={remark} onChange={this.onChange} placeholder="Desciption" cols="80" rows="3">{remark}</textarea>
                     </div>
                     <div className="upload-data">
                         <input type="file" onChange={this.handleChange}/>
                         <img src={this.state.url} height="200" width="200"/>
                     </div>
                     <div className="button>">
-                        <button class="Submit-Button" onClick={this.onSubmit}>Done</button> &nbsp;&nbsp;&nbsp;
-                        <button class="Submit-Button" onClick={this.somemore}>Somemore</button>
+                        <button className="Submit-Button" onClick={this.onSubmit}>Done</button> &nbsp;&nbsp;&nbsp;
+                        <button className="Submit-Button" onClick={this.somemore}>Somemore</button>
                     </div>
                     &nbsp;
-                </card>
+                </Card>
             </div>
         )
     }

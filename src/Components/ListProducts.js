@@ -22,7 +22,9 @@ class ListProducts extends React.Component {
 
   checkUser () {
     firebase.auth().onAuthStateChanged(user => {
-      if(user) {console.log("yes logged in : " + user.email )}
+      if(user) {
+        //console.log("yes logged in : " + user.email)
+      }
         else {
           //console.log("not logged in")
           window.location.replace("/login")
@@ -104,14 +106,14 @@ class ListProducts extends React.Component {
 
     return(
       <div>
-        <card style = {cardStyles}>
+        <Card style = {cardStyles}>
           <div className = "Button">
             <Link to ="/create"> 
-              <button class ="Add-Button" >Add an item</button>
+              <button className ="Add-Button" >Add an item</button>
             </Link>
 
             &nbsp;&nbsp;&nbsp;
-            <button class="Submit-Button" onClick={this.signOut}>Sign Out</button>
+            <button className ="Submit-Button" onClick={this.signOut}>Sign Out</button>
               
             &nbsp;&nbsp;&nbsp;
             <select name="customerOption" id="customerPicked" onChange={this.onChange}>
@@ -132,8 +134,8 @@ class ListProducts extends React.Component {
             </div>
           </div>
           */}
-          <div class="panel-body">
-            <table class="table table-stripe">
+          <div className="panel-body">
+            <table className="table table-stripe">
               <thead>
                 <tr>
                   <th>PartNo.</th>
@@ -148,7 +150,7 @@ class ListProducts extends React.Component {
               <tbody>
 
                 {this.state.products.map (product =>
-                  <tr>
+                  <tr key={product.key}>
                     <td>
                       <Link to = {`/show/${product.key}`}>{product.whatPN}</Link>
                     </td>
@@ -169,7 +171,7 @@ class ListProducts extends React.Component {
           </div>
           
 
-        </card>
+        </Card>
       </div>
     )
   }

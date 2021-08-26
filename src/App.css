@@ -14,7 +14,7 @@ dt {font-size: 15px;}
 
 dd {font-size: 20px;}
 
-td img {
+img {
   margin:10px;
 }
 
@@ -50,8 +50,8 @@ td img {
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0); /* this adds the "card" effect */
     padding: 0px;
     float: center;
-    align-items: center;
-    text-align: center;
+    align-items: left;
+    text-align: left;
     background-color: #f1f1f1;
   }
   
@@ -63,4 +63,5 @@ td img {
       margin-bottom: 20px;
     }
   }
+
 
