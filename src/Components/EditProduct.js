@@ -152,10 +152,10 @@ class EditProduct extends React.Component{
         }
         return(
             <div>
-                <card style ={cardStyles}>
+                <Card style ={cardStyles}>
                     <div className = "Button">
                         <Link to ="/list"> 
-                        <button class ="Edit-Button" >List items</button>
+                        <button className ="Edit-Button" >List items</button>
                         </Link>
                     </div>
                     &nbsp;
@@ -164,45 +164,45 @@ class EditProduct extends React.Component{
                         <img src = {this.state.product.image} height = "200" width = "200"/>
                         
                     </div>
-                    <div class= "panel panel-default">
-                        <h3 class="panel-title">{this.state.product.whatPN}</h3>
+                    <div className= "panel panel-default">
+                        <h3 className="panel-title">{this.state.product.whatPN}</h3>
                     </div>
 
 
                     <div>
-                        <div class="form-group">
-                        <label for="customer">Customer</label>
-                        <textArea class="form-control" name="customer" onChange={this.onChange} placeholder={this.state.product.customer} cols="80" rows="1">{customer}</textArea>
+                        <div className="form-group">
+                        <label>Customer</label>
+                        <textarea className="form-control" name="customer" onChange={this.onChange} placeholder={this.state.product.customer} cols="80" rows="1">{customer}</textarea>
                         </div>
                     </div>                    
                     <div>
-                        <div class="form-group">
-                        <label for="whatModel">Model No</label>
-                        <textArea class="form-control" name="whatModel" onChange={this.onChange} placeholder={this.state.product.whatModel} cols="80" rows="1">{whatModel}</textArea>
+                        <div className="form-group">
+                        <label>Model No</label>
+                        <textarea className="form-control" name="whatModel" onChange={this.onChange} placeholder={this.state.product.whatModel} cols="80" rows="1">{whatModel}</textarea>
                         </div>
                     </div>
                     <div>
-                        <div class="form-group">
-                        <label for="whatQty">Qty</label>
-                        <textArea class="form-control" name="whatQty" onChange={this.onChange} placeholder={this.state.product.whatQty} cols="80" rows="1">{whatQty}</textArea>
+                        <div className="form-group">
+                        <label>Qty</label>
+                        <textarea className="form-control" name="whatQty" onChange={this.onChange} placeholder={this.state.product.whatQty} cols="80" rows="1">{whatQty}</textarea>
                         </div>
                     </div>
                     <div>
-                        <div class="form-group">
-                        <label for="tgtPrice">Tgt Price</label>
-                        <textArea class="form-control" name="tgtPrice" onChange={this.onChange} placeholder={this.state.product.tgtPrice} cols="80" rows="1">{tgtPrice}</textArea>
+                        <div className="form-group">
+                        <label>Tgt Price</label>
+                        <textarea className="form-control" name="tgtPrice" onChange={this.onChange} placeholder={this.state.product.tgtPrice} cols="80" rows="1">{tgtPrice}</textarea>
                         </div>
                     </div>
                     <div>
-                        <div class="form-group">
-                        <label for="whatUse">Ship to</label>
-                        <textArea class="form-control" name="whatUse" onChange={this.onChange} placeholder={this.state.product.whatUse} cols="80" rows="1">{whatUse}</textArea>
+                        <div className="form-group">
+                        <label>Ship to</label>
+                        <textarea className="form-control" name="whatUse" onChange={this.onChange} placeholder={this.state.product.whatUse} cols="80" rows="1">{whatUse}</textarea>
                         </div>
                     </div>
                     <div>
-                        <div class="form-group">
-                        <label for="remark">Descriptions</label>
-                        <textArea class="form-control" name="remark" onChange={this.onChange} placeholder={this.state.product.remark} cols="80" rows="3">{remark}</textArea>
+                        <div className="form-group">
+                        <label>Descriptions</label>
+                        <textarea className="form-control" name="remark" onChange={this.onChange} placeholder={this.state.product.remark} cols="80" rows="3">{remark}</textarea>
                         </div>
                     </div>
                     <br></br>
@@ -214,10 +214,10 @@ class EditProduct extends React.Component{
                     </div>
                     
                     <div className="button>">
-                        <button class="Submit-Button" onClick={this.onSubmit}>Save All</button>
+                        <button className="Submit-Button" onClick={this.onSubmit}>Save All</button>
                     </div>
                     &nbsp;
-                </card>
+                </Card>
             </div>
         )
     }

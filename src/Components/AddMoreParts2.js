@@ -168,17 +168,16 @@ class AddMoreParts2 extends React.Component{
     onSubmit = async(e) => { //todo: must remmeber to do notification at "Done" in any of the pages
         e.preventDefault();
 
-        const {whatPN, whatQty, remark, tgtPrice} = this.state;
-        if (this.state.whatPN !== ''){
-
+        const {whatPN, whatQty, remark, tgtPrice, quotes} = this.state;
+        if (this.state.whatPN != ''){
             if (this.state.url == null){ //the default dummy icon picture
                 var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
                 this.state.url = url;
             }
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts")
-            .add({whatPN, whatQty, remark, tgtPrice});
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("morePictures")
-            .add({whatPN, image: this.state.url});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts").doc(whatPN)
+            .set({whatPN, whatQty, remark, tgtPrice, quotes});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("morePictures").doc(whatPN)
+            .set({whatPN, image: this.state.url});
             //console.log("onsubmit here2 :" + this.state.url);
         }
         this.props.history.push("/list");
@@ -186,12 +185,12 @@ class AddMoreParts2 extends React.Component{
 
     somemore = async(e) => {
         e.preventDefault();
-        const {whatPN, whatQty, remark, tgtPrice} = this.state;
+        const {whatPN, whatQty, remark, tgtPrice, quotes} = this.state;
         if (this.state.whatPN != ''){
-            await firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts")
-            .add({whatPN, whatQty, remark, tgtPrice});
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("morePictures")
-            .add({whatPN, image: this.state.url});
+            await firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts").doc(whatPN)
+            .set({whatPN, whatQty, remark, tgtPrice, quotes});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("morePictures").doc(whatPN)
+            .set({whatPN, image: this.state.url});
             this.props.history.push({pathname: '/moreparts', state: {docId: stallIdNo, emailId: emailUser}});
         }
         //e.target.name.reset();
