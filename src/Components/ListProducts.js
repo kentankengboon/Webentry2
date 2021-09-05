@@ -13,7 +13,7 @@ class ListProducts extends React.Component {
     
     this.checkUser();
 
-    this.ref = firebase.firestore().collection("req@gmail.com");
+    this.ref = firebase.firestore().collection("req@gmail.com").orderBy("whatPN");
     this.unsubscribe = null;
     this.state ={products:[]};
     //this.customerSelected = "";
@@ -63,7 +63,7 @@ class ListProducts extends React.Component {
     const products=[];
     var snapshot="";
     if (customerSelected == "All"){
-      snapshot = await firebase.firestore().collection("req@gmail.com").get();
+      snapshot = await firebase.firestore().collection("req@gmail.com").orderBy('whatPN').get();
     }else{
       snapshot = await firebase.firestore().collection("req@gmail.com").where('customer', '==', customerSelected).get();
     }
@@ -76,7 +76,7 @@ class ListProducts extends React.Component {
     });
     //console.log(products);
     this.setState({products});
-    
+
   }
 
 

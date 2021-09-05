@@ -19,6 +19,7 @@ let memberId4 = "";
 let memberId5 = "";
 //let memberCount =0;
 let mounted=0;
+//let whatPNupper= "";
 
 class AddProduct extends React.Component{
     constructor(props){
@@ -167,7 +168,7 @@ class AddProduct extends React.Component{
             this.state.url = url;
         }
         
-        var thisId = "";
+        //var thisId = "";
 
         //var today = new Date();
         //var dd = String(today.getDate()).padStart(2, '0');
@@ -186,7 +187,8 @@ class AddProduct extends React.Component{
         const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus} = this.state;
         //console.log("stallId " + stallIdNo + "   emailuser :" +  emailUser + "  todayFormatted: " + todayFormatted + "image: " + this.state.url);
         if (this.state.whatPN != ""){
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1});
+            const whatPNupper = this.state.whatPN.toUpperCase();
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1});
             /*   
             .then((docRef) =>{
                     this.setState({ //below is just to setState after added data
@@ -354,7 +356,11 @@ class AddProduct extends React.Component{
                     <div>
                         <div className="form-group"></div>
                         <label></label>
-                        <textarea className="form-control" name="whatPN" value={whatPN} onChange={this.onChange} placeholder="Part No" cols="80" rows="1">{whatPN}</textarea>
+                        <textarea className="form-control" name="whatPN" value={whatPN} onChange={this.onChange} placeholder="Part No" cols="80" rows="1">
+                            
+                            {whatPN}
+                            
+                            </textarea>
                     </div>
                     <div>
                         <div className="form-group"></div>

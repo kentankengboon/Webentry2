@@ -64,4 +64,8 @@ img {
     }
   }
 
+  .uppercase {
+    text-transform: uppercase;
+  }
+
 
