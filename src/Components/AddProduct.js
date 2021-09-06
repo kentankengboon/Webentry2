@@ -229,7 +229,7 @@ class AddProduct extends React.Component{
                     food: whatPN,
                     groupId:  "req@gmail.com",
                     image: this.state.url,
-                    index: -2,
+                    index: 0, //to registered an index of 0 when click notify alert which at mobile will lead you to editstall right away. then when back to food from editstall, it will go to index 0 which is the first item which is where the newly added item will show up
                     place: whatUse,
                     qty: whatQty,
                     remark: remark,
@@ -239,11 +239,11 @@ class AddProduct extends React.Component{
 
                 //const {gotMail} = this.state;
                 // 5 members at most (including sender himself)
-                if (memberId1 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId1).set({gotMail: 1});
-                if (memberId2 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId2).set({gotMail: 1});
-                if (memberId3 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId3).set({gotMail: 1});
-                if (memberId4 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId4).set({gotMail: 1});
-                if (memberId5 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId5).set({gotMail: 1});
+                if (memberId1 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId1).set({gotMail: -1});
+                if (memberId2 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId2).set({gotMail: -1});
+                if (memberId3 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId3).set({gotMail: -1});
+                if (memberId4 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId4).set({gotMail: -1});
+                if (memberId5 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId5).set({gotMail: -1});
         }
         this.props.history.push("/list");
 
