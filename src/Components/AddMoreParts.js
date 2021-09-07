@@ -185,8 +185,13 @@ class AddMoreParts extends React.Component{
         e.preventDefault();
         const {whatPN, whatQty, remark, tgtPrice, quotes} = this.state;
         if (this.state.whatPN != ''){
+            if (this.state.url == null){ //the default dummy icon picture
+                var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
+                this.state.url = url;
+            }
             await firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts").doc(whatPN)
             .set({whatPN, whatQty, remark, tgtPrice, quotes});
+            //////////////////// todo: error if no pictureMore attached. need to set dummy pic for those without ppictures
             firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("morePictures").doc(whatPN)
             .set({whatPN, image: this.state.url});
             this.props.history.push({pathname: '/moreparts2', state: {docId: stallIdNo, emailId2: emailUser}});

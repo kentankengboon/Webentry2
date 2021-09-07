@@ -229,7 +229,7 @@ class AddProduct extends React.Component{
                     food: whatPN,
                     groupId:  "req@gmail.com",
                     image: this.state.url,
-                    index: 0, //to registered an index of 0 when click notify alert which at mobile will lead you to editstall right away. then when back to food from editstall, it will go to index 0 which is the first item which is where the newly added item will show up
+                    index: 0, //to register an index of 0 when send notify alert, which when received at mobile will lead you to editstall right away. then when back to food from editstall, it will go to index 0 which is the first item which is where the newly added item will show up
                     place: whatUse,
                     qty: whatQty,
                     remark: remark,
