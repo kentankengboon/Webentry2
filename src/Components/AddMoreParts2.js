@@ -171,7 +171,8 @@ class AddMoreParts2 extends React.Component{
         const {whatPN, whatQty, remark, tgtPrice, quotes} = this.state;
         if (this.state.whatPN != ''){
             if (this.state.url == null){ //the default dummy icon picture
-                var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
+                var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsImage.jfif?alt=media&token=025014d3-9701-42df-8348-65efb113bcae"
+                //var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
                 this.state.url = url;
             }
             firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts").doc(whatPN)
@@ -188,7 +189,8 @@ class AddMoreParts2 extends React.Component{
         const {whatPN, whatQty, remark, tgtPrice, quotes} = this.state;
         if (this.state.whatPN != ''){
             if (this.state.url == null){ //the default dummy icon picture
-                var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
+                var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsImage.jfif?alt=media&token=025014d3-9701-42df-8348-65efb113bcae"
+                //var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
                 this.state.url = url;
             }
             await firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts").doc(whatPN)

@@ -43,9 +43,9 @@ class ListProducts extends React.Component {
   onCollectionUpdate = (querySnapshot) => {
     const products = [];
     querySnapshot.forEach((doc) => {
-      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image} = doc.data();
+      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId} = doc.data();
       products.push({
-        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image
+        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId
       });
     });
     //console.log(products);
@@ -69,9 +69,9 @@ class ListProducts extends React.Component {
     }
     //if (snapshot.empty){console.log("can't find doc. Doc empty")}else{console.log(snapshot)}
     snapshot.forEach(doc => {
-      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image} = doc.data();
+      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId} = doc.data();
       products.push({
-        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image
+        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId
       });
     });
     //console.log(products);
@@ -139,6 +139,7 @@ class ListProducts extends React.Component {
               <thead>
                 <tr>
                   <th>PartNo.</th>
+                  <th>OrderId</th>
                   <th>Model</th>
                   <th>Qty</th>
                   <th>Requestor</th>
@@ -154,6 +155,7 @@ class ListProducts extends React.Component {
                     <td>
                       <Link to = {`/show/${product.key}`}>{product.whatPN}</Link>
                     </td>
+                    <td>{product.stallId.substring(0, 17)}</td>
                     <td>{product.whatModel}</td>
                     <td>{product.whatQty}</td>
                     <td>{product.whoupload}</td>
