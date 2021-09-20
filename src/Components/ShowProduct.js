@@ -233,7 +233,7 @@ class ShowProduct extends React.Component{
             remark: this.state.product.remark,
             stall: this.state.product.whatModel,
             stallId: this.state.product.stallId,
-            jobRefNo: this.state.product.jonRefNo
+            jobRefNo: this.state.product.jobRefNo
         })
     }
     poGo(){
