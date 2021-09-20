@@ -43,9 +43,9 @@ class ListProducts extends React.Component {
   onCollectionUpdate = (querySnapshot) => {
     const products = [];
     querySnapshot.forEach((doc) => {
-      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId} = doc.data();
+      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId, jobRefNo} = doc.data();
       products.push({
-        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId
+        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId, jobRefNo
       });
     });
     //console.log(products);
@@ -69,9 +69,9 @@ class ListProducts extends React.Component {
     }
     //if (snapshot.empty){console.log("can't find doc. Doc empty")}else{console.log(snapshot)}
     snapshot.forEach(doc => {
-      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId} = doc.data();
+      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId, jobRefNo} = doc.data();
       products.push({
-        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId
+        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId, jobRefNo
       });
     });
     //console.log(products);
@@ -103,7 +103,7 @@ class ListProducts extends React.Component {
     //borderLeft: '50px solid black',
     borderRadius: '20px'
     }
-
+          // <td>{product.stallId.substring(0, 17)}</td> // replaced by jobRefNo below
     return(
       <div>
         <Card style = {cardStyles}>
@@ -155,7 +155,9 @@ class ListProducts extends React.Component {
                     <td>
                       <Link to = {`/show/${product.key}`}>{product.whatPN}</Link>
                     </td>
-                    <td>{product.stallId.substring(0, 17)}</td>
+                    
+                    <td>{product.jobRefNo}</td>
+                    
                     <td>{product.whatModel}</td>
                     <td>{product.whatQty}</td>
                     <td>{product.whoupload}</td>

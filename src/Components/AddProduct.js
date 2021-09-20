@@ -46,6 +46,7 @@ class AddProduct extends React.Component{
             poUploaded: '',
             poStatus: '',
             image: null,
+            jobRefNo: '',
         }
 
 
@@ -185,11 +186,11 @@ class AddProduct extends React.Component{
         //console.log("url here: " + url)
         //console.log("this state Url: " + url)
         //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
-        const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus} = this.state;
+        const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo} = this.state;
         //console.log("stallId " + stallIdNo + "   emailuser :" +  emailUser + "  todayFormatted: " + todayFormatted + "image: " + this.state.url);
         if (this.state.whatPN != ""){
             const whatPNupper = this.state.whatPN.toUpperCase();
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo});
             /*   
             .then((docRef) =>{
                     this.setState({ //below is just to setState after added data
@@ -235,7 +236,8 @@ class AddProduct extends React.Component{
                     qty: whatQty,
                     remark: remark,
                     stall: whatModel,
-                    stallId: stallIdNo
+                    stallId: stallIdNo,
+                    jobRefNo: jobRefNo
                 })
 
                 //const {gotMail} = this.state;
@@ -272,8 +274,8 @@ class AddProduct extends React.Component{
             }
             e.preventDefault();
             //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
-            const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus} = this.state;
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1});
+            const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo} = this.state;
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo});
             firebase.firestore().collection("NotificationTrigger").add({
                 food: whatPN,
                 groupId:  "req@gmail.com",
@@ -283,7 +285,8 @@ class AddProduct extends React.Component{
                 qty: whatQty,
                 remark: remark,
                 stall: whatModel,
-                stallId: stallIdNo
+                stallId: stallIdNo,
+                jobRefNo: jobRefNo
             })
             //this.props.history.push("/moreparts");
             //res.render( 'moreparts', { stallIdNo: stallIdNo } );
@@ -304,7 +307,7 @@ class AddProduct extends React.Component{
 
     render (){
         //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, since, whenAsk, customer, tgtPrice} = this.state;
-        const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice} = this.state;
+        const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, jobRefNo} = this.state;
         const cardStyles = {
             width: '40rem',
             height: 'auto',
@@ -341,15 +344,17 @@ class AddProduct extends React.Component{
                         <div className="form-group"></div>
                         <label>Enter part info below:</label>
                     </div>
-
+<p>
                     <select name="customerOption" id="customerPicked">
                         <option value="1">Select customer</option>
                         <option value="2">Courts</option>
                         <option value="3">Harvey Norman</option>
                         <option value="4">Asus</option>
-                        <option value="4">B2C</option>
-                    </select>
-
+                        <option value="5">B2C</option>
+                    </select> 
+ </p>                   
+                    <textarea className="form-control" name="jobRefNo" value={jobRefNo} onChange={this.onChange} placeholder="Job Ref No" cols="80" rows="1">{jobRefNo}</textarea>
+                    
                     <div>
                         <div className="form-group"></div>
                         <label></label>

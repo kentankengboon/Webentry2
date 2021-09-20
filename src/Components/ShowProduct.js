@@ -232,9 +232,16 @@ class ShowProduct extends React.Component{
             qty: this.state.product.whatQty,
             remark: this.state.product.remark,
             stall: this.state.product.whatModel,
-            stallId: this.state.product.stallId
+            stallId: this.state.product.stallId,
+            jobRefNo: this.state.product.jonRefNo
         })
     }
+    poGo(){
+        firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({poStatus: "pending approval"})
+        firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({stage: 3})
+        this.props.history.push("/list");
+    }
+
     render (){
         const cardStyles = {
             width: '40rem',
@@ -328,7 +335,13 @@ class ShowProduct extends React.Component{
                         </div>
                     </div>
 
-                    <dt>&nbsp;&nbsp;&nbsp;{this.state.poExisted}</dt>
+                    <dt>&nbsp;&nbsp;&nbsp;{this.state.poExisted}
+
+                        &nbsp;&nbsp;&nbsp;
+                        <button className ="Submit-Button" onClick={this.poGo.bind(this, this.state.key)}>PO Go</button>
+
+                    </dt>
+
                     <br></br>
                     <div className="upload-data">
                         &nbsp;&nbsp;
