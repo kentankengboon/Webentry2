@@ -62,10 +62,13 @@ class ListProducts extends React.Component {
     
     const products=[];
     var snapshot="";
-    if (customerSelected == "All"){
-      snapshot = await firebase.firestore().collection("req@gmail.com").orderBy('whatPN').get();
+    if (customerSelected == "All"){snapshot = await firebase.firestore().collection("req@gmail.com").orderBy('whatPN').get();
     }else{
-      snapshot = await firebase.firestore().collection("req@gmail.com").where('customer', '==', customerSelected).get();
+      if (customerSelected == "OrderId"){snapshot = await firebase.firestore().collection("req@gmail.com").orderBy('jobRefNo').get();}
+      else{
+        if(customerSelected == "non-Archived"){snapshot = await firebase.firestore().collection("req@gmail.com").where('since', '!=', "archived").get();}
+        else{snapshot = await firebase.firestore().collection("req@gmail.com").where('customer', '==', customerSelected).get();}
+      }
     }
     //if (snapshot.empty){console.log("can't find doc. Doc empty")}else{console.log(snapshot)}
     snapshot.forEach(doc => {
@@ -118,11 +121,12 @@ class ListProducts extends React.Component {
             &nbsp;&nbsp;&nbsp;
             <select name="customerOption" id="customerPicked" onChange={this.onChange}>
               <option value="1">All</option>
-              <option value="2">Courts</option>
-              <option value="3">Harvey Norman</option>
-              <option value="4">Asus</option>
-              <option value="5">B2C</option>
-              <option value="6">Archived</option>
+              <option value="2">OrderId</option>
+              <option value="3">Courts</option>
+              <option value="4">Harvey Norman</option>
+              <option value="5">Asus</option>
+              <option value="6">B2C</option>
+              <option value="7">non-Archived</option>
             </select>
 
           </div>
