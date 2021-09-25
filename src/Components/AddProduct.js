@@ -17,6 +17,18 @@ let memberId2 = "";
 let memberId3 = "";
 let memberId4 = "";
 let memberId5 = "";
+////////////// added more members
+let memberId6 = "";
+let memberId7 = "";
+let memberId8 = "";
+let memberId9 = "";
+let memberId10 = "";
+let memberId11 = "";
+let memberId12 = "";
+let memberId13 = "";
+let memberId14 = "";
+let memberId15 = "";
+
 //let memberCount =0;
 let mounted=0;
 //let whatPNupper= "";
@@ -32,10 +44,10 @@ class AddProduct extends React.Component{
             //memberCount: 0,
             whouploadId: '',
             whoupload: '',
-            whatUse: '',
+            whatUse: 'Singapore',
             whatModel: '',
             whatPN: '',
-            whatQty: '',
+            whatQty: '1',
             remark: '',
             since: '',
             whenAsk: '',
@@ -48,8 +60,6 @@ class AddProduct extends React.Component{
             image: null,
             jobRefNo: '',
         }
-
-
 
         todayStamp = new Date();
         var dd = String(todayStamp.getDate()).padStart(2, '0');
@@ -94,8 +104,17 @@ class AddProduct extends React.Component{
             if (m===3) {memberId3 = this.state.product.member3; console.log("member3 " + memberId3)}
             if (m===4) {memberId4 = this.state.product.member4; console.log("member4 " + memberId4)}
             if (m===5) {memberId5 = this.state.product.member5; console.log("member5 " + memberId5)}
-            //whichMember = "member" + String(m);  
-            //console.log("member " + m + " =" + this.state.product.$whichMember)
+            ///////////////////////// added more member here
+            if (m===6) {memberId6 = this.state.product.member6; console.log("member6 " + memberId6)}
+            if (m===7) {memberId7 = this.state.product.member7; console.log("member7 " + memberId7)}
+            if (m===8) {memberId8 = this.state.product.member8; console.log("member8 " + memberId8)}
+            if (m===9) {memberId9 = this.state.product.member9; console.log("member9 " + memberId9)}
+            if (m===10) {memberId10 = this.state.product.member10; console.log("member10 " + memberId10)}
+            if (m===11) {memberId11 = this.state.product.member11; console.log("member11 " + memberId11)}
+            if (m===12) {memberId12 = this.state.product.member12; console.log("member12 " + memberId12)}
+            if (m===13) {memberId13 = this.state.product.member13; console.log("member13 " + memberId13)}
+            if (m===14) {memberId14 = this.state.product.member14; console.log("member14 " + memberId14)}
+            if (m===15) {memberId15 = this.state.product.member15; console.log("member15 " + memberId15)}
         }
         //this.setState({});
     }
@@ -241,13 +260,32 @@ class AddProduct extends React.Component{
                 })
 
                 //const {gotMail} = this.state;
-                // 5 members at most (including sender himself)
+                // 10 members at most (including sender himself)
                 if (memberId1 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId1).set({gotMail: -1});
                 if (memberId2 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId2).set({gotMail: -1});
                 if (memberId3 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId3).set({gotMail: -1});
                 if (memberId4 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId4).set({gotMail: -1});
                 if (memberId5 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId5).set({gotMail: -1});
-        }
+                /////////////////////////////////////// added more member here
+                if (memberId6 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId6).set({gotMail: -1});
+                if (memberId7 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId7).set({gotMail: -1});
+                if (memberId8 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId8).set({gotMail: -1});
+                if (memberId9 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId9).set({gotMail: -1});
+                if (memberId10 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId10).set({gotMail: -1});
+                if (memberId11 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId11).set({gotMail: -1});
+                if (memberId12 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId12).set({gotMail: -1});
+                if (memberId13 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId13).set({gotMail: -1});
+                if (memberId14 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId14).set({gotMail: -1});
+                if (memberId15 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId15).set({gotMail: -1});
+
+
+
+                /////////////////////////////////////// must do for submitSomeMore also right????? (done below)
+                /////////////////////////////////////////  then must do for PO upload at ShowProduct
+
+
+
+            }
         this.props.history.push("/list");
 
         if (this.state.url1 != null){
@@ -274,8 +312,11 @@ class AddProduct extends React.Component{
             }
             e.preventDefault();
             //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
+            const whatPNupper = this.state.whatPN.toUpperCase();
             const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo} = this.state;
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo});
+            
+            /* shut down for a while
             firebase.firestore().collection("NotificationTrigger").add({
                 food: whatPN,
                 groupId:  "req@gmail.com",
@@ -288,9 +329,31 @@ class AddProduct extends React.Component{
                 stallId: stallIdNo,
                 jobRefNo: jobRefNo
             })
+            */
             //this.props.history.push("/moreparts");
             //res.render( 'moreparts', { stallIdNo: stallIdNo } );
             
+            if (memberId1 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId1).set({gotMail: -1});
+            if (memberId2 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId2).set({gotMail: -1});
+            if (memberId3 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId3).set({gotMail: -1});
+            if (memberId4 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId4).set({gotMail: -1});
+            if (memberId5 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId5).set({gotMail: -1});
+            /////////////////////////////////////// added more member here
+            if (memberId6 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId6).set({gotMail: -1});
+            if (memberId7 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId7).set({gotMail: -1});
+            if (memberId8 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId8).set({gotMail: -1});
+            if (memberId9 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId9).set({gotMail: -1});
+            if (memberId10 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId10).set({gotMail: -1});
+            if (memberId11 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId11).set({gotMail: -1});
+            if (memberId12 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId12).set({gotMail: -1});
+            if (memberId13 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId13).set({gotMail: -1});
+            if (memberId14 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId14).set({gotMail: -1});
+            if (memberId15 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId15).set({gotMail: -1});
+
+
+
+
+
             if (this.state.url1 != null){
                 //console.log("here at url1 writing");
                 // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done

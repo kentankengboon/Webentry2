@@ -17,7 +17,7 @@ let memberId2 = "";
 let memberId3 = "";
 let memberId4 = "";
 let memberId5 = "";
-//let memberCount =0;
+let memberCount =0;
 
 // AppMoreParts2 created just to use this new page to erase existing input field data as I dont know how to actually do it
 class AddMoreParts2 extends React.Component{
@@ -45,9 +45,14 @@ class AddMoreParts2 extends React.Component{
             poUploaded: '',
             poStatus: '',
             image: null,
+            whatPN1: '', //<< added
+            whatPN2: '',
+            whatPN3: '',
+            whatPN4: '',
         }
 
-        this.checkMember();
+        // this.checkMember(); // shut it down, no use. only needed at AddProduct.js
+        this.getMorePartsInfo();
 
         todayStamp = new Date();
         var dd = String(todayStamp.getDate()).padStart(2, '0');
@@ -81,6 +86,19 @@ class AddMoreParts2 extends React.Component{
         });
       */  
     }
+
+    //<< added
+    async getMorePartsInfo (){
+        console.log("more part whatPN1 have?   ")
+        const morePartsCheck = firebase.firestore().collection("req@gmail.com").doc(this.props.location.state.docId);
+        await morePartsCheck.get().then((doc)=>{
+            if (doc.exists){
+            this.setState({morePart: doc.data(),})
+            console.log("more part whatPN1:   " + this.state.morePart.whatPN1)
+            }
+        });
+    }
+
 
     async checkMember ()  {
         const refMember = firebase.firestore().collection("groups").doc("req@gmail.com");
@@ -175,11 +193,37 @@ class AddMoreParts2 extends React.Component{
                 //var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
                 this.state.url = url;
             }
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts").doc(whatPN)
-            .set({whatPN, whatQty, remark, tgtPrice, quotes});
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("morePictures").doc(whatPN)
-            .set({whatPN, image: this.state.url});
+            const whatPNupper = this.state.whatPN.toUpperCase();
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts").doc(whatPNupper)
+            .set({whatPN: whatPNupper, whatQty, remark, tgtPrice, quotes});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("morePictures").doc(whatPNupper)
+            .set({whatPN: whatPNupper, image: this.state.url});
             //console.log("onsubmit here2 :" + this.state.url);
+
+            if (this.state.morePart.whatPN1 == "") { //<< added
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
+                .update({whatPN1: whatPN.toUpperCase()});
+            }   else{
+                    if (this.state.morePart.whatPN2 == null) { //<< added
+                    firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
+                    .update({whatPN2: whatPN.toUpperCase()});
+                    }   else{
+                        if (this.state.morePart.whatPN3 == null) { //<< added
+                        firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
+                        .update({whatPN3: whatPN.toUpperCase()});
+                        }   else{
+                            if (this.state.morePart.whatPN4 == null) { //<< added
+                            firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
+                            .update({whatPN4: whatPN.toUpperCase()});
+                            }   
+                        }
+                    }
+                }
+
+
+
+
+
         }
         this.props.history.push("/list");
     }
@@ -193,10 +237,11 @@ class AddMoreParts2 extends React.Component{
                 //var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
                 this.state.url = url;
             }
-            await firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts").doc(whatPN)
-            .set({whatPN, whatQty, remark, tgtPrice, quotes});
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("morePictures").doc(whatPN)
-            .set({whatPN, image: this.state.url});
+            const whatPNupper = this.state.whatPN.toUpperCase();
+            await firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts").doc(whatPNupper)
+            .set({whatPN: whatPNupper, whatQty, remark, tgtPrice, quotes});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("morePictures").doc(whatPNupper)
+            .set({whatPN: whatPNupper, image: this.state.url});
             this.props.history.push({pathname: '/moreparts', state: {docId: stallIdNo, emailId: emailUser}});
         }
         //e.target.name.reset();
@@ -205,6 +250,29 @@ class AddMoreParts2 extends React.Component{
         //e.target.value = "";
         //e.target.name = "";
         //this.setState({whatPN: ''});
+
+        if (this.state.morePart.whatPN1 == null) { //<< added
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
+            .update({whatPN1: whatPN.toUpperCase()});
+        }   else{
+                if (this.state.morePart.whatPN2 == null) { //<< added
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
+                .update({whatPN2: whatPN.toUpperCase()});
+                }   else{
+                    if (this.state.morePart.whatPN3 == null) { //<< added
+                    firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
+                    .update({whatPN3: whatPN.toUpperCase()});
+                    }   else{
+                        if (this.state.morePart.whatPN4 == null) { //<< added
+                        firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
+                        .update({whatPN4: whatPN.toUpperCase()});
+                        }   
+                    }
+                }
+            }
+
+
+
     }
 
     render (){

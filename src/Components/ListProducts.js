@@ -32,7 +32,6 @@ class ListProducts extends React.Component {
     });
   }
 
-
   componentDidMount(){
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
     //customerSelected = "Harvey Norman"
@@ -40,6 +39,7 @@ class ListProducts extends React.Component {
     //  this.unsubscribe = this.ref.where('customer', '==', customerSelected).onSnapshot(this.onCollectionUpdate);
     //} else {this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);}
   }
+  
   onCollectionUpdate = (querySnapshot) => {
     const products = [];
     querySnapshot.forEach((doc) => {
@@ -79,10 +79,7 @@ class ListProducts extends React.Component {
     });
     //console.log(products);
     this.setState({products});
-
   }
-
-
 
   signOut(){
     auth.signOut();

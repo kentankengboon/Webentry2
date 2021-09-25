@@ -7,6 +7,23 @@ import {Link} from 'react-router-dom';
 //let todayStamp = new Date();
 let poExisted = "";
 
+let m = 0;
+let memberId1 = "";
+let memberId2 = "";
+let memberId3 = "";
+let memberId4 = "";
+let memberId5 = "";
+let memberId6 = "";
+let memberId7 = "";
+let memberId8 = "";
+let memberId9 = "";
+let memberId10 = "";
+let memberId11 = "";
+let memberId12 = "";
+let memberId13 = "";
+let memberId14 = "";
+let memberId15 = "";
+
 
 class ShowProduct extends React.Component{
     constructor(props){
@@ -18,6 +35,7 @@ class ShowProduct extends React.Component{
             key: '',
             //keyMsg: ''
         }
+        this.checkMember();
     }
     async componentDidMount(){
         const ref = firebase.firestore().collection("req@gmail.com").doc(this.props.match.params.id);
@@ -58,36 +76,6 @@ class ShowProduct extends React.Component{
           });
           
 
-        /*
-          firebase.storage().ref(`${this.state.product.stallId}`).child("PO.pdf").getMetadata()
-          .then((metadata) => {
-              console.log ("metadata yes");
-            // Metadata now contains the metadata for 'images/forest.jpg'
-          })
-          .catch((error) => {
-            console.log ("metadata No");
-            // Uh-oh, an error occurred!
-          });
-          //console.log(Len)
-          *?
-
-          /*
-          //const storageFile = bucket.file('path/to/file.txt');
-          firebase.storage().ref(`${this.state.product.stallId}`).child("PO.pdf")
-            .exists()
-            .then((exists) => {
-                  if (exists[0]) {
-                    console.log("File exists");
-                  } else {
-                    console.log("File does not exist");
-                  }
-               })
-            */
-
-          //var Len = firebase.storage().ref(`${this.state.product.stallId}`).child("PO.pdf").name;
-          //console.log("length: " + Len);
-
-
         if (this.state.product.stage >= 3){
             await firebase.storage().ref(`${this.state.product.stallId}`).child("PO.pdf")
             .getDownloadURL().then(urlPO=>{
@@ -104,6 +92,38 @@ class ShowProduct extends React.Component{
         //console.log("when start: " + poExisted);
         this.setState({poExisted});
     }
+
+
+    async checkMember ()  {
+        const refMember = firebase.firestore().collection("groups").doc("req@gmail.com");
+        await refMember.get().then((doc)=>{
+            if (doc.exists){
+                const document = doc.data();
+                this.setState({
+                    product: doc.data(),
+                })
+            }else{console.log("No such document")}
+        });
+        for(m=1; m < this.state.product.memberCount + 1; m++){
+            if (m===1) {memberId1 = this.state.product.member1; console.log("member1 " + memberId1)}
+            if (m===2) {memberId2 = this.state.product.member2; console.log("member2 " + memberId2)}
+            if (m===3) {memberId3 = this.state.product.member3; console.log("member3 " + memberId3)}
+            if (m===4) {memberId4 = this.state.product.member4; console.log("member4 " + memberId4)}
+            if (m===5) {memberId5 = this.state.product.member5; console.log("member5 " + memberId5)}
+            if (m===6) {memberId6 = this.state.product.member6; console.log("member6 " + memberId6)}
+            if (m===7) {memberId7 = this.state.product.member7; console.log("member7 " + memberId7)}
+            if (m===8) {memberId8 = this.state.product.member8; console.log("member8 " + memberId8)}
+            if (m===9) {memberId9 = this.state.product.member9; console.log("member9 " + memberId9)}
+            if (m===10) {memberId10 = this.state.product.member10; console.log("member10 " + memberId10)}
+            if (m===11) {memberId11 = this.state.product.member11; console.log("member11 " + memberId11)}
+            if (m===12) {memberId12 = this.state.product.member12; console.log("member12 " + memberId12)}
+            if (m===13) {memberId13 = this.state.product.member13; console.log("member13 " + memberId13)}
+            if (m===14) {memberId14 = this.state.product.member14; console.log("member14 " + memberId14)}
+            if (m===15) {memberId15 = this.state.product.member15; console.log("member16 " + memberId15)}
+        }
+        //this.setState({});
+    }
+
     
     async delete(id){ // can we delete the whole folder iunder email+since folder?
 
@@ -235,6 +255,27 @@ class ShowProduct extends React.Component{
             stallId: this.state.product.stallId,
             jobRefNo: this.state.product.jobRefNo
         })
+
+        ////////////// todo: here set gotMail of this PO'ed item to 1 so that it trigger red message alert at Food.dart.
+        ///////////// but must set for all members of the group wo. Can use ForEach to do that?
+        ///////////// go see how add new did that. when add new, gotMail was set to -1
+        ///////////// gotMail = -1 means new item at food.dart
+        const stallIdNo = this.state.key;
+            if (memberId1 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId1).set({gotMail: -1});
+            if (memberId2 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId2).set({gotMail: -1});
+            if (memberId3 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId3).set({gotMail: -1});
+            if (memberId4 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId4).set({gotMail: -1});
+            if (memberId5 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId5).set({gotMail: -1});
+            if (memberId6 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId6).set({gotMail: -1});
+            if (memberId7 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId7).set({gotMail: -1});
+            if (memberId8 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId8).set({gotMail: -1});
+            if (memberId9 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId9).set({gotMail: -1});
+            if (memberId10 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId10).set({gotMail: -1});
+            if (memberId11 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId11).set({gotMail: -1});
+            if (memberId12 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId12).set({gotMail: -1});
+            if (memberId13 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId13).set({gotMail: -1});
+            if (memberId14 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId14).set({gotMail: -1});
+            if (memberId15 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId15).set({gotMail: -1});
     }
     poGo(){
         firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({poStatus: "pending approval"})
