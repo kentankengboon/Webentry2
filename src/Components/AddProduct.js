@@ -59,6 +59,8 @@ class AddProduct extends React.Component{
             poStatus: '',
             image: null,
             jobRefNo: '',
+            condCode: '',
+            //customerSelected: ''
         }
 
         todayStamp = new Date();
@@ -198,7 +200,7 @@ class AddProduct extends React.Component{
         //var tttt = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         //today = yyyy + '-' + mm + '-' + dd + " " + tttt;
        
-        var customerSelect = document.getElementById("customerPicked");
+        const customerSelect = document.getElementById("customerPicked");
         customerSelected = customerSelect.options[customerSelect.selectedIndex].text;
 
         e.preventDefault();
@@ -209,7 +211,14 @@ class AddProduct extends React.Component{
         //console.log("stallId " + stallIdNo + "   emailuser :" +  emailUser + "  todayFormatted: " + todayFormatted + "image: " + this.state.url);
         if (this.state.whatPN != ""){
             const whatPNupper = this.state.whatPN.toUpperCase();
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo});
+            var cusCode;
+            // below code must tie in all places where stage get updated
+            if (customerSelected == "Select customer"){cusCode = "XXX"}
+            if (customerSelected == "Harvey Norman"){cusCode = "HVN"}
+            if (customerSelected == "Courts"){cusCode = "COU"}
+            if (customerSelected == "Asus"){cusCode = "ASU"}
+            if (customerSelected == "B2C"){cusCode = "B2C"}
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"]});
             /*   
             .then((docRef) =>{
                     this.setState({ //below is just to setState after added data
@@ -310,11 +319,21 @@ class AddProduct extends React.Component{
                 //this.setState({url})
                 this.state.url = url;
             }
+
+            const customerSelect = document.getElementById("customerPicked");
+            customerSelected = customerSelect.options[customerSelect.selectedIndex].text;
             e.preventDefault();
             //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
             const whatPNupper = this.state.whatPN.toUpperCase();
+            var cusCode;
+            // below code must tie in all places where stage get updated
+            if (customerSelected == "Select customer"){cusCode = "XXX"}
+            if (customerSelected == "Harvey Norman"){cusCode = "HVN"}
+            if (customerSelected == "Courts"){cusCode = "COU"}
+            if (customerSelected == "Asus"){cusCode = "ASU"}
+            if (customerSelected == "B2C"){cusCode = "B2C"}
             const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo} = this.state;
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"]});
             
             /* shut down for a while
             firebase.firestore().collection("NotificationTrigger").add({

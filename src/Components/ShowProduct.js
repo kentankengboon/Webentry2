@@ -39,7 +39,7 @@ class ShowProduct extends React.Component{
     }
     async componentDidMount(){
         const ref = firebase.firestore().collection("req@gmail.com").doc(this.props.match.params.id);
-        ref.get().then((doc)=>{
+        await ref.get().then((doc)=>{
             if (doc.exists){
                 this.setState({
                     product: doc.data(),
@@ -49,6 +49,7 @@ class ShowProduct extends React.Component{
             }else{console.log("No such document")}
         });
         
+//console.log("customer_a:   " + this.state.product.customer)     
         const pictures=[];
         var snapshotPic = await firebase.firestore().collection("req@gmail.com").doc(this.props.match.params.id).collection("pictures").get();
         snapshotPic.forEach(docPic => {
@@ -61,7 +62,7 @@ class ShowProduct extends React.Component{
           //console.log("pictuer map?:   " + pictures);
           //this.state.pictures.map (picture => console.log(picture.image))
         
-        
+//console.log("customer1a:   " + this.state.product.customer)        
         const refMsg = firebase.firestore().collection("req@gmail.com").doc(this.props.match.params.id).collection("messages").doc("messages");
         refMsg.get().then((docMsg) => {
             if (docMsg.exists){
@@ -75,6 +76,7 @@ class ShowProduct extends React.Component{
             }
           });
           
+//console.log("customer2a:   " + this.state.product.customer)
 
         if (this.state.product.stage >= 3){
             await firebase.storage().ref(`${this.state.product.stallId}`).child("PO.pdf")
@@ -238,6 +240,8 @@ class ShowProduct extends React.Component{
             //once PO re uploaded, it doesnt care if previuosly approved or what stage, it will re-state PO pending approval and just write/re-write stage to 3
             firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({poStatus: "pending approval"})
             firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({stage: 3})
+            //console.log("customer3:   " + this.state.product.customer)     
+            firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({condCode: [this.state.product.customer+"ARN", "3ARN"]});
         })
 
         }
@@ -280,6 +284,7 @@ class ShowProduct extends React.Component{
     poGo(){
         firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({poStatus: "pending approval"})
         firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({stage: 3})
+        firebase.firestore().collection("req@gmail.com").doc(this.state.key).update({condCode: [this.state.product.customer+"ARN", "3ARN"]});
         this.props.history.push("/list");
     }
 
