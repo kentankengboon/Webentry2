@@ -218,7 +218,7 @@ class AddProduct extends React.Component{
             if (customerSelected == "Courts"){cusCode = "COU"}
             if (customerSelected == "Asus"){cusCode = "ASU"}
             if (customerSelected == "B2C"){cusCode = "B2C"}
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"]});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"]});
             /*   
             .then((docRef) =>{
                     this.setState({ //below is just to setState after added data
@@ -289,7 +289,7 @@ class AddProduct extends React.Component{
 
 
 
-                /////////////////////////////////////// must do for submitSomeMore also right????? (done below)
+                /////////////////////////////////////// must do this gotMAil for submitSomeMore also right????? (done below)
                 /////////////////////////////////////////  then must do for PO upload at ShowProduct
 
 
@@ -333,7 +333,7 @@ class AddProduct extends React.Component{
             if (customerSelected == "Asus"){cusCode = "ASU"}
             if (customerSelected == "B2C"){cusCode = "B2C"}
             const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo} = this.state;
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayFormatted, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"]});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"]});
             
             /* shut down for a while
             firebase.firestore().collection("NotificationTrigger").add({
