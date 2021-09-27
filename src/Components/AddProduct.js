@@ -201,7 +201,7 @@ class AddProduct extends React.Component{
         //today = yyyy + '-' + mm + '-' + dd + " " + tttt;
        
         const customerSelect = document.getElementById("customerPicked");
-        customerSelected = customerSelect.options[customerSelect.selectedIndex].text;
+        customerSelected = await customerSelect.options[customerSelect.selectedIndex].text;
 
         e.preventDefault();
         //console.log("url here: " + url)
@@ -321,7 +321,7 @@ class AddProduct extends React.Component{
             }
 
             const customerSelect = document.getElementById("customerPicked");
-            customerSelected = customerSelect.options[customerSelect.selectedIndex].text;
+            customerSelected = await customerSelect.options[customerSelect.selectedIndex].text;
             e.preventDefault();
             //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
             const whatPNupper = this.state.whatPN.toUpperCase();

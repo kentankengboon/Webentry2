@@ -199,18 +199,22 @@ class AddMoreParts extends React.Component{
             if (this.state.morePart.whatPN1 == null) { //<< added
                 firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
                 .update({whatPN1: whatPN.toUpperCase()});
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 1});
             }   else{
                     if (this.state.morePart.whatPN2 == null) { //<< added
                     firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
                     .update({whatPN2: whatPN.toUpperCase()});
+                    firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 2});
                     }   else{
                         if (this.state.morePart.whatPN3 == null) { //<< added
                         firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
                         .update({whatPN3: whatPN.toUpperCase()});
+                        firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 3});
                         }   else{
                             if (this.state.morePart.whatPN4 == null) { //<< added
                             firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
                             .update({whatPN4: whatPN.toUpperCase()});
+                            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 4});
                             }   
                         }
                     }
@@ -248,18 +252,22 @@ class AddMoreParts extends React.Component{
         if (this.state.morePart.whatPN1 == null) { //<< added
             firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
             .update({whatPN1: whatPN.toUpperCase()});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 1});
         }   else{
                 if (this.state.morePart.whatPN2 == null) { //<< added
                 firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
                 .update({whatPN2: whatPN.toUpperCase()});
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 2});
                 }   else{
                     if (this.state.morePart.whatPN3 == null) { //<< added
                     firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
                     .update({whatPN3: whatPN.toUpperCase()});
+                    firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 3});
                     }   else{
                         if (this.state.morePart.whatPN4 == null) { //<< added
                         firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
                         .update({whatPN4: whatPN.toUpperCase()});
+                        firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 4});
                         }   
                     }
                 }
