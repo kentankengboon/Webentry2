@@ -11,6 +11,7 @@ let stallIdNo = "";
 let todayStamp = "";
 let todayId = "";
 let customerSelected = "";
+let categorySelected = "";
 let m = 0;
 let memberId1 = "";
 let memberId2 = "";
@@ -28,6 +29,11 @@ let memberId12 = "";
 let memberId13 = "";
 let memberId14 = "";
 let memberId15 = "";
+let urlCount = 0;
+let url1a = "";
+let url1b = "";
+let url1c = "";
+let url1d = "";
 
 //let memberCount =0;
 let mounted=0;
@@ -37,7 +43,7 @@ class AddProduct extends React.Component{
     constructor(props){
         super(props);
         this.checkUser();
-
+        urlCount = 0;
         this.ref = firebase.firestore().collection("req@gmail.com"); // todo: see if can add doc(stallIdNo) here to force a fixed docId
         this.state = {
             product: [],
@@ -60,6 +66,7 @@ class AddProduct extends React.Component{
             image: null,
             jobRefNo: '',
             condCode: '',
+            category: '',
             //customerSelected: ''
         }
 
@@ -101,22 +108,22 @@ class AddProduct extends React.Component{
         });
         for(m=1; m < this.state.product.memberCount + 1; m++){
             //console.log ("memberCount: " + this.state.product.memberCount)
-            if (m===1) {memberId1 = this.state.product.member1; console.log("member1 " + memberId1)}
-            if (m===2) {memberId2 = this.state.product.member2; console.log("member2 " + memberId2)}
-            if (m===3) {memberId3 = this.state.product.member3; console.log("member3 " + memberId3)}
-            if (m===4) {memberId4 = this.state.product.member4; console.log("member4 " + memberId4)}
-            if (m===5) {memberId5 = this.state.product.member5; console.log("member5 " + memberId5)}
+            if (m===1) {memberId1 = this.state.product.member1}
+            if (m===2) {memberId2 = this.state.product.member2}
+            if (m===3) {memberId3 = this.state.product.member3}
+            if (m===4) {memberId4 = this.state.product.member4}
+            if (m===5) {memberId5 = this.state.product.member5}
             ///////////////////////// added more member here
-            if (m===6) {memberId6 = this.state.product.member6; console.log("member6 " + memberId6)}
-            if (m===7) {memberId7 = this.state.product.member7; console.log("member7 " + memberId7)}
-            if (m===8) {memberId8 = this.state.product.member8; console.log("member8 " + memberId8)}
-            if (m===9) {memberId9 = this.state.product.member9; console.log("member9 " + memberId9)}
-            if (m===10) {memberId10 = this.state.product.member10; console.log("member10 " + memberId10)}
-            if (m===11) {memberId11 = this.state.product.member11; console.log("member11 " + memberId11)}
-            if (m===12) {memberId12 = this.state.product.member12; console.log("member12 " + memberId12)}
-            if (m===13) {memberId13 = this.state.product.member13; console.log("member13 " + memberId13)}
-            if (m===14) {memberId14 = this.state.product.member14; console.log("member14 " + memberId14)}
-            if (m===15) {memberId15 = this.state.product.member15; console.log("member15 " + memberId15)}
+            if (m===6) {memberId6 = this.state.product.member6}
+            if (m===7) {memberId7 = this.state.product.memberId7}
+            if (m===8) {memberId8 = this.state.product.member8}
+            if (m===9) {memberId9 = this.state.product.member9}
+            if (m===10) {memberId10 = this.state.product.member10}
+            if (m===11) {memberId11 = this.state.product.member11}
+            if (m===12) {memberId12 = this.state.product.member12}
+            if (m===13) {memberId13 = this.state.product.member13}
+            if (m===14) {memberId14 = this.state.product.member14}
+            if (m===15) {memberId15 = this.state.product.member15}
         }
         //this.setState({});
     }
@@ -142,23 +149,35 @@ class AddProduct extends React.Component{
         this.setState(state);
     }
     handleChange = async (e) => {
-        if(await e.target.files[0]){this.setState({image: e.target.files[0]})}
-        const uploadTask = firebase.storage().ref(`${stallIdNo}/${emailUser}/${stallIdNo}_0`).put(this.state.image)
-        uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot ok')},
-        (error) =>{console.log(error);},
-        ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_0").getDownloadURL().then(url=>{this.setState({url})
-            //this.setState({url}); 
-            //console.log("Url: " + url);
-        })})
-        const uploadTask1 = firebase.storage().ref(`${stallIdNo}/${emailUser}/${stallIdNo}_1`).put(this.state.image)
-        uploadTask1.on('state_changed', (snapshot)=>{console.log('snapshot_1 ok')},
-        (error) =>{console.log(error);},
-        //()=>{firebase.storage().ref().child(image.name + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})
-        ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_1").getDownloadURL().then(url1=>{this.setState({url1})
-        //console.log("Url1: " + url1);
-        })})  
- 
-        //console.log(e.target.files[0]);
+        urlCount ++;
+        if (urlCount<=5){ // 5 pictures max
+            if(await e.target.files[0]){this.setState({image: e.target.files[0]})}
+
+            if (urlCount ==1){
+            const uploadTask = firebase.storage().ref(`${stallIdNo}/${emailUser}/${stallIdNo}_0`).put(this.state.image)
+            uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot ok')},
+            (error) =>{console.log(error);},
+            ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_0").getDownloadURL().then(url=>{this.setState({url})
+                //this.setState({url}); 
+                //console.log("Url: " + url);
+            })})
+            }
+
+            //const uploadTask1 = firebase.storage().ref(`${stallIdNo}/${emailUser}/${stallIdNo}_1`).put(this.state.image)
+            const uploadTask1 = firebase.storage().ref(`${stallIdNo}/${emailUser}/${stallIdNo}_${urlCount}`).put(this.state.image)
+            uploadTask1.on('state_changed', (snapshot)=>{console.log('snapshot_1 ok')},
+            (error) =>{console.log(error);},
+            //()=>{firebase.storage().ref().child(image.name + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})
+            ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_" + urlCount).getDownloadURL().then(url1=>{
+                if (urlCount ==1) {this.setState({url1})}
+                if (urlCount ==2) {url1a = url1;this.setState({url1a})}
+                if (urlCount ==3) {url1b = url1;this.setState({url1b})}
+                if (urlCount ==4) {url1c = url1;this.setState({url1c})}
+                if (urlCount ==5) {url1d = url1;this.setState({url1d})}
+            //console.log("Url1: " + url1);
+            })})  
+            //console.log(e.target.files[0]);
+        }
     }
 
     // no need this function. can delete
@@ -181,6 +200,7 @@ class AddProduct extends React.Component{
     }
 
     onSubmit = async(e) => {
+        
         if (mounted=1){
         // to notify, must write to firebase notification and also must set to gotmail for all member = 1 to turn the PN red at food
         if (this.state.url == null){
@@ -203,11 +223,14 @@ class AddProduct extends React.Component{
         const customerSelect = document.getElementById("customerPicked");
         customerSelected = await customerSelect.options[customerSelect.selectedIndex].text;
 
+        const categorySelect = document.getElementById("categoryPicked");
+        categorySelected = await categorySelect.options[categorySelect.selectedIndex].text;
+
         e.preventDefault();
         //console.log("url here: " + url)
         //console.log("this state Url: " + url)
         //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
-        const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo} = this.state;
+        const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo, category} = this.state;
         //console.log("stallId " + stallIdNo + "   emailuser :" +  emailUser + "  todayFormatted: " + todayFormatted + "image: " + this.state.url);
         if (this.state.whatPN != ""){
             const whatPNupper = this.state.whatPN.toUpperCase();
@@ -218,42 +241,7 @@ class AddProduct extends React.Component{
             if (customerSelected == "Courts"){cusCode = "COU"}
             if (customerSelected == "Asus"){cusCode = "ASU"}
             if (customerSelected == "B2C"){cusCode = "B2C"}
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"]});
-            /*   
-            .then((docRef) =>{
-                    this.setState({ //below is just to setState after added data
-                        whouploadId: emailUser,
-                        whoupload: emailUser,
-                        whatUse: '',
-                        whatModel: '',
-                        whatQty: '',
-                        whenAsk: todayFormatted,
-                        remark: '',
-                        since: todayFormatted,
-                        image: this.state.url,
-                        rating: 2,
-                        customer: customerSelected,
-                        tgtPrice: tgtPrice,
-                        stallId: stallIdNo,
-                        quotes: '',
-                        poUploaded: '',
-                        poStatus: '',
-                        stage: 1
-
-                    });
-                    thisId = docRef.id;
-                    this.props.history.push("/list");
-
-                    // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
-                    firebase.firestore().collection("req@gmail.com").doc(thisId).collection("pictures").add({
-                        image: this.state.url1}). then((docRef2)=>{
-                    this.setState({image: this.state.url1 });
-                        this.props.history.push("/list")
-                    })
-
-                })
-                .catch ((error) => {console.error("Error adding document: ", error);}) 
-                */
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], catrgory:categorySelected});
 
                 firebase.firestore().collection("NotificationTrigger").add({
                     food: whatPN,
@@ -265,7 +253,8 @@ class AddProduct extends React.Component{
                     remark: remark,
                     stall: whatModel,
                     stallId: stallIdNo,
-                    jobRefNo: jobRefNo
+                    jobRefNo: jobRefNo,
+                    //category: category
                 })
 
                 //const {gotMail} = this.state;
@@ -296,7 +285,7 @@ class AddProduct extends React.Component{
 
             }
         this.props.history.push("/list");
-
+        
         if (this.state.url1 != null){
             // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
             firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
@@ -305,12 +294,47 @@ class AddProduct extends React.Component{
                 //this.props.history.push("/list")
             })
         }
+        if (urlCount >1){
+            // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                image: this.state.url1a}). then((docRef2)=>{
+                this.setState({image: this.state.url1a });
+                //this.props.history.push("/list")
+            })
+        }
+        if (urlCount >2){
+            // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                image: this.state.url1b}). then((docRef2)=>{
+                this.setState({image: this.state.url1b });
+                //this.props.history.push("/list")
+            })
+        }
+        if (urlCount >3){
+            // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                image: this.state.url1c}). then((docRef2)=>{
+                this.setState({image: this.state.url1c });
+                //this.props.history.push("/list")
+            })
+        }
+        if (urlCount >4){
+            // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                image: this.state.url1d}). then((docRef2)=>{
+                this.setState({image: this.state.url1d });
+                //this.props.history.push("/list")
+            })
+        }
+
+        //urlCount =0;
 
     }
     }
 
     
     submitSomeMore = async(e) => {
+        
         if (this.state.whatPN != ""){
             if (this.state.url == null){
                 //the default dummy icon picture
@@ -322,6 +346,10 @@ class AddProduct extends React.Component{
 
             const customerSelect = document.getElementById("customerPicked");
             customerSelected = await customerSelect.options[customerSelect.selectedIndex].text;
+
+            const categorySelect = document.getElementById("categoryPicked");
+            categorySelected = await categorySelect.options[categorySelect.selectedIndex].text;
+
             e.preventDefault();
             //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
             const whatPNupper = this.state.whatPN.toUpperCase();
@@ -332,8 +360,8 @@ class AddProduct extends React.Component{
             if (customerSelected == "Courts"){cusCode = "COU"}
             if (customerSelected == "Asus"){cusCode = "ASU"}
             if (customerSelected == "B2C"){cusCode = "B2C"}
-            const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo} = this.state;
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"]});
+            const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo, category} = this.state;
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], category: categorySelected});
             
             /* shut down for a while
             firebase.firestore().collection("NotificationTrigger").add({
@@ -381,10 +409,62 @@ class AddProduct extends React.Component{
                 this.setState({image: this.state.url1 });
                 })
             }
+            if (urlCount >1){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1a}). then((docRef2)=>{
+                    this.setState({image: this.state.url1a });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >2){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1b}). then((docRef2)=>{
+                    this.setState({image: this.state.url1b });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >3){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1c}). then((docRef2)=>{
+                    this.setState({image: this.state.url1c });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >4){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1d}). then((docRef2)=>{
+                    this.setState({image: this.state.url1d });
+                    //this.props.history.push("/list")
+                })
+            }
+            //urlCount =0;
+
             this.props.history.push({pathname: '/moreparts', state: {docId: stallIdNo, emailId: emailUser}});
         }
     }
-        
+    
+
+    async deleteStorageImage(){
+        if (urlCount >= 1){
+            var storageRef1 = firebase.storage().ref(`${stallIdNo}/${emailUser}`); /// todo: must delete under stallId NOT since
+            storageRef1.listAll().then((listResults) => {
+            const promises = listResults.items.map((item) => {
+                    return item.delete();
+                })
+            });
+
+            var storageRef2 = firebase.storage().ref(`${stallIdNo}`); /// todo: must delete under stallId NOT since
+            storageRef2.listAll().then((listResults) => {
+            const promises = listResults.items.map((item) => {
+                    return item.delete();
+                })
+            });
+        }
+    }
 
 
     render (){
@@ -414,7 +494,7 @@ class AddProduct extends React.Component{
             <div>
 
                 <Card style ={cardStyles}>
-                    <div className = "Button">
+                    <div className = "Button" onClick={this.deleteStorageImage}>                        
                         <Link to ="/list"> 
                         <button className ="Edit-Button" >Back</button>
                         </Link>
@@ -446,14 +526,31 @@ class AddProduct extends React.Component{
                         <div className="form-group"></div>
                         <label></label>
                         <textarea className="form-control" name="whatPN" value={whatPN} onChange={this.onChange} placeholder="Part No" cols="80" rows="1">
-                            
                             {whatPN}
-                            
                             </textarea>
                     </div>
+
+<br></br>
+<p>
+                    <select name="categoryOption" id="categoryPicked">
+                        <option value="1">Select category</option>
+                        <option value="2">LCD</option>
+                        <option value="3">MB</option>
+                        <option value="4">Battery</option>
+                        <option value="5">Casing</option>
+                        <option value="6">Others</option>
+                    </select> 
+ </p>                   
+
+
+
+
+
+
+
                     <div>
                         <div className="form-group"></div>
-                        <label></label>
+                        
                         <textarea className="form-control" name="whatQty" value={whatQty} onChange={this.onChange} placeholder="Quantity" cols="80" rows="1">{whatQty}</textarea>
                     </div>
                     <div>
@@ -475,6 +572,10 @@ class AddProduct extends React.Component{
                     <div className="upload-data">
                         <input type="file" onChange={this.handleChange}/>
                         <img src={this.state.url} height="200" width="200"/>
+                        <img src={this.state.url1a} height="150" width="150"/>
+                        <img src={this.state.url1b} height="150" width="150"/>
+                        <img src={this.state.url1c} height="150" width="150"/>
+                        <img src={this.state.url1d} height="150" width="150"/>
                     </div>
                     <div className="button>">
                         <button className="Submit-Button" onClick={this.onSubmit}>Done</button> &nbsp;&nbsp;&nbsp;

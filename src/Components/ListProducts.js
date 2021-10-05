@@ -13,7 +13,8 @@ class ListProducts extends React.Component {
     
     this.checkUser();
 
-    this.ref = firebase.firestore().collection("req@gmail.com").orderBy("whatPN");
+    //this.ref = firebase.firestore().collection("req@gmail.com").orderBy("whatPN");
+    this.ref = firebase.firestore().collection("req@gmail.com").where('since', '!=', "archived").orderBy('since', 'desc')
     this.unsubscribe = null;
     this.state ={products:[]};
     //this.customerSelected = "";
@@ -43,9 +44,11 @@ class ListProducts extends React.Component {
   onCollectionUpdate = (querySnapshot) => {
     const products = [];
     querySnapshot.forEach((doc) => {
-      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId, jobRefNo} = doc.data();
+      //const {whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId, jobRefNo} = doc.data();
+      const {whatPN, whatModel, whatQty, whoupload, customer, remark, stallId, jobRefNo, poStatus, quotes, whenAsk, category} = doc.data();
       products.push({
-        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId, jobRefNo
+        //key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId,, poStatusjobRefNo
+        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, stallId, jobRefNo, poStatus, quotes, whenAsk, category
       });
     });
     //console.log(products);
@@ -62,19 +65,26 @@ class ListProducts extends React.Component {
     
     const products=[];
     var snapshot="";
-    if (customerSelected == "All"){snapshot = await firebase.firestore().collection("req@gmail.com").orderBy('whatPN').get();
+    if (customerSelected == "All"){snapshot = await firebase.firestore().collection("req@gmail.com").orderBy('whenAsk').get();
     }else{
-      if (customerSelected == "OrderId"){snapshot = await firebase.firestore().collection("req@gmail.com").orderBy('jobRefNo').get();}
+
+      if(customerSelected == "Part No"){snapshot = await firebase.firestore().collection("req@gmail.com").orderBy('whatPN').get();} 
       else{
-        if(customerSelected == "non-Archived"){snapshot = await firebase.firestore().collection("req@gmail.com").where('since', '!=', "archived").get();}
-        else{snapshot = await firebase.firestore().collection("req@gmail.com").where('customer', '==', customerSelected).get();}
+        if (customerSelected == "OrderId"){snapshot = await firebase.firestore().collection("req@gmail.com").orderBy('jobRefNo').get();}
+        else{
+          //if(customerSelected == "by Date"){snapshot = await firebase.firestore().collection("req@gmail.com").where('since', '!=', "archived").orderBy('since', 'desc').get();}
+          if(customerSelected == "by Date"){snapshot = await firebase.firestore().collection("req@gmail.com").orderBy('whenAsk', 'desc').get();}
+          else{snapshot = await firebase.firestore().collection("req@gmail.com").where('customer', '==', customerSelected).get();}
+        }
       }
     }
     //if (snapshot.empty){console.log("can't find doc. Doc empty")}else{console.log(snapshot)}
     snapshot.forEach(doc => {
-      const {whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId, jobRefNo} = doc.data();
+      //const {whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId, jobRefNo} = doc.data();
+      const {whatPN, whatModel, whatQty, whoupload, customer, remark, stallId, jobRefNo, poStatus, quotes, whenAsk, category} = doc.data();
       products.push({
-        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId, jobRefNo
+        //key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, image, stallId, jobRefNo
+        key: doc.id, doc, whatPN, whatModel, whatQty, whoupload, customer, remark, stallId, jobRefNo, poStatus, quotes, whenAsk, category
       });
     });
     //console.log(products);
@@ -117,13 +127,14 @@ class ListProducts extends React.Component {
               
             &nbsp;&nbsp;&nbsp;
             <select name="customerOption" id="customerPicked" onChange={this.onChange}>
-              <option value="1">All</option>
+              <option value="1">by Date</option>
               <option value="2">OrderId</option>
-              <option value="3">Courts</option>
-              <option value="4">Harvey Norman</option>
-              <option value="5">Asus</option>
-              <option value="6">B2C</option>
-              <option value="7">non-Archived</option>
+              <option value="3">Part No</option>
+              <option value="4">Courts</option>
+              <option value="5">Harvey Norman</option>
+              <option value="6">Asus</option>
+              <option value="7">B2C</option>
+              <option value="8">All</option>
             </select>
 
           </div>
@@ -140,13 +151,16 @@ class ListProducts extends React.Component {
               <thead>
                 <tr>
                   <th>PartNo.</th>
+                  <th>Date</th>
                   <th>OrderId</th>
+                  <th>poStatus</th>
                   <th>Model</th>
                   <th>Qty</th>
+                  <th>Quotes</th>
                   <th>Requestor</th>
                   <th>For</th>
+                  <th>Category</th>
                   <th>Description</th>
-                  <th>Image</th>
                 </tr>
               </thead>
               <tbody>
@@ -155,16 +169,17 @@ class ListProducts extends React.Component {
                   <tr key={product.key}>
                     <td>
                       <Link to = {`/show/${product.key}`}>{product.whatPN}</Link>
-                    </td>
-                    
+                    </td>                    
+                    <td>{product.whenAsk.substr(0,10)}</td>
                     <td>{product.jobRefNo}</td>
-                    
+                    <td>{product.poStatus}</td>
                     <td>{product.whatModel}</td>
                     <td>{product.whatQty}</td>
+                    <td>{product.quotes}</td>
                     <td>{product.whoupload}</td>
                     <td>{product.customer}</td>
+                    <td>{product.category}</td>
                     <td>{product.remark}</td>
-                    <td><img src={product.image}width="100px" height="100" alt=""></img></td>
                   </tr>
                   )}
 

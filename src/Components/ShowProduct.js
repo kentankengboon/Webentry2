@@ -107,21 +107,21 @@ class ShowProduct extends React.Component{
             }else{console.log("No such document")}
         });
         for(m=1; m < this.state.product.memberCount + 1; m++){
-            if (m===1) {memberId1 = this.state.product.member1; console.log("member1 " + memberId1)}
-            if (m===2) {memberId2 = this.state.product.member2; console.log("member2 " + memberId2)}
-            if (m===3) {memberId3 = this.state.product.member3; console.log("member3 " + memberId3)}
-            if (m===4) {memberId4 = this.state.product.member4; console.log("member4 " + memberId4)}
-            if (m===5) {memberId5 = this.state.product.member5; console.log("member5 " + memberId5)}
-            if (m===6) {memberId6 = this.state.product.member6; console.log("member6 " + memberId6)}
-            if (m===7) {memberId7 = this.state.product.member7; console.log("member7 " + memberId7)}
-            if (m===8) {memberId8 = this.state.product.member8; console.log("member8 " + memberId8)}
-            if (m===9) {memberId9 = this.state.product.member9; console.log("member9 " + memberId9)}
-            if (m===10) {memberId10 = this.state.product.member10; console.log("member10 " + memberId10)}
-            if (m===11) {memberId11 = this.state.product.member11; console.log("member11 " + memberId11)}
-            if (m===12) {memberId12 = this.state.product.member12; console.log("member12 " + memberId12)}
-            if (m===13) {memberId13 = this.state.product.member13; console.log("member13 " + memberId13)}
-            if (m===14) {memberId14 = this.state.product.member14; console.log("member14 " + memberId14)}
-            if (m===15) {memberId15 = this.state.product.member15; console.log("member16 " + memberId15)}
+            if (m===1) {memberId1 = this.state.product.member1}
+            if (m===2) {memberId2 = this.state.product.member2}
+            if (m===3) {memberId3 = this.state.product.member3}
+            if (m===4) {memberId4 = this.state.product.member4}
+            if (m===5) {memberId5 = this.state.product.member5}
+            if (m===6) {memberId6 = this.state.product.member6}
+            if (m===7) {memberId7 = this.state.product.member7}
+            if (m===8) {memberId8 = this.state.product.member8}
+            if (m===9) {memberId9 = this.state.product.member9}
+            if (m===10) {memberId10 = this.state.product.member10}
+            if (m===11) {memberId11 = this.state.product.member11}
+            if (m===12) {memberId12 = this.state.product.member12}
+            if (m===13) {memberId13 = this.state.product.member13}
+            if (m===14) {memberId14 = this.state.product.member14}
+            if (m===15) {memberId15 = this.state.product.member15}
         }
         //this.setState({});
     }

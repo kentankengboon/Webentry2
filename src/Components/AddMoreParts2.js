@@ -18,13 +18,19 @@ let memberId3 = "";
 let memberId4 = "";
 let memberId5 = "";
 let memberCount =0;
+let categorySelected = "";
+let urlCount = 0;
+let url1a = "";
+let url1b = "";
+let url1c = "";
+let url1d = "";
 
 // AppMoreParts2 created just to use this new page to erase existing input field data as I dont know how to actually do it
 class AddMoreParts2 extends React.Component{
     constructor(props){
         super(props);
         //this.checkUser();
-
+        urlCount = 0;
         this.ref = firebase.firestore().collection("req@gmail.com"); // todo: see if can add doc(stallIdNo) here to force a fixed docId
         this.state = {
             product: [],
@@ -117,11 +123,11 @@ class AddMoreParts2 extends React.Component{
         });
         for(m=1; m < this.state.product.memberCount + 1; m++){
             //console.log ("memberCount: " + this.state.product.memberCount)
-            if (m===1) {memberId1 = this.state.product.member1; console.log("member1 " + memberId1)}
-            if (m===2) {memberId2 = this.state.product.member2; console.log("member2 " + memberId2)}
-            if (m===3) {memberId3 = this.state.product.member3; console.log("member3 " + memberId3)}
-            if (m===4) {memberId4 = this.state.product.member4; console.log("member4 " + memberId4)}
-            if (m===5) {memberId5 = this.state.product.member5; console.log("member5 " + memberId5)}
+            if (m===1) {memberId1 = this.state.product.member1}
+            if (m===2) {memberId2 = this.state.product.member2}
+            if (m===3) {memberId3 = this.state.product.member3}
+            if (m===4) {memberId4 = this.state.product.member4}
+            if (m===5) {memberId5 = this.state.product.member5}
             //whichMember = "member" + String(m);  
             //console.log("member " + m + " =" + this.state.product.$whichMember)
         }
@@ -149,15 +155,25 @@ class AddMoreParts2 extends React.Component{
         this.setState(state);
     }
     handleChange = async (e) => {
-        if(await e.target.files[0]){this.setState({image: e.target.files[0]})}
-        const uploadTask = firebase.storage().ref(`${stallIdNo}/${emailUser}/${todayId}`).put(this.state.image)
-        uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot ok')},
-        (error) =>{console.log(error);},
-        ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(todayId).getDownloadURL().then(url=>{this.setState({url})
-            //this.setState({url}); 
-            //console.log("Url: " + url);
-        })})
+        urlCount ++;
+        //console.log ("urlCount:  " + urlCount.toString());
+        if (urlCount<=5){ // 5 pictures max
+            if(await e.target.files[0]){this.setState({image: e.target.files[0]})}
+            //console.log ("todayId:  " + todayId);
+            const uploadTask = firebase.storage().ref(`${stallIdNo}/${emailUser}/${todayId}_${urlCount}`).put(this.state.image)
+            uploadTask.on('state_changed', (snapshot)=>{console.log('snapshot ok')},
+            (error) =>{console.log(error);},
+            ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(todayId + '_' + urlCount).getDownloadURL().then(url1=>{ 
+                if (urlCount ==1) {this.setState({url1})}
+                if (urlCount ==2) {url1a = url1;this.setState({url1a})}
+                if (urlCount ==3) {url1b = url1;this.setState({url1b})}
+                if (urlCount ==4) {url1c = url1;this.setState({url1c})}
+                if (urlCount ==5) {url1d = url1;this.setState({url1d})}
 
+                //this.setState({url}); 
+                //console.log("Url: " + url);
+            })})
+        }
         //const uploadTask1 = firebase.storage().ref(`${stallIdNo}/${emailUser}/${stallIdNo}_1`).put(this.state.image)
         //uploadTask1.on('state_changed', (snapshot)=>{console.log('snapshot_1 ok')},
         //(error) =>{console.log(error);},
@@ -185,9 +201,11 @@ class AddMoreParts2 extends React.Component{
     }
 
     onSubmit = async(e) => { //todo: must remmeber to do notification at "Done" in any of the pages
+        const categorySelect = document.getElementById("categoryPicked");
+        categorySelected = await categorySelect.options[categorySelect.selectedIndex].text;
         e.preventDefault();
 
-        const {whatPN, whatQty, remark, tgtPrice, quotes} = this.state;
+        const {whatPN, whatQty, remark, tgtPrice, quotes, category} = this.state;
         if (this.state.whatPN != ''){
             if (this.state.url == null){ //the default dummy icon picture
                 var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsImage.jfif?alt=media&token=025014d3-9701-42df-8348-65efb113bcae"
@@ -196,10 +214,47 @@ class AddMoreParts2 extends React.Component{
             }
             const whatPNupper = this.state.whatPN.toUpperCase();
             firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts").doc(whatPNupper)
-            .set({whatPN: whatPNupper, whatQty, remark, tgtPrice, quotes});
+            .set({whatPN: whatPNupper, whatQty, remark, tgtPrice, quotes, category:categorySelected});
             firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("morePictures").doc(whatPNupper)
-            .set({whatPN: whatPNupper, image: this.state.url});
+            .set({whatPN: whatPNupper, image: this.state.url1});
             //console.log("onsubmit here2 :" + this.state.url);
+
+            // writing to base part (of the whole claim/job ID)
+            if (urlCount >1){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1a}). then((docRef2)=>{
+                    this.setState({whatPN: whatPNupper, image: this.state.url1a });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >2){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1b}). then((docRef2)=>{
+                    this.setState({whatPN: whatPNupper, image: this.state.url1b });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >3){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1c}). then((docRef2)=>{
+                    this.setState({whatPN: whatPNupper, image: this.state.url1c });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >4){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1d}). then((docRef2)=>{
+                    this.setState({whatPN: whatPNupper, image: this.state.url1d });
+                    //this.props.history.push("/list")
+                })
+            }
+
+
+
 
             if (this.state.morePart.whatPN1 == "") { //<< added
                 firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
@@ -207,6 +262,13 @@ class AddMoreParts2 extends React.Component{
 
                 // todo: add morePartQty=1 here
                 firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 1});
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_1").set({
+                    whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
+                    jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
+                    whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
+                    whenAsk: this.state.morePart.whenAsk, since: "archived",
+                    category:categorySelected, image: this.state.url1
+                });
                 //console.log("here:  ");
 
             }   else{
@@ -215,6 +277,13 @@ class AddMoreParts2 extends React.Component{
                     .update({whatPN2: whatPN.toUpperCase()});
                     // todo: add morePartQty=2 here
                     firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 2});
+                    firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_2").set({
+                        whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
+                        jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
+                        whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
+                        whenAsk: this.state.morePart.whenAsk, since: "archived",
+                        category:categorySelected, image: this.state.url1
+                    });
                     //console.log("here:  ");
 
                     }   else{
@@ -223,6 +292,13 @@ class AddMoreParts2 extends React.Component{
                         .update({whatPN3: whatPN.toUpperCase()});
                         // todo: add morePartQty=3 here
                         firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 3});
+                        firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_3").set({
+                            whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
+                            jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
+                            whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
+                            whenAsk: this.state.morePart.whenAsk, since: "archived",
+                            category:categorySelected, image: this.state.url1
+                        });
                         //console.log("here:  ");
                         }   else{
                             if (this.state.morePart.whatPN4 == null) { //<< added
@@ -230,6 +306,13 @@ class AddMoreParts2 extends React.Component{
                             .update({whatPN4: whatPN.toUpperCase()});
                             // todo: add morePartQty=4 here
                             firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 4});
+                            firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_4").set({
+                                whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
+                                jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
+                                whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
+                                whenAsk: this.state.morePart.whenAsk, since: "archived",
+                                category:categorySelected, image: this.state.url1
+                            });
                             //console.log("here:  ");
                             }   
                         }
@@ -245,19 +328,57 @@ class AddMoreParts2 extends React.Component{
     }
 
     somemore = async(e) => {
+        const categorySelect = document.getElementById("categoryPicked");
+            categorySelected = await categorySelect.options[categorySelect.selectedIndex].text;
         e.preventDefault();
-        const {whatPN, whatQty, remark, tgtPrice, quotes} = this.state;
+        const {whatPN, whatQty, remark, tgtPrice, quotes, category} = this.state;
         if (this.state.whatPN != ''){
-            if (this.state.url == null){ //the default dummy icon picture
-                var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsImage.jfif?alt=media&token=025014d3-9701-42df-8348-65efb113bcae"
-                //var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
-                this.state.url = url;
+            if (this.state.url1 == null){ //the default dummy icon picture
+                var url1 = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsImage.jfif?alt=media&token=025014d3-9701-42df-8348-65efb113bcae"
+                //var url1 = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
+                this.state.url1 = url1;
             }
             const whatPNupper = this.state.whatPN.toUpperCase();
             await firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("moreParts").doc(whatPNupper)
-            .set({whatPN: whatPNupper, whatQty, remark, tgtPrice, quotes});
+            .set({whatPN: whatPNupper, whatQty, remark, tgtPrice, quotes,category:categorySelected});
             firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("morePictures").doc(whatPNupper)
-            .set({whatPN: whatPNupper, image: this.state.url});
+            .set({whatPN: whatPNupper, image: this.state.url1});
+
+            if (urlCount >1){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1a}). then((docRef2)=>{
+                    this.setState({whatPN: whatPNupper, image: this.state.url1a });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >2){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1b}). then((docRef2)=>{
+                    this.setState({whatPN: whatPNupper, image: this.state.url1b });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >3){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1c}). then((docRef2)=>{
+                    this.setState({whatPN: whatPNupper, image: this.state.url1c });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >4){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1d}). then((docRef2)=>{
+                    this.setState({whatPN: whatPNupper, image: this.state.url1d });
+                    //this.props.history.push("/list")
+                })
+            }
+
+
+
             this.props.history.push({pathname: '/moreparts', state: {docId: stallIdNo, emailId: emailUser}});
         }
         //e.target.name.reset();
@@ -271,21 +392,49 @@ class AddMoreParts2 extends React.Component{
             firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
             .update({whatPN1: whatPN.toUpperCase()});
             firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 1});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_1").set({
+                whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
+                jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
+                whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
+                whenAsk: this.state.morePart.whenAsk, since: "archived",
+                category: categorySelected, image: this.state.url1
+            });
         }   else{
                 if (this.state.morePart.whatPN2 == null) { //<< added
                 firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
                 .update({whatPN2: whatPN.toUpperCase()});
                 firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 2});
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_2").set({
+                    whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
+                    jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
+                    whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
+                    whenAsk: this.state.morePart.whenAsk, since: "archived",
+                    category: categorySelected, image: this.state.url1
+                });
                 }   else{
                     if (this.state.morePart.whatPN3 == null) { //<< added
                     firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
                     .update({whatPN3: whatPN.toUpperCase()});
                     firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 3});
+                    firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_3").set({
+                        whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
+                        jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
+                        whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
+                        whenAsk: this.state.morePart.whenAsk, since: "archived",
+                        category: categorySelected, image: this.state.url1
+                    });
                     }   else{
                         if (this.state.morePart.whatPN4 == null) { //<< added
                         firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
                         .update({whatPN4: whatPN.toUpperCase()});
                         firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 4});
+                        firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_4").set({
+                            whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
+                            jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
+                            whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
+                            whenAsk: this.state.morePart.whenAsk, since: "archived",
+                            category: categorySelected, image: this.state.url1
+                        });
                         }   
                     }
                 }
@@ -337,6 +486,20 @@ class AddMoreParts2 extends React.Component{
                         <label></label>
                         <textarea className="form-control" name="whatPN" value={whatPN} onChange={this.onChange} placeholder="Part No" cols="80" rows="1">{whatPN}</textarea>
                     </div>
+
+                    <br></br>
+
+<p>
+                    <select name="categoryOption" id="categoryPicked">
+                        <option value="1">Select category</option>
+                        <option value="2">LCD</option>
+                        <option value="3">MB</option>
+                        <option value="4">Battery</option>
+                        <option value="5">Casing</option>
+                        <option value="6">Others</option>
+                    </select> 
+ </p> 
+
                     <div>
                         <div className="form-group"></div>
                         <label></label>
@@ -356,7 +519,13 @@ class AddMoreParts2 extends React.Component{
                     </div>
                     <div className="upload-data">
                         <input type="file" onChange={this.handleChange}/>
-                        <img src={this.state.url} height="200" width="200"/>
+                        <img src={this.state.url1} height="200" width="200"/>
+                        <img src={this.state.url1a} height="150" width="150"/>
+                        <img src={this.state.url1b} height="150" width="150"/>
+                        <img src={this.state.url1c} height="150" width="150"/>
+                        <img src={this.state.url1d} height="150" width="150"/>
+
+
                     </div>
                     <div className="button>">
                         <button className="Submit-Button" onClick={this.onSubmit}>Done</button> &nbsp;&nbsp;&nbsp;
