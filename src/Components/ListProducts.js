@@ -14,7 +14,7 @@ class ListProducts extends React.Component {
     this.checkUser();
 
     //this.ref = firebase.firestore().collection("req@gmail.com").orderBy("whatPN");
-    this.ref = firebase.firestore().collection("req@gmail.com").where('since', '!=', "archived").orderBy('since', 'desc')
+    this.ref = firebase.firestore().collection("req@gmail.com").orderBy('whenAsk', 'desc')
     this.unsubscribe = null;
     this.state ={products:[]};
     //this.customerSelected = "";
