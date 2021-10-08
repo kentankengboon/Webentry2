@@ -10,6 +10,7 @@ import ShowProduct from './Components/ShowProduct';
 import ListProducts from './Components/ListProducts';
 import AddMoreParts from './Components/AddMoreParts';
 import AddMoreParts2 from './Components/AddMoreParts2';
+import PoListing from './Components/PoListing';
 import {BrowserRouter, Route} from 'react-router-dom';
 import './node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Login from './Components/Login';
@@ -19,6 +20,7 @@ import Login from './Components/Login';
 ReactDOM.render(<BrowserRouter>
   <Route exact path="/" component = {App}></Route>
   <Route path="/create" component = {AddProduct}></Route>
+  <Route path="/poListing" component = {PoListing}></Route>
   <Route path="/show/:id" component = {ShowProduct}></Route>
   <Route path="/edit/:id" component = {EditProduct}></Route>
   <Route path="/login" component = {Login}></Route>

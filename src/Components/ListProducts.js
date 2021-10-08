@@ -121,6 +121,10 @@ class ListProducts extends React.Component {
             <Link to ="/create"> 
               <button className ="Add-Button" >Add an item</button>
             </Link>
+            &nbsp;&nbsp;&nbsp;
+            <Link to ="/poListing"> 
+              <button className ="PO-Button" >View PO Listing</button>
+            </Link>
 
             &nbsp;&nbsp;&nbsp;
             <button className ="Submit-Button" onClick={this.signOut}>Sign Out</button>
