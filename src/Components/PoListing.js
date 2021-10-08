@@ -20,9 +20,9 @@ class PoListing extends React.Component {
     onCollectionUpdate = (querySnapshot) => {
         const products = [];
         querySnapshot.forEach((doc) => {
-          const {date, jobRefNo, partNo, partNo1, partNo2, partNo3, partNo4, qty0, qtyMore1, qtyMore2, qtyMore3, qtyMore4, price0, price1, price2, price3, price4, remark0, remark1, remark2, remark3, remark4} = doc.data();
+          const {date, jobRefNo, partNo, partNo1, partNo2, partNo3, partNo4, qty0, qtyMore1, qtyMore2, qtyMore3, qtyMore4, price0, price1, price2, price3, price4, remark0, remark1, remark2, remark3, remark4, poNumber} = doc.data();
           products.push({
-            key: doc.id, doc, date, jobRefNo, partNo, partNo1, partNo2, partNo3, partNo4 , qty0, qtyMore1, qtyMore2, qtyMore3, qtyMore4, price0, price1, price2, price3, price4, remark0, remark1, remark2, remark3, remark4});
+            key: doc.id, doc, date, jobRefNo, partNo, partNo1, partNo2, partNo3, partNo4 , qty0, qtyMore1, qtyMore2, qtyMore3, qtyMore4, price0, price1, price2, price3, price4, remark0, remark1, remark2, remark3, remark4, poNumber});
         });
         this.setState({products});
         //console.log("here::::" + this.state.product.jobRefNo);
@@ -73,6 +73,7 @@ class PoListing extends React.Component {
                             <tr>
                             <th>Date</th>
                             <th>ClaimNo</th>
+                            <th>PO No</th>
 
                             <th>Part 1</th>
                             <th>Desc 1</th>
@@ -86,7 +87,7 @@ class PoListing extends React.Component {
 
                             <th>Part 3</th>
                             <th>Desc 3</th>
-                            <th>Qty 2</th>
+                            <th>Qty 3</th>
                             <th>Price 3</th>
 
                             <th>Part 4</th>
@@ -105,6 +106,7 @@ class PoListing extends React.Component {
                             <tr key={product.key}>                  
                                 <td>{product.date}</td>
                                 <td>{product.jobRefNo}</td>
+                                <td>{product.poNumber}</td>
 
                                 <td>{product.partNo}</td>
                                 <td>{product.remark0}</td>
