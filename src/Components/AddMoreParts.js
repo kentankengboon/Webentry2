@@ -266,7 +266,7 @@ class AddMoreParts extends React.Component{
                     jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
                     whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
                     whenAsk: this.state.morePart.whenAsk, since: "archived",
-                    category: categorySelected, image: this.state.url1
+                    category: categorySelected, image: this.state.url1, jobIdNo: "archived"
                 });
 
                 
@@ -280,7 +280,7 @@ class AddMoreParts extends React.Component{
                         jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
                         whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
                         whenAsk: this.state.morePart.whenAsk, since: "archived",
-                        category: categorySelected, image: this.state.url1
+                        category: categorySelected, image: this.state.url1, jobIdNo: "archived"
                     });
                     }   else{
                         if (this.state.morePart.whatPN3 == null) { //<< added
@@ -292,7 +292,7 @@ class AddMoreParts extends React.Component{
                             jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
                             whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
                             whenAsk: this.state.morePart.whenAsk, since: "archived",
-                            category: categorySelected, image: this.state.url1
+                            category: categorySelected, image: this.state.url1, jobIdNo: "archived"
                         });
                         }   else{
                             if (this.state.morePart.whatPN4 == null) { //<< added
@@ -304,7 +304,7 @@ class AddMoreParts extends React.Component{
                                 jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
                                 whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
                                 whenAsk: this.state.morePart.whenAsk, since: "archived",
-                                category: categorySelected, image: this.state.url1
+                                category: categorySelected, image: this.state.url1, jobIdNo: "archived"
                             });
                             }   
                         }
@@ -391,7 +391,7 @@ class AddMoreParts extends React.Component{
                 jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
                 whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
                 whenAsk: this.state.morePart.whenAsk, since: "archived",
-                category: categorySelected, image: this.state.url1
+                category: categorySelected, image: this.state.url1, jobIdNo: "archived"
             });
         }   else{
                 if (this.state.morePart.whatPN2 == null) { //<< added
@@ -403,7 +403,7 @@ class AddMoreParts extends React.Component{
                     jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
                     whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
                     whenAsk: this.state.morePart.whenAsk, since: "archived",
-                    category: categorySelected, image: this.state.url1
+                    category: categorySelected, image: this.state.url1, jobIdNo: "archived"
                 });
                 }   else{
                     if (this.state.morePart.whatPN3 == null) { //<< added
@@ -415,7 +415,7 @@ class AddMoreParts extends React.Component{
                         jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
                         whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
                         whenAsk: this.state.morePart.whenAsk, since: "archived",
-                        category: categorySelected, image: this.state.url1
+                        category: categorySelected, image: this.state.url1, jobIdNo: "archived"
                     });
                     }   else{
                         if (this.state.morePart.whatPN4 == null) { //<< added
@@ -427,7 +427,7 @@ class AddMoreParts extends React.Component{
                             jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
                             whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
                             whenAsk: this.state.morePart.whenAsk, since: "archived",
-                            category: categorySelected, image: this.state.url1
+                            category: categorySelected, image: this.state.url1, jobIdNo: "archived"
                         });
                         }   
                     }

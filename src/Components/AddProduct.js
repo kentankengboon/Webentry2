@@ -65,6 +65,7 @@ class AddProduct extends React.Component{
             poStatus: '',
             image: null,
             jobRefNo: '',
+            jobIdNo: '',
             condCode: '',
             category: '',
             //customerSelected: ''
@@ -230,7 +231,7 @@ class AddProduct extends React.Component{
         //console.log("url here: " + url)
         //console.log("this state Url: " + url)
         //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
-        const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo, category} = this.state;
+        const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo, category, jobIdNo} = this.state;
         //console.log("stallId " + stallIdNo + "   emailuser :" +  emailUser + "  todayFormatted: " + todayFormatted + "image: " + this.state.url);
         if (this.state.whatPN != ""){
             const whatPNupper = this.state.whatPN.toUpperCase();
@@ -241,7 +242,7 @@ class AddProduct extends React.Component{
             if (customerSelected == "Courts"){cusCode = "COU"}
             if (customerSelected == "Asus"){cusCode = "ASU"}
             if (customerSelected == "B2C"){cusCode = "B2C"}
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], catrgory:categorySelected});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], catrgory:categorySelected, jobIdNo: jobRefNo});
 
                 firebase.firestore().collection("NotificationTrigger").add({
                     food: whatPN,
@@ -360,8 +361,8 @@ class AddProduct extends React.Component{
             if (customerSelected == "Courts"){cusCode = "COU"}
             if (customerSelected == "Asus"){cusCode = "ASU"}
             if (customerSelected == "B2C"){cusCode = "B2C"}
-            const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo, category} = this.state;
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], category: categorySelected});
+            const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo, category, jobIdNo} = this.state;
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], category: categorySelected, jobIdNo:jobRefNo});
             
             /* shut down for a while
             firebase.firestore().collection("NotificationTrigger").add({
