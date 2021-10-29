@@ -200,8 +200,21 @@ class AddProduct extends React.Component{
         ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})  
     }
 
+    validateEntry () { // work in progress
+        var validation = 'pass'
+        if (customerSelected == ""){validation = 'failed'}
+        if (categorySelected == ""){validation = 'failed'}
+        if (this.state.whatUse == ""){validation = 'failed'}
+        if (this.state.whatModel == ""){validation = 'failed'}
+        if (this.state.whatPN == ""){validation = 'failed'}
+        if (this.state.whatQty == ""){validation = 'failed'}
+        if (this.state.remark == ""){validation = 'failed'}
+        if (this.state.jobRefNo == ""){validation = 'failed'}
+        return validation;
+    }
+
     onSubmit = async(e) => {
-        
+        //if (validateEntry () == 'fail'){ .... pop up a message ...}  // work in progress
         if (mounted=1){
         // to notify, must write to firebase notification and also must set to gotmail for all member = 1 to turn the PN red at food
         if (this.state.url == null){
@@ -537,9 +550,13 @@ class AddProduct extends React.Component{
                         <option value="1">Select category</option>
                         <option value="2">LCD</option>
                         <option value="3">MB</option>
-                        <option value="4">Battery</option>
-                        <option value="5">Casing</option>
-                        <option value="6">Others</option>
+                        <option value="4">Keyboard</option>
+                        <option value="5">Battery</option>
+                        <option value="6">Cable</option>
+                        <option value="7">Casing</option>
+                        <option value="8">SSD</option>
+                        <option value="9">Memory</option>
+                        <option value="10">Others</option>
                     </select> 
  </p>                   
 
