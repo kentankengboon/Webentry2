@@ -255,7 +255,7 @@ class AddProduct extends React.Component{
             if (customerSelected == "Courts"){cusCode = "COU"}
             if (customerSelected == "Asus"){cusCode = "ASU"}
             if (customerSelected == "B2C"){cusCode = "B2C"}
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], catrgory:categorySelected, jobIdNo: jobRefNo});
+            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], category:categorySelected, jobIdNo: jobRefNo});
 
                 firebase.firestore().collection("NotificationTrigger").add({
                     food: whatPN,
