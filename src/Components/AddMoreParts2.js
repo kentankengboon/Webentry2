@@ -492,16 +492,18 @@ class AddMoreParts2 extends React.Component{
 <p>
                     <select name="categoryOption" id="categoryPicked">
                         <option value="1">Select category</option>
-                        <option value="2">LCD</option>
-                        <option value="3">MB</option>
-                        <option value="4">Keyboard</option>
-                        <option value="5">Battery</option>
-                        <option value="6">Cable</option>
-                        <option value="7">Casing</option>
-                        <option value="8">SSD</option>
-                        <option value="9">Memory</option>
-                        <option value="10">Fan</option>
-                        <option value="11">Others</option>
+                        <option value="2">Battery</option>
+                        <option value="3">Cable</option>
+                        <option value="4">Camera</option>
+                        <option value="5">Casing</option>
+                        <option value="6">Fan</option>
+                        <option value="7">Keyboard</option>
+                        <option value="8">LCD</option>
+                        <option value="9">MB</option>
+                        <option value="10">Memory</option>
+                        <option value="11">Speaker</option>
+                        <option value="12">SSD</option>
+                        <option value="13">Others</option>
                     </select> 
  </p> 
 
