@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import AddMoreParts from './AddMoreParts';
+import { toast } from 'toast-notification-alert'
+
 let emailUser = "";
 let todayFormatted = "";
 let stallIdNo = "";
@@ -34,6 +36,7 @@ let url1a = "";
 let url1b = "";
 let url1c = "";
 let url1d = "";
+let validation = "";
 
 //let memberCount =0;
 let mounted=0;
@@ -200,156 +203,172 @@ class AddProduct extends React.Component{
         ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})  
     }
 
-    validateEntry () { // work in progress
-        var validation = 'pass'
-        if (customerSelected == ""){validation = 'failed'}
-        if (categorySelected == ""){validation = 'failed'}
-        if (this.state.whatUse == ""){validation = 'failed'}
-        if (this.state.whatModel == ""){validation = 'failed'}
-        if (this.state.whatPN == ""){validation = 'failed'}
-        if (this.state.whatQty == ""){validation = 'failed'}
-        if (this.state.remark == ""){validation = 'failed'}
-        if (this.state.jobRefNo == ""){validation = 'failed'}
-        return validation;
-    }
-
-    onSubmit = async(e) => {
-        //if (validateEntry () == 'fail'){ .... pop up a message ...}  // work in progress
-        if (mounted=1){
-        // to notify, must write to firebase notification and also must set to gotmail for all member = 1 to turn the PN red at food
-        if (this.state.url == null){
-            //the default dummy icon picture
-            var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsImage.jfif?alt=media&token=025014d3-9701-42df-8348-65efb113bcae"
-            //var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
-            //this.setState({url})
-            this.state.url = url;
-        }
+    validateEntry = async(e) =>{
         
-        //var thisId = "";
-
-        //var today = new Date();
-        //var dd = String(today.getDate()).padStart(2, '0');
-        //var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        //var yyyy = today.getFullYear();
-        //var tttt = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        //today = yyyy + '-' + mm + '-' + dd + " " + tttt;
-       
         const customerSelect = document.getElementById("customerPicked");
         customerSelected = await customerSelect.options[customerSelect.selectedIndex].text;
 
         const categorySelect = document.getElementById("categoryPicked");
         categorySelected = await categorySelect.options[categorySelect.selectedIndex].text;
-
-        e.preventDefault();
-        //console.log("url here: " + url)
-        //console.log("this state Url: " + url)
-        //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
-        const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo, category, jobIdNo} = this.state;
-        //console.log("stallId " + stallIdNo + "   emailuser :" +  emailUser + "  todayFormatted: " + todayFormatted + "image: " + this.state.url);
-        if (this.state.whatPN != ""){
-            const whatPNupper = this.state.whatPN.toUpperCase();
-            var cusCode;
-            // below code must tie in all places where stage get updated
-            if (customerSelected == "Select customer"){cusCode = "XXX"}
-            if (customerSelected == "Harvey Norman"){cusCode = "HVN"}
-            if (customerSelected == "Courts"){cusCode = "COU"}
-            if (customerSelected == "Asus"){cusCode = "ASU"}
-            if (customerSelected == "B2C"){cusCode = "B2C"}
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], category:categorySelected, jobIdNo: jobRefNo});
-
-                firebase.firestore().collection("NotificationTrigger").add({
-                    food: whatPN,
-                    groupId:  "req@gmail.com",
-                    image: this.state.url,
-                    index: 0, //to register an index of 0 when send notify alert, which when received at mobile will lead you to editstall right away. then when back to food from editstall, it will go to index 0 which is the first item which is where the newly added item will show up
-                    place: whatUse,
-                    qty: whatQty,
-                    remark: remark,
-                    stall: whatModel,
-                    stallId: stallIdNo,
-                    jobRefNo: jobRefNo,
-                    //category: category
-                })
-
-                //const {gotMail} = this.state;
-                // 10 members at most (including sender himself)
-                if (memberId1 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId1).set({gotMail: -1});
-                if (memberId2 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId2).set({gotMail: -1});
-                if (memberId3 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId3).set({gotMail: -1});
-                if (memberId4 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId4).set({gotMail: -1});
-                if (memberId5 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId5).set({gotMail: -1});
-                /////////////////////////////////////// added more member here
-                if (memberId6 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId6).set({gotMail: -1});
-                if (memberId7 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId7).set({gotMail: -1});
-                if (memberId8 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId8).set({gotMail: -1});
-                if (memberId9 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId9).set({gotMail: -1});
-                if (memberId10 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId10).set({gotMail: -1});
-                if (memberId11 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId11).set({gotMail: -1});
-                if (memberId12 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId12).set({gotMail: -1});
-                if (memberId13 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId13).set({gotMail: -1});
-                if (memberId14 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId14).set({gotMail: -1});
-                if (memberId15 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId15).set({gotMail: -1});
-
-
-
-                /////////////////////////////////////// must do this gotMAil for submitSomeMore also right????? (done below)
-                /////////////////////////////////////////  then must do for PO upload at ShowProduct
-
-
-
-            }
-        this.props.history.push("/list");
         
-        if (this.state.url1 != null){
-            // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
-                image: this.state.url1}). then((docRef2)=>{
-                this.setState({image: this.state.url1 });
-                //this.props.history.push("/list")
-            })
-        }
-        if (urlCount >1){
-            // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
-                image: this.state.url1a}). then((docRef2)=>{
-                this.setState({image: this.state.url1a });
-                //this.props.history.push("/list")
-            })
-        }
-        if (urlCount >2){
-            // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
-                image: this.state.url1b}). then((docRef2)=>{
-                this.setState({image: this.state.url1b });
-                //this.props.history.push("/list")
-            })
-        }
-        if (urlCount >3){
-            // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
-                image: this.state.url1c}). then((docRef2)=>{
-                this.setState({image: this.state.url1c });
-                //this.props.history.push("/list")
-            })
-        }
-        if (urlCount >4){
-            // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
-                image: this.state.url1d}). then((docRef2)=>{
-                this.setState({image: this.state.url1d });
-                //this.props.history.push("/list")
-            })
-        }
+        console.log("customer " + customerSelected)
+        console.log("jobRefNo " + this.state.jobRefNo)
+        console.log("model " + this.state.whatModel)
+        console.log("whatPN " + this.state.whatPN)
+        console.log("category " + categorySelected)
+        console.log("qty " + this.state.whatQty)
+        console.log("whatuse " + this.state.whatUse)
+        console.log("Description " + this.state.remark)
 
-        //urlCount =0;
+        if (customerSelected == "Select customer" ){validation = 'fail'}
+        if (categorySelected == "Select category" ){validation = 'fail'}
+        if (this.state.jobRefNo == "" ){validation = 'fail'}
+        if (this.state.whatModel == "" ){validation = 'fail'}
+        if (this.state.whatPN == "" ){validation = 'fail'}
+        if (this.state.whatQty == "" ){validation = 'fail'}
+        if (this.state.whatUse == "" ){validation = 'fail'}
+        if (this.state.remark == "" ){validation = 'fail'}
+        console.log("validation here " + validation)
+        return validation
 
     }
+
+    onSubmit = async(e) => {
+        validation = 'pass'
+        //await this.validateEntry()
+        //console.log('validation :' + await this.validateEntry())
+        //this.validateEntry(jobRefNo, "Done")
+        //if (validateEntry () == 'fail'){ .... pop up a message ...}  // work in progress
+        if (mounted==1 && await this.validateEntry() == 'pass'){
+            // to notify, must write to firebase notification and also must set to gotmail for all member = 1 to turn the PN red at food
+            if (this.state.url == null){
+                //the default dummy icon picture
+                var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsImage.jfif?alt=media&token=025014d3-9701-42df-8348-65efb113bcae"
+                //var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
+                //this.setState({url})
+                this.state.url = url;
+            }
+            
+            //var thisId = "";
+
+            //var today = new Date();
+            //var dd = String(today.getDate()).padStart(2, '0');
+            //var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            //var yyyy = today.getFullYear();
+            //var tttt = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            //today = yyyy + '-' + mm + '-' + dd + " " + tttt;
+        
+            const customerSelect = document.getElementById("customerPicked");
+            customerSelected = await customerSelect.options[customerSelect.selectedIndex].text;
+
+            const categorySelect = document.getElementById("categoryPicked");
+            categorySelected = await categorySelect.options[categorySelect.selectedIndex].text;
+
+            e.preventDefault();
+            //console.log("url here: " + url)
+            //console.log("this state Url: " + url)
+            //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, customer, tgtPrice, stallId, quotes, poUploaded, poStatus} = this.state;
+            const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo, category, jobIdNo} = this.state;
+            //console.log("stallId " + stallIdNo + "   emailuser :" +  emailUser + "  todayFormatted: " + todayFormatted + "image: " + this.state.url);
+            //if(this.validateEntry(jobRefNo, "Done") == 'pass'){console.log("pass")}else{console.log('fail')}
+
+            if (this.state.whatPN != ""){
+                const whatPNupper = this.state.whatPN.toUpperCase();
+                var cusCode;
+                // below code must tie in all places where stage get updated
+                if (customerSelected == "Select customer"){cusCode = "XXX"}
+                if (customerSelected == "Harvey Norman"){cusCode = "HVN"}
+                if (customerSelected == "Courts"){cusCode = "COU"}
+                if (customerSelected == "Asus"){cusCode = "ASU"}
+                if (customerSelected == "B2C"){cusCode = "B2C"}
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], category:categorySelected, jobIdNo: jobRefNo});
+
+                    firebase.firestore().collection("NotificationTrigger").add({
+                        food: whatPN,
+                        groupId:  "req@gmail.com",
+                        image: this.state.url,
+                        index: 0, //to register an index of 0 when send notify alert, which when received at mobile will lead you to editstall right away. then when back to food from editstall, it will go to index 0 which is the first item which is where the newly added item will show up
+                        place: whatUse,
+                        qty: whatQty,
+                        remark: remark,
+                        stall: whatModel,
+                        stallId: stallIdNo,
+                        jobRefNo: jobRefNo,
+                        //category: category
+                    })
+
+                    //const {gotMail} = this.state;
+                    // 10 members at most (including sender himself)
+                    if (memberId1 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId1).set({gotMail: -1});
+                    if (memberId2 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId2).set({gotMail: -1});
+                    if (memberId3 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId3).set({gotMail: -1});
+                    if (memberId4 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId4).set({gotMail: -1});
+                    if (memberId5 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId5).set({gotMail: -1});
+                    /////////////////////////////////////// added more member here
+                    if (memberId6 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId6).set({gotMail: -1});
+                    if (memberId7 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId7).set({gotMail: -1});
+                    if (memberId8 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId8).set({gotMail: -1});
+                    if (memberId9 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId9).set({gotMail: -1});
+                    if (memberId10 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId10).set({gotMail: -1});
+                    if (memberId11 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId11).set({gotMail: -1});
+                    if (memberId12 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId12).set({gotMail: -1});
+                    if (memberId13 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId13).set({gotMail: -1});
+                    if (memberId14 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId14).set({gotMail: -1});
+                    if (memberId15 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId15).set({gotMail: -1});
+
+                    /////////////////////////////////////// must do this gotMAil for submitSomeMore also right????? (done below)
+                    /////////////////////////////////////////  then must do for PO upload at ShowProduct
+            }
+            this.props.history.push("/list");
+            
+            if (this.state.url1 != null){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1}). then((docRef2)=>{
+                    this.setState({image: this.state.url1 });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >1){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1a}). then((docRef2)=>{
+                    this.setState({image: this.state.url1a });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >2){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1b}). then((docRef2)=>{
+                    this.setState({image: this.state.url1b });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >3){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1c}). then((docRef2)=>{
+                    this.setState({image: this.state.url1c });
+                    //this.props.history.push("/list")
+                })
+            }
+            if (urlCount >4){
+                // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("pictures").add({
+                    image: this.state.url1d}). then((docRef2)=>{
+                    this.setState({image: this.state.url1d });
+                    //this.props.history.push("/list")
+                })
+            }
+            //urlCount =0;
+        } else{toast.show({title: 'Information Incomplete', position: 'topleft'}) }
     }
 
     
     submitSomeMore = async(e) => {
-        
-        if (this.state.whatPN != ""){
+        validation = 'pass'
+        if (this.state.whatPN != "" && await this.validateEntry() == 'pass'){
             if (this.state.url == null){
                 //the default dummy icon picture
                 var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsImage.jfif?alt=media&token=025014d3-9701-42df-8348-65efb113bcae"
@@ -411,10 +430,6 @@ class AddProduct extends React.Component{
             if (memberId14 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId14).set({gotMail: -1});
             if (memberId15 != "") firebase.firestore().collection("req@gmail.com").doc(stallIdNo).collection("mailBox").doc(memberId15).set({gotMail: -1});
 
-
-
-
-
             if (this.state.url1 != null){
                 //console.log("here at url1 writing");
                 // update the pic collection pic name with a dff name when above additional pict uploading to Storage is done
@@ -458,10 +473,9 @@ class AddProduct extends React.Component{
             //urlCount =0;
 
             this.props.history.push({pathname: '/moreparts', state: {docId: stallIdNo, emailId: emailUser}});
-        }
+        } else{toast.show({title: 'Information Incomplete', position: 'topleft'}) }
     }
     
-
     async deleteStorageImage(){
         if (urlCount >= 1){
             var storageRef1 = firebase.storage().ref(`${stallIdNo}/${emailUser}`); /// todo: must delete under stallId NOT since
@@ -479,7 +493,6 @@ class AddProduct extends React.Component{
             });
         }
     }
-
 
     render (){
         //const {whouploadId, whoupload, whatUse, whatModel, whatPN, whatQty, remark, since, whenAsk, customer, tgtPrice} = this.state;
@@ -548,26 +561,21 @@ class AddProduct extends React.Component{
 <p>
                     <select name="categoryOption" id="categoryPicked">
                         <option value="1">Select category</option>
-                        <option value="2">Battery</option>
-                        <option value="3">Cable</option>
-                        <option value="4">Camera</option>
-                        <option value="5">Casing</option>
-                        <option value="6">Fan</option>
-                        <option value="7">Keyboard</option>
-                        <option value="8">LCD</option>
-                        <option value="9">MB</option>
-                        <option value="10">Memory</option>
-                        <option value="11">Speaker</option>
-                        <option value="12">SSD</option>
-                        <option value="13">Others</option>
+                        <option value="2">Adapter</option>
+                        <option value="3">Battery</option>
+                        <option value="4">Cable</option>
+                        <option value="5">Camera</option>
+                        <option value="6">Casing</option>
+                        <option value="7">Fan</option>
+                        <option value="8">Keyboard</option>
+                        <option value="9">LCD</option>
+                        <option value="10">MB</option>
+                        <option value="11">Memory</option>
+                        <option value="12">Speaker</option>
+                        <option value="13">SSD</option>
+                        <option value="14">Others</option>
                     </select> 
  </p>                   
-
-
-
-
-
-
 
                     <div>
                         <div className="form-group"></div>

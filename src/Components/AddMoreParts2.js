@@ -4,6 +4,7 @@ import firebase from '../Config';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import { toast } from 'toast-notification-alert'
 //import AddProduct from './AddProduct';
 let emailUser = "";
 //let todayFormatted = "";
@@ -24,6 +25,7 @@ let url1a = "";
 let url1b = "";
 let url1c = "";
 let url1d = "";
+let validation = "";
 
 // AppMoreParts2 created just to use this new page to erase existing input field data as I dont know how to actually do it
 class AddMoreParts2 extends React.Component{
@@ -200,13 +202,30 @@ class AddMoreParts2 extends React.Component{
         ()=>{firebase.storage().ref(`${stallIdNo}/${emailUser}`).child(stallIdNo + "_1").getDownloadURL().then(url1=>{this.setState({url1})})})  
     }
 
+    validateEntry = async(e) =>{
+        const categorySelect = document.getElementById("categoryPicked");
+        categorySelected = await categorySelect.options[categorySelect.selectedIndex].text;
+        console.log("whatPN " + this.state.whatPN)
+        console.log("category " + categorySelected)
+        console.log("qty " + this.state.whatQty)
+        console.log("Description " + this.state.remark)
+
+        if (this.state.whatPN == "" ){validation = 'fail'}
+        if (this.state.whatQty == "" ){validation = 'fail'}
+        if (this.state.remark == "" ){validation = 'fail'}
+        if (categorySelected == "Select category" ){validation = 'fail'}
+        //console.log("validation here " + validation)
+        return validation
+    }
+
     onSubmit = async(e) => { //todo: must remmeber to do notification at "Done" in any of the pages
+        validation = 'pass'
         const categorySelect = document.getElementById("categoryPicked");
         categorySelected = await categorySelect.options[categorySelect.selectedIndex].text;
         e.preventDefault();
 
         const {whatPN, whatQty, remark, tgtPrice, quotes, category} = this.state;
-        if (this.state.whatPN != ''){
+        if (this.state.whatPN != '' && await this.validateEntry() == 'pass'){
             if (this.state.url1 == null){ //the default dummy icon picture
                 var url1 = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsImage.jfif?alt=media&token=025014d3-9701-42df-8348-65efb113bcae"
                 //var url = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
@@ -318,21 +337,20 @@ class AddMoreParts2 extends React.Component{
                         }
                     }
                 }
-
-
-
-
-
-        }
-        this.props.history.push("/list");
+            this.props.history.push("/list");
+        } else{toast.show({title: 'Information Incomplete', position: 'topleft'}) }
+        
     }
 
     somemore = async(e) => {
+        validation = 'pass'
         const categorySelect = document.getElementById("categoryPicked");
             categorySelected = await categorySelect.options[categorySelect.selectedIndex].text;
+
         e.preventDefault();
         const {whatPN, whatQty, remark, tgtPrice, quotes, category} = this.state;
-        if (this.state.whatPN != ''){
+        if (await this.validateEntry() == 'pass'){
+        if (this.state.whatPN != '' ){
             if (this.state.url1 == null){ //the default dummy icon picture
                 var url1 = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsImage.jfif?alt=media&token=025014d3-9701-42df-8348-65efb113bcae"
                 //var url1 = "https://firebasestorage.googleapis.com/v0/b/partswanted-aa4f7.appspot.com/o/partsIcon.png?alt=media&token=69ed115e-862b-452f-bf31-e56baabd20c3"
@@ -376,9 +394,6 @@ class AddMoreParts2 extends React.Component{
                     //this.props.history.push("/list")
                 })
             }
-
-
-
             this.props.history.push({pathname: '/moreparts', state: {docId: stallIdNo, emailId: emailUser}});
         }
         //e.target.name.reset();
@@ -387,36 +402,24 @@ class AddMoreParts2 extends React.Component{
         //e.target.value = "";
         //e.target.name = "";
         //this.setState({whatPN: ''});
-
-        if (this.state.morePart.whatPN1 == null) { //<< added
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
-            .update({whatPN1: whatPN.toUpperCase()});
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 1});
-            firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_1").set({
-                whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
-                jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
-                whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
-                whenAsk: this.state.morePart.whenAsk, since: "archived",
-                category: categorySelected, image: this.state.url1, jobIdNo: "archived"
-            });
-        }   else{
-                if (this.state.morePart.whatPN2 == null) { //<< added
+        if (this.state.whatPN != '' ){
+            if (this.state.morePart.whatPN1 == null) { //<< added
                 firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
-                .update({whatPN2: whatPN.toUpperCase()});
-                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 2});
-                firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_2").set({
+                .update({whatPN1: whatPN.toUpperCase()});
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 1});
+                firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_1").set({
                     whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
                     jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
                     whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
                     whenAsk: this.state.morePart.whenAsk, since: "archived",
                     category: categorySelected, image: this.state.url1, jobIdNo: "archived"
                 });
-                }   else{
-                    if (this.state.morePart.whatPN3 == null) { //<< added
+            }   else{
+                    if (this.state.morePart.whatPN2 == null) { //<< added
                     firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
-                    .update({whatPN3: whatPN.toUpperCase()});
-                    firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 3});
-                    firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_3").set({
+                    .update({whatPN2: whatPN.toUpperCase()});
+                    firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 2});
+                    firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_2").set({
                         whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
                         jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
                         whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
@@ -424,23 +427,35 @@ class AddMoreParts2 extends React.Component{
                         category: categorySelected, image: this.state.url1, jobIdNo: "archived"
                     });
                     }   else{
-                        if (this.state.morePart.whatPN4 == null) { //<< added
+                        if (this.state.morePart.whatPN3 == null) { //<< added
                         firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
-                        .update({whatPN4: whatPN.toUpperCase()});
-                        firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 4});
-                        firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_4").set({
+                        .update({whatPN3: whatPN.toUpperCase()});
+                        firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 3});
+                        firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_3").set({
                             whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
                             jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
                             whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
                             whenAsk: this.state.morePart.whenAsk, since: "archived",
                             category: categorySelected, image: this.state.url1, jobIdNo: "archived"
                         });
-                        }   
+                        }   else{
+                            if (this.state.morePart.whatPN4 == null) { //<< added
+                            firebase.firestore().collection("req@gmail.com").doc(stallIdNo)
+                            .update({whatPN4: whatPN.toUpperCase()});
+                            firebase.firestore().collection("req@gmail.com").doc(stallIdNo).update({morePartQty: 4});
+                            firebase.firestore().collection("req@gmail.com").doc(stallIdNo+"_4").set({
+                                whatPN: whatPN.toUpperCase(),  whatQty, remark, tgtPrice,
+                                jobRefNo: this.state.morePart.jobRefNo,whatModel: this.state.morePart.whatModel, 
+                                whatUse: this.state.morePart.whatUse,customer: this.state.morePart.customer, 
+                                whenAsk: this.state.morePart.whenAsk, since: "archived",
+                                category: categorySelected, image: this.state.url1, jobIdNo: "archived"
+                            });
+                            }   
+                        }
                     }
                 }
-            }
-
-
+        }
+    }else{toast.show({title: 'Information Incomplete', position: 'topleft'}) }
 
     }
 
@@ -492,18 +507,19 @@ class AddMoreParts2 extends React.Component{
 <p>
                     <select name="categoryOption" id="categoryPicked">
                         <option value="1">Select category</option>
-                        <option value="2">Battery</option>
-                        <option value="3">Cable</option>
-                        <option value="4">Camera</option>
-                        <option value="5">Casing</option>
-                        <option value="6">Fan</option>
-                        <option value="7">Keyboard</option>
-                        <option value="8">LCD</option>
-                        <option value="9">MB</option>
-                        <option value="10">Memory</option>
-                        <option value="11">Speaker</option>
-                        <option value="12">SSD</option>
-                        <option value="13">Others</option>
+                        <option value="2">Adapter</option>
+                        <option value="3">Battery</option>
+                        <option value="4">Cable</option>
+                        <option value="5">Camera</option>
+                        <option value="6">Casing</option>
+                        <option value="7">Fan</option>
+                        <option value="8">Keyboard</option>
+                        <option value="9">LCD</option>
+                        <option value="10">MB</option>
+                        <option value="11">Memory</option>
+                        <option value="12">Speaker</option>
+                        <option value="13">SSD</option>
+                        <option value="14">Others</option>
                     </select> 
  </p> 
 
