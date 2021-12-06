@@ -26,7 +26,7 @@ class ListProducts extends React.Component {
     //this.customerSelected = "";
     this.onChange = this.onChange.bind(this);
   }
-
+/*
 //////////////////// work in progress. but harmless because not called /////////////////////////
   dbConnect(){
     var Connection = require('tedious').Connection;  
@@ -87,7 +87,7 @@ class ListProducts extends React.Component {
         connection.execSql(request);  
     }  
   }
-
+*/
   checkUser () {
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
