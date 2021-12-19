@@ -92,6 +92,7 @@ class ListProducts extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
         //console.log("yes logged in : " + user.email)
+        console.log("port = " + process.env.PORT)
       }
         else {
           //console.log("not logged in")
