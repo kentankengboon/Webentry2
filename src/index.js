@@ -22,7 +22,7 @@ app.listen(process.env.PORT || 3000, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
 */
-//const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000
 //ReactDOM.render(<React.StrictMode><App /></React.StrictMode>,document.getElementById('root'));
 ReactDOM.render(<BrowserRouter>
   <Route exact path="/" component = {App}></Route>
