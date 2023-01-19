@@ -281,6 +281,7 @@ class AddProduct extends React.Component{
                 if (customerSelected == "Courts"){cusCode = "COU"}
                 if (customerSelected == "Asus"){cusCode = "ASU"}
                 if (customerSelected == "B2C"){cusCode = "B2C"}
+                if (customerSelected == "Lenovo"){cusCode = "LNV"}
                 firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], category:categorySelected, jobIdNo: jobRefNo});
 
                     firebase.firestore().collection("NotificationTrigger").add({
@@ -393,6 +394,7 @@ class AddProduct extends React.Component{
             if (customerSelected == "Courts"){cusCode = "COU"}
             if (customerSelected == "Asus"){cusCode = "ASU"}
             if (customerSelected == "B2C"){cusCode = "B2C"}
+            if (customerSelected == "Lenovo"){cusCode = "LNV"}
             const {whatUse, whatModel, whatPN, whatQty, remark, tgtPrice, quotes, poUploaded, poStatus, jobRefNo, category, jobIdNo} = this.state;
             firebase.firestore().collection("req@gmail.com").doc(stallIdNo).set({whouploadId: emailUser, whoupload:emailUser, whatUse, whatModel, whatPN: whatPNupper, whatQty, whenAsk:todayFormatted, remark, since:todayStamp, image: this.state.url, rating: 2, customer:customerSelected, tgtPrice, stallId: stallIdNo, quotes, poUploaded, poStatus, stage: 1, jobRefNo, condCode: [cusCode+"ARN", "1ARN"], category: categorySelected, jobIdNo:jobRefNo});
             
@@ -540,6 +542,7 @@ class AddProduct extends React.Component{
                         <option value="3">Harvey Norman</option>
                         <option value="4">Asus</option>
                         <option value="5">B2C</option>
+                        <option value="6">Lenovo</option>
                     </select> 
  </p>                   
                     <textarea className="form-control" name="jobRefNo" value={jobRefNo} onChange={this.onChange} placeholder="Job Ref No" cols="80" rows="1">{jobRefNo}</textarea>

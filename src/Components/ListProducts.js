@@ -206,6 +206,7 @@ class ListProducts extends React.Component {
               <option value="5">Harvey Norman</option>
               <option value="6">Asus</option>
               <option value="7">B2C</option>
+              <option value="7">Lenovo</option>
               <option value="8">All</option>
             </select>
 
