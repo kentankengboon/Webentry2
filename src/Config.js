@@ -18,3 +18,14 @@ firebase.firestore().settings(settings);
 //firebase.auth().settings(settings);
 export default firebase;
 // Initialize Firebase
+
+
+
+const express = require('express');
+const app = express();
+
+const port = process.env.PORT || 3000;  // Use the PORT environment variable or fallback to port 3000
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
