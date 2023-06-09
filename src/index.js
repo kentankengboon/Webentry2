@@ -14,13 +14,23 @@ import PoListing from './Components/PoListing';
 import {BrowserRouter, Route} from 'react-router-dom';
 import './node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Login from './Components/Login';
+//import express from '../node_modules/express';
+
+//const app = require('./App');
+//const port = process.env.PORT || 3000;
+//app.listen(port, ()=>{
+//  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+//});
 
 
-const express = require('express');
-const app = express();
-app.listen(process.env.PORT || 3000, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-});
+
+//const port = process.env.Port || 3000;
+//console.log(port)
+//const express = require('express');
+//const app = express();
+//app.listen(process.env.PORT || 3000, ()=>{
+  //console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+//});
 
 //const port = process.env.PORT || 3000
 //ReactDOM.render(<React.StrictMode><App /></React.StrictMode>,document.getElementById('root'));
